@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TagLayout">
+        <attr name="android:gravity" />
+        <attr name="margin_horizontal" format="dimension" />  <!-- 两个tag间的水平间距 -->
+        <attr name="margin_vertical" format="dimension" />  <!-- 两个tag间的竖直间距 -->
+    </declare-styleable>
+
+    <declare-styleable name="RoundRectFrameLayout">
+        <attr name="roundRadius" format="dimension" />
+        <attr name="roundTopLeftRadius" format="dimension" />
+        <attr name="roundTopRightRadius" format="dimension" />
+        <attr name="roundBottomLeftRadius" format="dimension" />
+        <attr name="roundBottomRightRadius" format="dimension" />
+        <attr name="roundStrokeColor" format="color" />
+        <attr name="roundStrokeWidth" format="dimension" />
+    </declare-styleable>
+</resources>

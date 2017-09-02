@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingTop="40dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#555555"
+                android:text="@string/input_info_guide"/>
+
+            <LinearLayout
+                style="@style/user_info_ll"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:text="@string/height"
+                    style="@style/user_info_tv"/>
+
+
+                <EditText
+                    android:id="@+id/input_height_et"
+                    android:hint="请填入身高, 单位（厘米）"
+                    android:inputType="number"
+                    style="@style/user_info_et"/>
+            </LinearLayout>
+
+            <View
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+                <TextView
+                    android:text="@string/work_situation"
+                    style="@style/user_info_tv"/>
+
+                <TextView
+                    android:id="@+id/input_company_tv"
+                    android:hint="请选择单位性质"
+                    style="@style/user_info_right_tv"/>
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/position" />
+
+                <EditText
+                    android:id="@+id/input_occupation_tv"
+                    style="@style/user_info_et"
+                    android:hint="请填入职位"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/income" />
+
+                <EditText
+                    android:id="@+id/input_income_et"
+                    style="@style/user_info_et"
+                    android:hint="请填入收入"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/estate" />
+
+                <TextView
+                    android:id="@+id/input_estate_tv"
+                    android:hint="请选择房产信息"
+                    style="@style/user_info_right_tv"/>
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/estate_loc" />
+
+                <EditText
+                    android:id="@+id/input_estate_loc_et"
+                    style="@style/user_info_et"
+                    android:hint="请填入房产位置"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/car_info" />
+
+                <TextView
+                    android:id="@+id/input_car_tv"
+                    android:hint="请选择车辆信息"
+                    style="@style/user_info_right_tv"/>
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/school_info" />
+
+                <TextView
+                    android:id="@+id/input_school_tv"
+                    android:hint="请选择学校情况"
+                    style="@style/user_info_right_tv"/>
+            </LinearLayout>
+
+            <View
+                android:layout_marginTop="20dp"
+                style="@style/HorizontalLine" />
+
+
+            <LinearLayout
+                style="@style/user_info_ll">
+
+                <TextView
+                    style="@style/user_info_tv"
+                    android:text="@string/school_name" />
+
+                <TextView
+                    android:id="@+id/input_school_name_tv"
+                    android:hint="请选择学校"
+                    style="@style/user_info_right_tv"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                 android:background="#eeeeee"/>
+
+            <TextView
+                android:text="@string/hobby"
+                style="@style/user_info_tv"/>
+
+            <GridView
+                android:id="@+id/hobby_gv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="@string/addition_explain"
+                style="@style/user_info_tv"/>
+
+            <EditText
+                android:id="@+id/more_info_et"
+                android:layout_width="300dp"
+                android:layout_height="220dp"
+                android:textSize="13sp"
+                android:textColor="#555555"
+                android:gravity="top"
+                android:padding="5dp"
+                android:background="@drawable/bg_dark_line_box"
+                android:hint="请输入你的宝贵意见"/>
+
+            <TextView
+                android:text="@string/upload_pic"
+                style="@style/user_info_tv"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/upload_pic_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp" />
+
+            <Button
+                android:id="@+id/match_btn"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/start_match"
+                style="@style/next_btn"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

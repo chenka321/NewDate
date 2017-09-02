@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="LinearLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:text="@string/more_info"
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+    <View
+        style="@style/HorizontalLine"
+        android:layout_margin="15dp" />
+
+    <TextView
+        android:id="@+id/opp_height_tv"
+        style="@style/opp_chat_tv"
+        tools:text="身高:  190cm" />
+
+    <TextView
+        android:id="@+id/opp_estate_tv"
+        style="@style/opp_chat_tv"
+        tools:text="房产:  有房" />
+
+    <TextView
+        android:id="@+id/opp_estate_loc_tv"
+        style="@style/opp_chat_tv"
+        tools:text="房产位置:  上海" />
+
+    <TextView
+        android:id="@+id/opp_cars_tv"
+        style="@style/opp_chat_tv"
+        tools:text="车辆情况:  有车" />
+
+    <TextView
+        android:id="@+id/opp_hobby_tv"
+        style="@style/opp_chat_tv"
+        tools:text="爱好:  音乐、户外、电影" />
+
+    <TextView
+        android:id="@+id/opp_school_tv"
+        style="@style/opp_chat_tv"
+        tools:text="毕业学校:  985重点学院" />
+
+    <TextView
+        android:id="@+id/opp_school_name_tv"
+        style="@style/opp_chat_tv"
+        tools:text="学校名称:  上海复旦大学" />
+
+    <TextView
+        android:id="@+id/opp_other_tv"
+        style="@style/opp_chat_tv"
+        tools:text="补充说明:  毕业海外名校，现在上海工作" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pic_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp" />
+</merge>

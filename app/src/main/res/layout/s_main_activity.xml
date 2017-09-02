@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_tabs_vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <RadioGroup
+        android:id="@+id/tab_rg"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/frontpage_rb"
+            style="@style/main_page_btn"
+            android:drawableTop="@drawable/ic_frontpage_selector"
+            android:text="@string/frontpage" />
+
+        <RadioButton
+            android:id="@+id/msg_rb"
+            style="@style/main_page_btn"
+            android:drawableTop="@drawable/ic_msg_selector"
+            android:text="@string/msg" />
+
+        <RadioButton
+            android:id="@+id/discover_rb"
+            style="@style/main_page_btn"
+            android:drawableTop="@drawable/ic_discover_selector"
+            android:text="@string/discover" />
+
+        <RadioButton
+            android:id="@+id/mine_rb"
+            style="@style/main_page_btn"
+            android:drawableTop="@drawable/ic_me_selector"
+            android:text="@string/me" />
+
+    </RadioGroup>
+</LinearLayout>

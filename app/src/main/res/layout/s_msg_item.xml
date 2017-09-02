@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="17dp"
+    android:paddingBottom="17dp">
+
+    <com.saku.lmlib.views.RoundRectFrameLayout
+        android:id="@+id/user_rfl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:roundRadius="37dp"
+        android:layout_marginRight="14dp">
+        <ImageView
+            android:id="@+id/user_iv"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:layout_gravity="center_vertical"
+            tools:src="@drawable/user_example" />
+    </com.saku.lmlib.views.RoundRectFrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/user_rfl">
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="杰瑞"
+            android:textSize="17sp"
+            android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/chat_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="你好，很高兴认识你， 我的小孩叫杰瑞,dddd"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:textColor="#555555"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/chat_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="07/21 17:59"
+        android:textSize="11sp"
+        android:textColor="#818388"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"/>
+</RelativeLayout>

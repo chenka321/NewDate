@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#33000000">
+
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:layout_gravity="right">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/chatting_user_top_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="30dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingTop="70dp">
+
+            <com.saku.lmlib.views.RoundRectFrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:roundRadius="37dp">
+
+                <ImageView
+                    android:id="@+id/opp_user_iv"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    android:layout_gravity="center_vertical"
+                    tools:src="@drawable/user_example" />
+            </com.saku.lmlib.views.RoundRectFrameLayout>
+
+            <TextView
+                android:id="@+id/opp_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="14dp"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
+                tools:text="小芳" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/opp_residence_tv"
+            style="@style/opp_chat_tv"
+            tools:text="户籍:  湖北武汉" />
+
+        <TextView
+            android:id="@+id/opp_location_tv"
+            style="@style/opp_chat_tv"
+            tools:text="现居:  上海浦东新区" />
+
+        <TextView
+            android:id="@+id/opp_birthday_tv"
+            style="@style/opp_chat_tv"
+            tools:text="生日:  1990年4月7日" />
+
+        <TextView
+            android:id="@+id/opp_education_tv"
+            style="@style/opp_chat_tv"
+            tools:text="学历:  研究生" />
+
+        <TextView
+            android:id="@+id/opp_fieldwork_tv"
+            style="@style/opp_chat_tv"
+            tools:text="行业:  金融" />
+
+        <TextView
+            android:id="@+id/opp_occupation_tv"
+            style="@style/opp_chat_tv"
+            tools:text="职业:  产品总监" />
+
+        <TextView
+            android:id="@+id/opp_salary_tv"
+            style="@style/opp_chat_tv"
+            tools:text="薪资:  25000元" />
+    </LinearLayout>
+</FrameLayout>

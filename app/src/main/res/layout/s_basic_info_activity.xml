@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="40dp">
+
+    <include
+        android:id="@+id/your_loc_ll"
+        layout="@layout/s_loc_layout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="@string/choose_gender_tv"
+        android:textColor="#242424"
+        android:textSize="18sp"
+        android:paddingBottom="20dp"/>
+
+    <RadioGroup
+        android:id="@+id/gender_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:layout_marginBottom="40dp">
+
+        <RadioButton
+            android:id="@+id/female_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/girl_selector"
+            android:gravity="center"
+            android:text="@string/female" />
+
+        <RadioButton
+            android:id="@+id/male_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/boy_selector"
+            android:gravity="center"
+            android:text="@string/male" />
+    </RadioGroup>
+
+
+    <include
+        android:id="@+id/your_child_loc_ll"
+        layout="@layout/s_loc_layout" />
+
+    <Button
+        android:id="@+id/start_match_btn"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="40dp"
+        style="@style/next_btn"
+        android:text="@string/start_match"/>
+</LinearLayout>

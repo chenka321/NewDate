@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.saku.lmlib.views.RoundRectFrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:roundRadius="37dp">
+            <ImageView
+                android:id="@+id/user_iv"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
+                android:layout_gravity="center_vertical"
+                tools:src="@drawable/user_example" />
+        </com.saku.lmlib.views.RoundRectFrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_age_occupation_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#000"
+                tools:text="小丽  | 29岁  研究生"
+                android:drawableRight="@drawable/right_arrow"/>
+
+            <TextView
+                android:id="@+id/residence_loc_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#555"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/ic_residence"
+                android:drawablePadding="5dp"
+                tools:text="户籍  湖北武汉"/>
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:textSize="14sp"
+                android:textColor="#555"
+                android:layout_marginTop="5dp"
+                android:drawableLeft="@drawable/location"
+                android:drawablePadding="5dp"
+                tools:text="现居  上海浦东新区"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        style="@style/HorizontalLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/tag"/>
+
+        <com.saku.lmlib.views.TagLayout
+            android:id="@+id/tags_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            app:margin_horizontal="5dp"
+            app:margin_vertical="10dp"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,3 +1,56 @@
 <resources>
     <string name="app_name">NewDate</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="location_permission_title">允许相亲在您使用应用时获取位置吗？</string>
+    <string name="loc_permission_msg">我们需要获取你的位置情况，以便更精准地为您推荐优质单身男女青年信息</string>
+    <string name="permit">允许</string>
+    <string name="not_permit">不允许</string>
+    <string name="choose_your_location">请选择您当前所在的位置</string>
+    <string name="choose_your_child_location">请选择您子女当前所在的位置</string>
+    <string name="choose_gender_tv">请选择子女性别</string>
+    <string name="start_match">开启匹配之旅</string>
+    <string name="frontpage">首页</string>
+    <string name="msg">消息</string>
+    <string name="discover">发现</string>
+    <string name="me">我的</string>
+    <string name="back">返回</string>
+    <string name="input_phone_number">请输入电话号码</string>
+    <string name="input_verify_number">请输入验证码</string>
+    <string name="aquire_again">重新获取</string>
+    <string name="aquire">获取验证码</string>
+    <string name="child_info_dialog_content">请您完成子女信息填写， 以便于我们更精准地为您推荐信息</string>
+    <string name="fill_info">填写信息</string>
+    <string name="input_info_guide">请输入您子女的信息，便于您匹配更多合适的对象</string>
+    <string name="name">姓名</string>
+    <string name="name_guide">* 姓名将会为您保密，不会展示给用户</string>
+    <string name="education">学历</string>
+    <string name="born_time">出生日期</string>
+    <string name="user_id">用户：</string>
+    <string name="edit_user_info">资料修改</string>
+    <string name="my_msg">我的消息</string>
+    <string name="collection">收藏</string>
+    <string name="logout_account">退出当前账号</string>
+    <string name="submit">提交</string>
+    <string name="thanks_for_advice">感谢您的建议!</string>
+    <string name="basic_info">基本资料</string>
+    <string name="more_info">高级资料</string>
+    <string name="chitchat">聊一聊</string>
+    <string name="view_more">查看更多信息</string>
+    <string name="height">身高</string>
+    <string name="work_situation">单位情况</string>
+    <string name="position">职位</string>
+    <string name="income">收入</string>
+    <string name="estate">房产</string>
+    <string name="estate_loc">房产位置</string>
+    <string name="car_info">车辆情况</string>
+    <string name="school_info">毕业学校情况</string>
+    <string name="school_name">毕业学校名称</string>
+    <string name="hobby">爱好</string>
+    <string name="addition_explain">更多补充说明</string>
+    <string name="upload_pic">上传子女照片</string>
+    <string name="login">登录</string>
+    <string name="title_activity_test_acticity">TestActicity</string>
+
+
 </resources>
