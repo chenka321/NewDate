@@ -65,15 +65,15 @@ public class FrontPageViewProcessor extends ListViewPorcessor<FrontPageViewProce
         ImageUtils.loadImageWithGlide(mContext, frontPageData.userImg, 0, viewHolder.userIv);
         StringBuilder sb = new StringBuilder();
         sb.append(frontPageData.name).append("  ")
-                .append(frontPageData.age).append(" ")
+                .append(frontPageData.birthday).append(" ")
                 .append(frontPageData.ocupation);
 
         final SpannableStringBuilder ssb = ShowUtils.setTextSizeSpan(sb.toString(), 14,
                 TextUtils.isEmpty(frontPageData.name) ? 0 : frontPageData.name.length(), sb.toString().length());
         viewHolder.nameAgeOccupationTv.setText(ssb);
 
-        viewHolder.locationTv.setText(viewHolder.locationTv.getText().toString().concat(frontPageData.city));
-        viewHolder.residenceLocTv.setText(viewHolder.residenceLocTv.getText().toString().concat(frontPageData.residence));
+        viewHolder.locationTv.setText(viewHolder.locationTv.getText().toString().concat(frontPageData.currentLocation));
+        viewHolder.residenceLocTv.setText(viewHolder.residenceLocTv.getText().toString().concat(frontPageData.bornLocation));
 
         tvCacheManager.showTextView(frontPageData.tags, viewHolder.tagsTl);
     }

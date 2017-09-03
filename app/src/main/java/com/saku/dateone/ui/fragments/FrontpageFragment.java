@@ -13,7 +13,6 @@ import com.saku.dateone.ui.list.typeholders.FrontPageTypeHolder;
 import com.saku.dateone.ui.presenters.FrontPagePresenter;
 import com.saku.lmlib.list.adapter.BaseListAdapter;
 import com.saku.lmlib.list.data.ItemData;
-import com.saku.lmlib.list.itemdecoration.LineDividerDecoration;
 import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
 import com.saku.lmlib.utils.UIUtils;
 

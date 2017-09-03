@@ -8,6 +8,7 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.saku.dateone.ui.bean.OppoBasicInfo;
+import com.saku.dateone.ui.bean.OppoInfo;
 import com.saku.dateone.ui.bean.OppoMoreInfo;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
@@ -24,9 +25,12 @@ public interface OppoInfoContract {
 
     interface P extends BasePresenter{
 
-        View.OnClickListener displayMoreInfo();
+        void loadPage(long userId);
+        void onLoadPage(String code, String msg, OppoInfo oppoInfo);
+        void displayMoreInfo();
     }
 
     interface M extends BaseModel{
+        void loadPageData(long userId);
     }
 }

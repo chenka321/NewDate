@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 
 import android.util.Log;
 
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.SystemUtil;
 
 import java.util.Map;
@@ -22,7 +23,7 @@ public class DateApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
-
+        LLog.setAllowLog(BuildConfig.DEBUG);
     }
 
     @Override

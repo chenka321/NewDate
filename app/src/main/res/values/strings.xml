@@ -51,6 +51,10 @@
     <string name="upload_pic">上传子女照片</string>
     <string name="login">登录</string>
     <string name="title_activity_test_acticity">TestActicity</string>
+    <string name="complete_info">补充完整信息</string>
+    <string name="complete_info_content">您的信息不完整，需要补充完整信息才能看到对方信息，去填写补充信息？</string>
+    <string name="confirm">去填写</string>
+    <string name="later">先看看</string>
 
 
 </resources>

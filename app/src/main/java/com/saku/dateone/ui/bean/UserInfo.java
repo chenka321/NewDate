@@ -28,4 +28,6 @@ public class UserInfo {
     public LocationInfo childLocation = new LocationInfo();
 
     public boolean isLogin;
+
+    public String token;
 }

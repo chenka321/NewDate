@@ -4,4 +4,6 @@
     <string name="loc_permission_msg">我们需要获取你的位置情况，以便更精准地为您推荐优质单身男女青年信息</string>
     <string name="permit">允许</string>
     <string name="not_permit">不允许</string>
+    <string name="cancel">取消</string>
+    <string name="submit">提交</string>
 </resources>

@@ -10,12 +10,12 @@ import java.util.List;
 */
 public class OppoMoreInfo {
     public String height;
-    public String estate;
+    public String house;
     public String estateLocation;
-    public String carSituation;
-    public String hobby;
+    public String car;
     public String school;
-    public String schoolName;
+    public String schoolType;
+    public String hobby;
     public String additionInfo;
     public List<String> pics;
 

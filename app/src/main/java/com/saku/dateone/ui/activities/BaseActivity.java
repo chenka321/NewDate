@@ -19,6 +19,7 @@ import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.dateone.ui.views.TitleLayout;
 import com.saku.lmlib.fragment.backpress.BackPressHandler;
 import com.saku.lmlib.fragment.backpress.BackPressListener;
+import com.saku.lmlib.utils.LLog;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("lm", "onCreate: " + this.getComponentName());
+        LLog.d("lm", "onCreate: " + this.getComponentName());
         setContentView(R.layout.s_base_activity);
         initView();
         View contentView = getContentView();
@@ -96,19 +97,19 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("lm", "onResume: " + this.getComponentName());
+        LLog.d("lm", "onResume: " + this.getComponentName());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("lm", "onPause: " + this.getComponentName());
+        LLog.d("lm", "onPause: " + this.getComponentName());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("lm", "onDestroy: " + this.getComponentName());
+        LLog.d("lm", "onDestroy: " + this.getComponentName());
 
         if (mPresenter != null) {
             mPresenter.destroy();

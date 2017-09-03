@@ -80,7 +80,7 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                     startActivity(new Intent(SplashActivity.this, BasicInfoActivity.class));
                     finish();
                 }
-            }, 4000);
+            }, 2000);
         }
     }
 
