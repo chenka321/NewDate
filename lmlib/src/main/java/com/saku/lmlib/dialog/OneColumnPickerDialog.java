@@ -16,7 +16,6 @@ import java.util.List;
 
 
 /**
- * Created by pukai on 17/2/10.
  *  单列滚轮选择弹框
  */
 public class OneColumnPickerDialog extends Dialog {
