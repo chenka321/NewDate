@@ -18,19 +18,31 @@ public interface OppoInfoContract {
 
         void updateUserNameIv(String imgUrl, String name);
         void updateBasicInfo(OppoBasicInfo oppoBasicInfo);
-        void updateMoreInfo(OppoMoreInfo oppoMoreInfo);
+        void displayMoreInfoView(OppoMoreInfo oppoMoreInfo);
 
-        void showCompleteMoreInfoDialog();
+        void markCollection();
+
+//        void showCompleteMoreInfoDialog();
     }
 
     interface P extends BasePresenter{
 
         void loadPage(long userId);
         void onLoadPage(String code, String msg, OppoInfo oppoInfo);
-        void displayMoreInfo();
+        OppoMoreInfo getMoreInfo();
+        boolean hasMoreInfo();
+
+        void onCollectionClicked();  // 收藏被点击时
+
+        /** 收藏 */
+        void onSaveCollection(String code, String msg);
+
+        void onChatClicked();  // 聊一聊
     }
 
     interface M extends BaseModel{
         void loadPageData(long userId);
+
+        void saveCollection(long targetUserId);
     }
 }

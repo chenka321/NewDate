@@ -120,6 +120,17 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         }
     }
 
+    @Override
+    public void toActivity(Class<? extends BaseActivity> clz, Bundle bundle, boolean finishSelf) {
+        Intent i = new Intent(mContext, clz);
+        if (bundle != null) {
+            i.putExtras(bundle);
+        }
+        startActivity(i);
+        if (finishSelf) {
+            getFragmentManager().popBackStack();
+        }
+    }
 
     @Override
     public void toActivity(Intent intent, boolean finishSelf) {
@@ -144,6 +155,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     /**
      * 需要在当前fragment打开新的fragment，需要实现此方法
+     *
      * @return 获取当前fragment的layout root id
      */
     public int getContainerId() {

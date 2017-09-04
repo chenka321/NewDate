@@ -17,6 +17,8 @@ import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.saku.dateone.ui.activities.OppoInfoActivity.USER_ID;
+
 /**
  * User: liumin
  * Date: 2017-8-31
@@ -24,6 +26,8 @@ import java.util.List;
  * Description: 推荐列表页面
 */
 public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, FrontpageContract.M> implements FrontpageContract.P {
+
+    private List<ItemData> mData;
 
     public FrontPagePresenter(FrontpageContract.V mView) {
         super(mView);
@@ -37,20 +41,26 @@ public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, Fron
             @Override
             public void onClick(int position, View view) {
                 Log.d("lm", "onClick: position = " + position);
-                if (mView == null) {
+                if (mView == null || mView.getViewContext() == null) {
                     return;
                 }
                 UserInfo.getInstance().isLogin = true;
+                Intent intent;
                 if (!UserInfo.getInstance().isLogin) {
-                    if (mView.getViewContext() != null) {
-                        Intent intent = new Intent(mView.getViewContext(), LoginActivity.class);
-                        mView.toActivity(intent, false);
-                    }
+                    intent = new Intent(mView.getViewContext(), LoginActivity.class);
                 } else {
+                    intent = new Intent(mView.getViewContext(), OppoInfoActivity.class);
+
 //                    mView.showLoading();
 //                    mView.addFragment(OppoInfoActivity.newInstance(null));
-
                 }
+
+                final ItemData itemData = mData.get(position);
+                if (itemData instanceof FrontPageData) {
+                    final long userId = ((FrontPageData) itemData).userId;
+                    intent.putExtra(USER_ID, userId);
+                }
+                mView.toActivity(intent, false);
             }
         };
     }
@@ -64,13 +74,14 @@ public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, Fron
     public void loadData() {
         mModel.loadData();
 
-        List<ItemData> data = new ArrayList<>();
+        mData = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             FrontPageData pageData = new FrontPageData();
             pageData.birthday = "30";
             pageData.currentLocation = "上海 " + i;
             pageData.name = "贝贝" +i;
             pageData.ocupation = "作家" +i;
+            pageData.userId = i+1;
 //            pageData.userImg
             pageData.bornLocation = "海南" + i;
             pageData.tags = new ArrayList<>();
@@ -80,10 +91,10 @@ public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, Fron
                 ts.rgbValue = "#B266FF";
                 pageData.tags.add(ts);
             }
-            data.add(pageData);
+            mData.add(pageData);
         }
 
-        mView.refreshRecyclerView(data);
+        mView.refreshRecyclerView(mData);
     }
 
 }

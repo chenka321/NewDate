@@ -1,12 +1,11 @@
 package com.saku.dateone.ui.presenters;
 
-import android.view.View;
-
 import com.saku.dateone.ui.bean.OppoInfo;
+import com.saku.dateone.ui.bean.OppoMoreInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.models.OppoModel;
 
-public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoInfoContract.M> implements OppoInfoContract.P{
+public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoInfoContract.M> implements OppoInfoContract.P {
 
     private OppoInfo mOppoInfo;
 
@@ -25,21 +24,47 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
             return;
         }
         mOppoInfo = oppoInfo;
-        if(oppoInfo.oppoBasicInfo == null) {
+        if (oppoInfo.oppoBasicInfo == null) {
             return;
         }
+        mView.updateUserNameIv(oppoInfo.oppoBasicInfo.image, oppoInfo.oppoBasicInfo.name);
         mView.updateBasicInfo(oppoInfo.oppoBasicInfo);
     }
 
     @Override
-    public void displayMoreInfo() {
+    public boolean hasMoreInfo() {
         if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
-            if (!mOppoInfo.oppoBasicInfo.hasMoreInfo) {
-                mView.showCompleteMoreInfoDialog();
-            } else {
-                mView.updateMoreInfo(mOppoInfo.oppoMoreInfo);
-            }
+            return mOppoInfo.oppoBasicInfo.hasMoreInfo;
         }
+        return false;
+    }
+
+    @Override
+    public void onCollectionClicked() {
+        if (mOppoInfo.oppoBasicInfo == null) {
+            return;
+        }
+        mModel.saveCollection(mOppoInfo.oppoBasicInfo.targetUserId);
+    }
+
+    @Override
+    public void onSaveCollection(String code, String msg) {
+        if (mView != null) {
+            mView.markCollection();
+        }
+    }
+
+    @Override
+    public OppoMoreInfo getMoreInfo() {
+        if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
+            return mOppoInfo.oppoMoreInfo;
+        }
+        return null;
+    }
+
+    @Override
+    public void onChatClicked() {
+//        mModel.getChatInfo
     }
 
     @Override

@@ -9,6 +9,7 @@ package com.saku.dateone.ui.bean;
 public class OppoBasicInfo {
     public long targetUserId;
     public String name;
+    public String image;  // 缺字段
     public String bornLocation; // 省市县
     public String currentLocation; // 省市县
     public String birthday;

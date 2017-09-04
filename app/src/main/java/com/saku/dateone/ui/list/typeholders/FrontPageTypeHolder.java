@@ -2,7 +2,6 @@ package com.saku.dateone.ui.list.typeholders;
 
 import android.content.Context;
 
-import com.saku.dateone.ui.list.adapters.FrontPageAdapter;
 import com.saku.dateone.ui.list.viewprocessors.FrontPageViewProcessor;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;

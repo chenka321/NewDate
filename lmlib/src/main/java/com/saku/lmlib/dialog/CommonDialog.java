@@ -16,10 +16,6 @@ import com.saku.lmlib.utils.ImageUtils;
  */
 
 public class CommonDialog extends Dialog implements View.OnClickListener{
-    private TextView contentTv;
-    private TextView titleTv;
-    private TextView submitTv;
-    private TextView cancelTv;
 
     private String content;
     private String positiveName;
@@ -32,7 +28,6 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
     private OnCloseListener confirmListener;
     private OnCloseListener cancelListener;
-    private ImageView iconIv;
 
 
     private CommonDialog(Builder builder) {
@@ -70,12 +65,12 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
     }
 
     private void initView() {
-        iconIv = (ImageView) findViewById(R.id.icon_iv);
-        contentTv = (TextView) findViewById(R.id.icon);
-        titleTv = (TextView) findViewById(R.id.title);
-        submitTv = (TextView) findViewById(R.id.submit);
+        ImageView iconIv = (ImageView) findViewById(R.id.icon_iv);
+        TextView contentTv = (TextView) findViewById(R.id.content);
+        TextView titleTv = (TextView) findViewById(R.id.title);
+        TextView submitTv = (TextView) findViewById(R.id.submit);
         submitTv.setOnClickListener(this);
-        cancelTv = (TextView) findViewById(R.id.cancel);
+        TextView cancelTv = (TextView) findViewById(R.id.cancel);
         cancelTv.setOnClickListener(this);
 
         contentTv.setText(content);
@@ -105,12 +100,12 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
             if(cancelListener != null){
                 cancelListener.onClick(this);
             }
-            this.dismiss();
         } else if (v.getId() == R.id.submit) {
             if(confirmListener != null){
                 confirmListener.onClick(this);
             }
         }
+        this.dismiss();
     }
 
 

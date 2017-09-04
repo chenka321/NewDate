@@ -56,5 +56,23 @@
     <string name="confirm">去填写</string>
     <string name="later">先看看</string>
 
+    <string name="residence">户籍:  %s</string>
+    <string name="currentLocation">现居:  %s</string>
+    <string name="birthday">生日:  %s</string>
+    <string name="degree">学历:  %s</string>
+    <string name="industry">行业:  %s</string>
+    <string name="occupation">职业:  %s</string>
+    <string name="height_info">身高:  %s</string>
+    <string name="has_house">房产:  %s</string>
+    <string name="house_loc">房产位置:  %s</string>
+    <string name="salary">薪资:  %s</string>
+    <string name="has_car">车辆情况:  %s</string>
+    <string name="hobby_info">爱好:  %s</string>
+    <string name="grad_school">毕业学校:  %s</string>
+    <string name="school_name_info">学校名称:  %s</string>
+    <string name="addition_info">补充说明:  %s</string>
+
+
+
 
 </resources>

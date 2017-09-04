@@ -117,12 +117,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
-    public void toActivity(Class<? extends BaseActivity> clz, Bundle bundle) {
+    @Override
+    public void toActivity(Class<? extends BaseActivity> clz, Bundle bundle, boolean finishSelf) {
         Intent i = new Intent(this, clz);
         if (bundle != null) {
             i.putExtras(bundle);
         }
         startActivity(i);
+        if (finishSelf) {
+            finish();
+        }
+    }
+
+    @Override
+    public void toActivity(Intent intent, boolean finishSelf) {
+        startActivity(intent);
+        if (finishSelf) {
+            finish();
+        }
     }
 
     protected void setPresenter(P p) {
@@ -149,14 +161,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     public void dismissLoading() {
         if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.dismiss();
-        }
-    }
-
-    @Override
-    public void toActivity(Intent intent, boolean finishSelf) {
-        startActivity(intent);
-        if (finishSelf) {
-            finish();
         }
     }
 

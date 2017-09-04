@@ -10,6 +10,7 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/content_sv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -59,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
-                    android:drawableTop="@drawable/collection_selector"
+                    android:drawableTop="@drawable/ic_collection_unselected"
                     android:text="@string/collection"
                     android:textColor="#000" />
             </LinearLayout>
@@ -131,9 +132,10 @@
     </ScrollView>
 
     <TextView
+        android:id="@+id/chat_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#cce84850"
+        android:background="@drawable/btn_red_selector"
         android:gravity="center"
         android:text="@string/chitchat"
         android:textColor="@color/white"

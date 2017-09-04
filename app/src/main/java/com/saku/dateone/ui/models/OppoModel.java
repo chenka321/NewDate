@@ -17,7 +17,7 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
     public void loadPageData(long userId) {
         OppoInfo oppoInfo = new OppoInfo();
         oppoInfo.oppoBasicInfo = new OppoBasicInfo();
-        oppoInfo.oppoBasicInfo.hasMoreInfo = true;
+        oppoInfo.oppoBasicInfo.hasMoreInfo = false;
         oppoInfo.oppoBasicInfo.birthday = "1990-2-15";
         oppoInfo.oppoBasicInfo.bornLocation = "黑龙江-松花江市";
         oppoInfo.oppoBasicInfo.currentLocation = "深圳市-深圳";
@@ -25,6 +25,7 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
         oppoInfo.oppoBasicInfo.degree = "博士";
         oppoInfo.oppoBasicInfo.income = "60k";
         oppoInfo.oppoBasicInfo.name = "小杜鹃";
+        oppoInfo.oppoBasicInfo.position = "宇宙行行长";
         oppoInfo.oppoBasicInfo.targetUserId = 10200;
 
         oppoInfo.oppoMoreInfo = new OppoMoreInfo();
@@ -42,5 +43,10 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
 
 
         mPresenter.onLoadPage("0", "success", oppoInfo);
+    }
+
+    @Override
+    public void saveCollection(long targetUserId) {
+        mPresenter.onSaveCollection("000", "sucess");
     }
 }

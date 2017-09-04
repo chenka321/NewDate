@@ -65,7 +65,10 @@ public class BasicInfoPresenter extends ABasePresenter<BasicInfoContract.V, Basi
 
     @Override
     public void onStartMatchResult(int code, String msg) {
-        onResult(code, msg);
-        ((BasicInfoActivity) mView).toActivity(MainTabsActivity.class, null);
+//        onResult(code, msg);
+        if (mView == null) {
+            return;
+        }
+        mView.toActivity(MainTabsActivity.class, null, true);
     }
 }

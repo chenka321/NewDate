@@ -5,4 +5,6 @@
     <dimen name="tv_content_size">14sp</dimen>
     <dimen name="page_padding_top">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="view_more_drawable_padding">5dp</dimen>
+
 </resources>
