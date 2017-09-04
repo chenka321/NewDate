@@ -1,7 +1,7 @@
 package com.saku.dateone.ui.presenters;
 
 import com.saku.dateone.ui.bean.OppoInfo;
-import com.saku.dateone.ui.bean.OppoMoreInfo;
+import com.saku.dateone.ui.bean.MoreInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.models.OppoModel;
 
@@ -55,7 +55,7 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
     }
 
     @Override
-    public OppoMoreInfo getMoreInfo() {
+    public MoreInfo getMoreInfo() {
         if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
             return mOppoInfo.oppoMoreInfo;
         }

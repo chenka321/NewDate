@@ -8,7 +8,7 @@ import java.util.List;
  * Time: 18:23
  * Description: 和用户聊天人的信息 展示更多信息的bean
 */
-public class OppoMoreInfo {
+public class MoreInfo {
     public String height;
     public String house;
     public String estateLocation;

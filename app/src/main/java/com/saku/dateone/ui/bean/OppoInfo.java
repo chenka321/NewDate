@@ -7,6 +7,6 @@ package com.saku.dateone.ui.bean;
  * Description: 和用户聊天人的信息
 */
 public class OppoInfo {
-    public OppoBasicInfo oppoBasicInfo;
-    public OppoMoreInfo oppoMoreInfo;
+    public BasicInfo oppoBasicInfo;
+    public MoreInfo oppoMoreInfo;
 }

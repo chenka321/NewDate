@@ -30,4 +30,7 @@ public class UserInfo {
     public boolean isLogin;
 
     public String token;
+
+    public BasicInfo basicInfo;
+    public MoreInfo moreInfo;
 }

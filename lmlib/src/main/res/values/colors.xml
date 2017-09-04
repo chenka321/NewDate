@@ -2,4 +2,6 @@
 <resources>
     <color name="white">#fff</color>
     <color name="black">#000</color>
+    <color name="wheelView_shadow">#b1ffffff</color>
+    <color name="light_gray_s">#cccccc</color>
 </resources>

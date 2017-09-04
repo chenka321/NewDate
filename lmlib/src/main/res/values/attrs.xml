@@ -15,4 +15,10 @@
         <attr name="roundStrokeColor" format="color" />
         <attr name="roundStrokeWidth" format="dimension" />
     </declare-styleable>
+
+    <!--时间日历框-->
+    <declare-styleable name="Wheel">
+        <attr name="WheelTextColor" format="color" />
+        <attr name="WheelTextSize" format="dimension" />
+    </declare-styleable>
 </resources>

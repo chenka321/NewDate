@@ -22,4 +22,38 @@
         <item name="roundStrokeWidth">0.5dp</item>
         <item name="android:background">#0000</item>
     </style>
+
+
+    <style name="PopDialog" parent="@android:style/Theme">
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置title -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置边框 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置半透明 -->
+        <item name="android:windowFullscreen">false</item>
+        <!-- 设置全屏 -->
+        <item name="@android:windowEnterAnimation">@anim/popup_up</item>
+        <!-- 进入时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/popup_down</item>
+        <!-- 退出时的动画 -->
+    </style>
+
+    <style name="ImageDialog" parent="@android:style/Theme">
+        <item name="android:windowNoTitle">true</item>
+        <!-- 设置title -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置边框 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 设置半透明 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 设置全屏 -->
+        <item name="@android:windowEnterAnimation">@anim/popup_up</item>
+        <!-- 进入时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/popup_down</item>
+        <!-- 退出时的动画 -->
+    </style>
+
 </resources>

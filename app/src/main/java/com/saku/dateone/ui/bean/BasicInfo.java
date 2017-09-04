@@ -6,7 +6,7 @@ package com.saku.dateone.ui.bean;
  * Time: 18:23
  * Description: 和用户聊天人的信息 展示基本信息的bean
 */
-public class OppoBasicInfo {
+public class BasicInfo {
     public long targetUserId;
     public String name;
     public String image;  // 缺字段

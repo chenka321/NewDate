@@ -6,4 +6,13 @@
     <string name="not_permit">不允许</string>
     <string name="cancel">取消</string>
     <string name="submit">提交</string>
+    <string name="yes">是</string>
+
+    <string name="year_format">%1$d年</string>
+    <string name="month_format">%1$d月</string>
+    <string name="month_format_pre_9">0%1$d月</string>
+    <string name="day_format">%1$d日</string>
+    <string name="day_format_pre_9">0%1$d日</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="i_know">知道了</string>
 </resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#a5000000">
+    <LinearLayout
+        android:id="@+id/equipment_bottom"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_height="20dp"/>
+
+    <com.saku.lmlib.views.SingleColumnView
+        android:id="@+id/equipment_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/equipment_bottom"
+        android:background="@color/white"
+        android:focusable="true" />
+
+    <RelativeLayout
+        android:id="@+id/equipment_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/equipment_picker"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/equipment_cancel"
+            android:textSize="14sp"
+            android:textColor="#999999"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/cancel" />
+
+        <TextView
+            android:id="@+id/equipment_title"
+            android:textSize="17sp"
+            android:textColor="#333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            tools:text="Hello" />
+
+        <TextView
+            android:id="@+id/equipment_yes"
+            android:textSize="14sp"
+            android:textColor="#4371ED"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/yes" />
+
+        <!--        <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/cg_7" />-->
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/picker_outside_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/equipment_action_button"/>
+</RelativeLayout>

@@ -1,8 +1,8 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.bean.OppoBasicInfo;
+import com.saku.dateone.ui.bean.BasicInfo;
 import com.saku.dateone.ui.bean.OppoInfo;
-import com.saku.dateone.ui.bean.OppoMoreInfo;
+import com.saku.dateone.ui.bean.MoreInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
     @Override
     public void loadPageData(long userId) {
         OppoInfo oppoInfo = new OppoInfo();
-        oppoInfo.oppoBasicInfo = new OppoBasicInfo();
+        oppoInfo.oppoBasicInfo = new BasicInfo();
         oppoInfo.oppoBasicInfo.hasMoreInfo = false;
         oppoInfo.oppoBasicInfo.birthday = "1990-2-15";
         oppoInfo.oppoBasicInfo.bornLocation = "黑龙江-松花江市";
@@ -28,7 +28,7 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
         oppoInfo.oppoBasicInfo.position = "宇宙行行长";
         oppoInfo.oppoBasicInfo.targetUserId = 10200;
 
-        oppoInfo.oppoMoreInfo = new OppoMoreInfo();
+        oppoInfo.oppoMoreInfo = new MoreInfo();
         oppoInfo.oppoMoreInfo.height = "183cm";
         oppoInfo.oppoMoreInfo.car = "有车";
         oppoInfo.oppoMoreInfo.estateLocation = "黑龙江";

@@ -14,8 +14,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.OppoBasicInfo;
-import com.saku.dateone.ui.bean.OppoMoreInfo;
+import com.saku.dateone.ui.bean.BasicInfo;
+import com.saku.dateone.ui.bean.MoreInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
@@ -109,7 +109,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     }
 
     @Override
-    public void updateBasicInfo(OppoBasicInfo oppoBasicInfo) {
+    public void updateBasicInfo(BasicInfo oppoBasicInfo) {
         residenceTv.setText(getString(R.string.residence, oppoBasicInfo.bornLocation));
         locationTv.setText(getString(R.string.currentLocation, oppoBasicInfo.currentLocation));
         birthdayTv.setText(getString(R.string.birthday, oppoBasicInfo.birthday));
@@ -120,7 +120,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     }
 
     @Override
-    public void displayMoreInfoView(OppoMoreInfo oppoMoreInfo) {
+    public void displayMoreInfoView(MoreInfo oppoMoreInfo) {
         if (!isMoreInfoOpen) {
             if (moreInfoLl == null) {
                 moreInfoLl = (LinearLayout) moreInfoVs.inflate();
@@ -158,7 +158,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         }
     }
 
-    private void initMoreViews(final LinearLayout moreInfoLl, OppoMoreInfo oppoMoreInfo) {
+    private void initMoreViews(final LinearLayout moreInfoLl, MoreInfo oppoMoreInfo) {
         oppHeightTv = (TextView) moreInfoLl.findViewById(R.id.opp_height_tv);
         oppEstateTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_tv);
         oppEstateLocTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_loc_tv);
