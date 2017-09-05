@@ -9,13 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lljjcoder.city_20170724.CityPickerView;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
@@ -41,7 +37,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private EditText estateLocEt;
     private TextView carTv;
     private TextView schoolTv;
-    private TextView schoolNameTv;
+    private EditText schoolNameEt;
     private GridView hobbyGv;
     private EditText moreInfoEt;
     private RecyclerView uploadPicRv;
@@ -69,18 +65,22 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private void initView() {
         heightEt = (EditText) findViewById(R.id.input_height_et);
         companyTv = (TextView) findViewById(R.id.input_company_tv);
-        occupationTv = (EditText) findViewById(R.id.input_occupation_tv);
+        occupationTv = (EditText) findViewById(R.id.input_occupation_et);
         incomeEt = (EditText) findViewById(R.id.input_income_et);
         estateTv = (TextView) findViewById(R.id.input_estate_tv);
         estateLocEt = (EditText) findViewById(R.id.input_estate_loc_et);
         carTv = (TextView) findViewById(R.id.input_car_tv);
         schoolTv = (TextView) findViewById(R.id.input_school_tv);
-        schoolNameTv = (TextView) findViewById(R.id.input_school_name_tv);
+        schoolNameEt = (EditText) findViewById(R.id.input_school_name_et);
         hobbyGv = (GridView) findViewById(R.id.hobby_gv);
         moreInfoEt = (EditText) findViewById(R.id.more_info_et);
         uploadPicRv = (RecyclerView) findViewById(R.id.upload_pic_rv);
         matchBtn = (Button) findViewById(R.id.match_btn);
 
+        companyTv.setOnClickListener(this);
+        estateTv.setOnClickListener(this);
+        carTv.setOnClickListener(this);
+        schoolTv.setOnClickListener(this);
         matchBtn.setOnClickListener(this);
     }
 
@@ -130,8 +130,14 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.start_match_btn:
-//                break;
+            case R.id.input_company_tv:
+                break;
+            case R.id.input_estate_tv:
+                break;
+            case R.id.input_car_tv:
+                break;
+            case R.id.input_school_tv:
+                break;
             case R.id.match_btn:
                 break;
         }

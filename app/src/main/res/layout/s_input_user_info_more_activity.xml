@@ -66,7 +66,7 @@
                     android:text="@string/position" />
 
                 <EditText
-                    android:id="@+id/input_occupation_tv"
+                    android:id="@+id/input_occupation_et"
                     style="@style/user_info_et"
                     android:hint="请填入职位"
                     android:inputType="text" />
@@ -171,10 +171,12 @@
                     style="@style/user_info_tv"
                     android:text="@string/school_name" />
 
-                <TextView
-                    android:id="@+id/input_school_name_tv"
-                    android:hint="请选择学校"
-                    style="@style/user_info_right_tv"/>
+
+                <EditText
+                    android:id="@+id/input_school_name_et"
+                    style="@style/user_info_et"
+                    android:hint="请填写学校"
+                    android:inputType="text" />
             </LinearLayout>
 
             <View
