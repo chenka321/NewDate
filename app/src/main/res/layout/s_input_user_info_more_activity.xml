@@ -24,8 +24,7 @@
                 android:text="@string/input_info_guide"/>
 
             <LinearLayout
-                style="@style/user_info_ll"
-                android:layout_marginBottom="20dp">
+                style="@style/user_info_ll">
 
                 <TextView
                     android:text="@string/height"
@@ -55,7 +54,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -73,7 +71,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -91,7 +88,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -108,7 +104,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -126,7 +121,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -143,7 +137,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
             <LinearLayout
@@ -160,7 +153,6 @@
             </LinearLayout>
 
             <View
-                android:layout_marginTop="20dp"
                 style="@style/HorizontalLine" />
 
 
@@ -208,9 +200,13 @@
                 android:background="@drawable/bg_dark_line_box"
                 android:hint="请输入你的宝贵意见"/>
 
-            <TextView
+            <Button
+                android:id="@+id/upload_pic_btn"
                 android:text="@string/upload_pic"
-                style="@style/user_info_tv"/>
+                style="@style/next_btn"
+                android:layout_width="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/upload_pic_rv"

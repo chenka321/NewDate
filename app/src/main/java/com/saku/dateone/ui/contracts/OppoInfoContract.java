@@ -14,7 +14,7 @@ public interface OppoInfoContract {
         void updateBasicInfo(BasicInfo oppoBasicInfo);
         void displayMoreInfoView(MoreInfo oppoMoreInfo);
 
-        void markCollection();
+        void markCollection(boolean isCollected);
 
 //        void showCompleteMoreInfoDialog();
     }

@@ -17,6 +17,7 @@ public class BasicInfo {
     public String company;
     public String position;
     public String income;
+    public boolean isCollected;
 
     public boolean hasMoreInfo;
 

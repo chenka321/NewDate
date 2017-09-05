@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
+import com.saku.lmlib.utils.UIUtils;
 
 /**
  * Created by liumin on 2017/8/15.
@@ -42,6 +44,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private EditText moreInfoEt;
     private RecyclerView uploadPicRv;
     private Button matchBtn;
+    private Button uploadPicBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         initView();
         showTitle(true);
         setTitle("补充信息");
+
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);  // 隐藏软键盘
     }
 
     @Override
@@ -75,6 +80,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         hobbyGv = (GridView) findViewById(R.id.hobby_gv);
         moreInfoEt = (EditText) findViewById(R.id.more_info_et);
         uploadPicRv = (RecyclerView) findViewById(R.id.upload_pic_rv);
+        uploadPicBtn = (Button) findViewById(R.id.upload_pic_btn);
         matchBtn = (Button) findViewById(R.id.match_btn);
 
         companyTv.setOnClickListener(this);
@@ -129,6 +135,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
     @Override
     public void onClick(View v) {
+        UIUtils.hideSoftKeyboard(this, v);
         switch (v.getId()) {
             case R.id.input_company_tv:
                 break;
@@ -138,7 +145,12 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 break;
             case R.id.input_school_tv:
                 break;
+            case R.id.upload_pic_btn:
+                break;
             case R.id.match_btn:
+
+                checkOnSubmit();
+
                 break;
         }
     }

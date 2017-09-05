@@ -1,5 +1,6 @@
 package com.saku.lmlib.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -8,6 +9,7 @@ import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.saku.lmlib.dialog.CommonDialog;
@@ -63,5 +65,30 @@ public class UIUtils {
                 .show();
     }
 
+    /**
+     * 隐藏edittext上的软键盘
+     */
+    public static void hideSoftKeyboard(Activity activity, EditText et) {
+        if (activity == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+    }
 
+    /**
+     * 隐藏页面上的软键盘
+     */
+    public static void hideSoftKeyboard(Activity activity, View view) {
+        if (activity == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            LLog.d("hideSoftKeyboard is active");
+//            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+        }
+
+    }
 }

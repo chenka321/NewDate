@@ -49,8 +49,13 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
 
     @Override
     public void onSaveCollection(String code, String msg) {
+        boolean isCollected = false;
         if (mView != null) {
-            mView.markCollection();
+            if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
+                isCollected = mOppoInfo.oppoBasicInfo.isCollected;
+                mOppoInfo.oppoBasicInfo.isCollected = !isCollected;
+            }
+            mView.markCollection(!isCollected);
         }
     }
 

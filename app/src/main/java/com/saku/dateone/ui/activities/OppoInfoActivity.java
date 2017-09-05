@@ -198,9 +198,14 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     }
 
     @Override
-    public void markCollection() {
+    public void markCollection(boolean isCollected) {
         // TODO: 2017-9-4 删除收藏
-        collectionTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_collection, 0, 0);
+        if (isCollected) {
+            collectionTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_collection, 0, 0);
+        } else {
+            collectionTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_collection_unselected, 0, 0);
+        }
+
         collectionTv.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.view_more_drawable_padding));
     }
 
@@ -208,6 +213,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.chat_btn:
+
 //                mPresenter.onChatClicked();
 //                startActivity();
                 break;
@@ -220,7 +226,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
                                 @Override
                                 public void onClick(Dialog dialog) {
                                     LLog.d("showCompleteMoreInfoDialog confirm");
-//                        startActivity();
+                                    toActivity(CompleteInfoActivity.class, null, false);
                                 }
                             }, new CommonDialog.OnCloseListener() {
                                 @Override
