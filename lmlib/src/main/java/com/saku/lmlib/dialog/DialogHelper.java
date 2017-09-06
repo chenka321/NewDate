@@ -10,7 +10,9 @@ import java.util.List;
 public class DialogHelper {
     //    public void showSingleListDialog(List<? extends SingleWheelData> displayList,
 //                                     OneColumnPickerDialog.SelectListener<? extends SingleWheelData> confirmListener) {
-    public <T extends SingleWheelData> void showSingleListDialog(Context context, List<T> displayList, T current,
+    public <T extends SingleWheelData> void showSingleListDialog(Context context,
+                                                                 List<T> displayList,
+                                                                 T current,
                                                                  OneColumnPickerDialog.SelectListener<T> confirmListener) {
         LLog.d("searchSources: " + displayList);
         int selectedIndex = 0;

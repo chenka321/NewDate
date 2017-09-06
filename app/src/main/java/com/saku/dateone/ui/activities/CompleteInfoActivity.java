@@ -14,9 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.saku.dateone.R;
+import com.saku.dateone.ui.bean.Type;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
+import com.saku.dateone.utils.TypeManager;
+import com.saku.lmlib.dialog.DialogHelper;
+import com.saku.lmlib.dialog.OneColumnPickerDialog;
 import com.saku.lmlib.utils.UIUtils;
+
+import java.util.List;
 
 /**
  * Created by liumin on 2017/8/15.
@@ -45,6 +51,11 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private RecyclerView uploadPicRv;
     private Button matchBtn;
     private Button uploadPicBtn;
+    private DialogHelper dialogHelper;
+    private Type mCurrComType;
+    private Type mCurrEstateType;
+    private Type mCurrCarType;
+    private Type mSchoolType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +65,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         showTitle(true);
         setTitle("补充信息");
 
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);  // 隐藏软键盘
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);  // 隐藏软键盘
     }
 
     @Override
@@ -70,7 +81,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private void initView() {
         heightEt = (EditText) findViewById(R.id.input_height_et);
         companyTv = (TextView) findViewById(R.id.input_company_tv);
-        occupationTv = (EditText) findViewById(R.id.input_occupation_et);
+        occupationTv = (EditText) findViewById(R.id.input_position_et);
         incomeEt = (EditText) findViewById(R.id.input_income_et);
         estateTv = (TextView) findViewById(R.id.input_estate_tv);
         estateLocEt = (EditText) findViewById(R.id.input_estate_loc_et);
@@ -136,14 +147,50 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     @Override
     public void onClick(View v) {
         UIUtils.hideSoftKeyboard(this, v);
+        if (dialogHelper == null) {
+            dialogHelper = new DialogHelper();
+        }
         switch (v.getId()) {
             case R.id.input_company_tv:
+                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getCompanyTypes(), mCurrComType, new OneColumnPickerDialog.SelectListener<Type>() {
+                    @Override
+                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                        mCurrComType = typeValue;
+                        companyTv.setText(typeValue.textShowing);
+                        dialog.dismiss();
+                    }
+                });
                 break;
             case R.id.input_estate_tv:
+                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getHouses(), mCurrEstateType, new OneColumnPickerDialog.SelectListener<Type>() {
+                    @Override
+                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                        mCurrEstateType = typeValue;
+                        estateTv.setText(typeValue.textShowing);
+                        dialog.dismiss();
+                    }
+                });
                 break;
             case R.id.input_car_tv:
+                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getCars(), mCurrCarType, new OneColumnPickerDialog.SelectListener<Type>() {
+                    @Override
+                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                        mCurrCarType = typeValue;
+                        carTv.setText(typeValue.textShowing);
+                        dialog.dismiss();
+                    }
+                });
                 break;
             case R.id.input_school_tv:
+                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getSchoolTypes(), mSchoolType, new OneColumnPickerDialog.SelectListener<Type>() {
+                    @Override
+                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                        mSchoolType = typeValue;
+                        schoolTv.setText(typeValue.textShowing);
+                        dialog.dismiss();
+                    }
+                });
+
                 break;
             case R.id.upload_pic_btn:
                 break;
@@ -153,6 +200,26 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
                 break;
         }
+    }
+
+    /**
+     * 弹出type类型的选择框
+     * @param sourceTypes 数据源
+     * @param currType 当前选择的type
+     * @param showTv 要展示选择的textview
+     * @return 选择的type
+     */
+    private Type showDialog(List<Type> sourceTypes, Type currType, final TextView showTv) {
+        final Type[] newSelType = new Type[1];
+        dialogHelper.showSingleListDialog(this, sourceTypes, currType, new OneColumnPickerDialog.SelectListener<Type>() {
+                    @Override
+                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                        newSelType[0] = typeValue;
+                        showTv.setText(typeValue.textShowing);
+                        dialog.dismiss();
+                    }
+                });
+        return newSelType.length > 0 ? newSelType[0] : null;
     }
 
 }

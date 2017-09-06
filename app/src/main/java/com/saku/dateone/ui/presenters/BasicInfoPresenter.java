@@ -12,6 +12,8 @@ import com.saku.dateone.ui.bean.LocationInfo;
 import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.BasicInfoContract;
 import com.saku.dateone.ui.models.BasicInfoModel;
+import com.saku.dateone.utils.Consts;
+import com.saku.lmlib.utils.PreferenceUtil;
 
 public class BasicInfoPresenter extends ABasePresenter<BasicInfoContract.V, BasicInfoContract.M> implements BasicInfoContract.P {
 
@@ -69,6 +71,8 @@ public class BasicInfoPresenter extends ABasePresenter<BasicInfoContract.V, Basi
         if (mView == null) {
             return;
         }
+
+        PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);
         mView.toActivity(MainTabsActivity.class, null, true);
     }
 }

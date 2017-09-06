@@ -25,7 +25,9 @@ import android.widget.TextView;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.presenters.BasePresenter;
+import com.saku.dateone.utils.Consts;
 import com.saku.lmlib.helper.PermissionHelper;
+import com.saku.lmlib.utils.PreferenceUtil;
 
 /**
  * Created by liumin on 2017/8/15.
@@ -77,9 +79,9 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                 @Override
                 public void run() {
                     Log.d("lm", "run: location 111111 = " + mLocation);
-                    startActivity(new Intent(SplashActivity.this, BasicInfoActivity.class));
-                    finish();
+                    goToNextScene();
                 }
+
             }, 2000);
         }
     }
@@ -87,6 +89,18 @@ public class SplashActivity extends BaseActivity implements LocationListener {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+
+    private void goToNextScene() {
+        final boolean hasBasic = PreferenceUtil.getBoolean(this, Consts.HAS_BASIC_INFO, false);
+        if (hasBasic) {
+            startActivity(new Intent(SplashActivity.this, MainTabsActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, BasicInfoActivity.class));
+        }
+
+        finish();
     }
 
     @Override
@@ -101,8 +115,7 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                         @Override
                         public void run() {
                             Log.d("lm", "run: location 222222 = " + mLocation);
-                            startActivity(new Intent(SplashActivity.this, BasicInfoActivity.class));
-                            finish();
+                            goToNextScene();
                         }
                     }, 2000);
                 } else {

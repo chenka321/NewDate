@@ -1,17 +1,11 @@
 package com.saku.dateone;
 
 import android.app.Application;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 
-import android.util.Log;
-
+import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.SystemUtil;
-
-import java.util.Map;
 
 public class DateApplication extends Application {
 
