@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 
 import com.saku.lmlib.R;
-import com.saku.lmlib.model.SingleWheel;
+import com.saku.lmlib.model.SingleWheelData;
 import com.saku.lmlib.views.Wheel;
 
 import java.util.ArrayList;
@@ -31,11 +31,11 @@ public class OneColumnPickerDialog extends Dialog {
         super(context, cancelable, cancelListener);
     }
 
-    public interface SelectListener<D extends SingleWheel> {
-        void onSelect(D typeValue);
+    public interface SelectListener<D extends SingleWheelData> {
+        void onSelect(OneColumnPickerDialog dialog, D typeValue);
     }
 
-    public static class Builder<T extends SingleWheel> extends BaseDialogBuilder<Builder> {
+    public static class Builder<T extends SingleWheelData> extends BaseDialogBuilder<Builder> {
         private String mTitleString;
 
         private TextView mTvwTitle;
@@ -109,8 +109,8 @@ public class OneColumnPickerDialog extends Dialog {
                         @Override
                         public void onClick(View v) {
                             mDialog.dismiss();
-                            if (mCancelCallback != null) {
-                                mCancelCallback.onSelect(null);
+                            if (mCancelCallback != null && mDialog != null) {
+                                mCancelCallback.onSelect((OneColumnPickerDialog)mDialog, null);
                             }
 
                         }
@@ -128,8 +128,8 @@ public class OneColumnPickerDialog extends Dialog {
                 @Override
                 public void onClick(View view) {
                     mDialog.dismiss();
-                    if (mCancelCallback != null) {
-                        mCancelCallback.onSelect(null);
+                    if (mCancelCallback != null && mDialog != null) {
+                        mCancelCallback.onSelect((OneColumnPickerDialog)mDialog, null);
                     }
                 }
             });
@@ -140,10 +140,10 @@ public class OneColumnPickerDialog extends Dialog {
          */
         private boolean handleTimeSelected() {
             mPicker.getSelectedValue();
-            if (mConfirmListenr != null) {
+            if (mConfirmListenr != null && mDialog != null) {
                 int position = mPicker.getSelectedIndex();
                 T selectedType = mTypeList.get(position);
-                mConfirmListenr.onSelect(selectedType);
+                mConfirmListenr.onSelect((OneColumnPickerDialog)mDialog, selectedType);
             }
             return true;
         }

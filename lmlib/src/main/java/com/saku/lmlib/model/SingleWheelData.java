@@ -3,7 +3,7 @@ package com.saku.lmlib.model;
 /**
  * 单列滚轮数据
  */
-public class SingleWheel {
+public class SingleWheelData {
     /**
      * 显示在滚轮上的文字
      */
