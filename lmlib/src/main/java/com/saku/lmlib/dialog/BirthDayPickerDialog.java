@@ -18,7 +18,7 @@ import java.util.Calendar;
  * Date: 2017-9-4
  * Time: 18:12
  * Description: 三列日期滚轮选择器， 选择现在时间点之前的时间
-*/
+ */
 public class BirthDayPickerDialog extends Dialog {
     private final long selectedTime;
     private String mTitleString;
@@ -133,9 +133,15 @@ public class BirthDayPickerDialog extends Dialog {
         initYearData();
         initMonthData();
         initDayData();
+
+        int selectYear = 0;
         final Calendar selectCalendar = Calendar.getInstance();
         selectCalendar.setTimeInMillis(selectedTime);
-        final int selectYear = selectCalendar.get(Calendar.YEAR);
+        if (selectedTime != 0) {
+            selectYear = selectCalendar.get(Calendar.YEAR);
+        } else {
+            selectYear = years[0] - 30;
+        }
         for (int i = 0; i < years.length; i++) {
             if (years[i] == selectYear) {
                 mYearPicker.setSelectedIndex(i);

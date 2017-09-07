@@ -8,8 +8,9 @@ import com.saku.lmlib.utils.LLog;
 import java.util.List;
 
 public class DialogHelper {
-    //    public void showSingleListDialog(List<? extends SingleWheelData> displayList,
-//                                     OneColumnPickerDialog.SelectListener<? extends SingleWheelData> confirmListener) {
+
+    private BirthDayPickerDialog birthDayDiaolog;
+
     public <T extends SingleWheelData> void showSingleListDialog(Context context,
                                                                  List<T> displayList,
                                                                  T current,
@@ -31,4 +32,18 @@ public class DialogHelper {
 
                 }).build().show();
     }
+
+
+    public <T extends SingleWheelData> void showBirthdayPicker(Context context,
+                                                                 long selectTime, String title,
+                                                                 BirthDayPickerDialog.DateCallback confirmL) {
+        LLog.d("selectTime: " + selectTime);
+
+        if (birthDayDiaolog != null && birthDayDiaolog.isShowing()) {
+            birthDayDiaolog.dismiss();
+        }
+        birthDayDiaolog = new BirthDayPickerDialog(context, selectTime, "", confirmL, null);
+        birthDayDiaolog.show();
+    }
+
 }

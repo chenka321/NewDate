@@ -17,6 +17,7 @@ public class TypeManager {
     private List<Type> houses;
     private List<Type> cars;
     private List<Type> schoolTypes;
+    private List<Type> degrees;
 
     private TypeManager() {
     }
@@ -30,6 +31,46 @@ public class TypeManager {
         return sManager;
     }
 
+
+    public List<Type> getDegrees() {
+        if (degrees != null) {
+            return degrees;
+        }
+        degrees = new ArrayList<>();
+        Type doctor = new Type();
+        doctor.id = 1;
+        doctor.name = "博士";
+        degrees.add(doctor);
+        Type postGrad = new Type();
+        postGrad.id = 2;
+        postGrad.name = "硕士";
+        degrees.add(postGrad);
+
+        Type grad = new Type();
+        grad.id = 2;
+        grad.name = "本科";
+        degrees.add(grad);
+
+        Type highSchool = new Type();
+        highSchool.id = 2;
+        highSchool.name = "高中";
+        degrees.add(highSchool);
+
+        Type vocaccion = new Type();
+        vocaccion.id = 2;
+        vocaccion.name = "大专";
+        degrees.add(vocaccion);
+
+        setDialogShowingText(degrees);
+        return degrees;
+    }
+
+    public void setDegrees(List<Type> degrees) {
+        this.degrees = degrees;
+    }
+
+
+
     public List<Type> getGenders() {
         if (genders != null) {
             return genders;
@@ -42,7 +83,7 @@ public class TypeManager {
         Type male = new Type();
         male.id = 2;
         male.name = "男";
-        genders.add(female);
+        genders.add(male);
 
         setDialogShowingText(genders);
         return genders;

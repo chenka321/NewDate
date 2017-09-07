@@ -20,12 +20,19 @@ public interface CompleteInfoContract {
     interface P extends BasePresenter{
         /** 选择照片返回 */
         void onChooseImages(List<String> imgsChosen);
-        void onStartMatchClicked();
-        void onMatchResult(int code, String msg);
+
+         /** 点击简单信息填写页面的开始匹配 */
+        void onMatchSimpleClicked();
+        void onMatchSimpleResult(int code, String msg);
+
+        /** 点击补充信息填写页面的开始匹配 */
+        void onMatchCompleteClicked();
+        void onMatchCompleteResult(int code, String msg);
     }
 
     interface M extends BaseModel{
-        void startMatch(); // 开始匹配
+        void startSimpleMatch(); // 开始匹配
+        void startCompleteMatch(); // 开始完整信息页面匹配
         void saveImage();
     }
 }

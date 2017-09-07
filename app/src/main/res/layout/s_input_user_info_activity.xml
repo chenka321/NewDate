@@ -66,6 +66,7 @@
         <TextView
             android:id="@+id/input_birthday_tv"
             style="@style/user_info_right_tv"
+            android:hint="请选择出生日期"
             tools:text="1990年9月" />
     </LinearLayout>
 

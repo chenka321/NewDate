@@ -23,12 +23,25 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
     }
 
     @Override
-    public void onStartMatchClicked() {
-        mModel.startMatch();
+    public void onMatchSimpleClicked() {
+        mModel.startSimpleMatch();
     }
 
     @Override
-    public void onMatchResult(int code, String msg) {
+    public void onMatchSimpleResult(int code, String msg) {
+        if (mView == null) {
+            return;
+        }
+        mView.toActivity(MainTabsActivity.class, null, true);
+    }
+
+    @Override
+    public void onMatchCompleteClicked() {
+        mModel.startCompleteMatch();
+    }
+
+    @Override
+    public void onMatchCompleteResult(int code, String msg) {
         if (mView == null) {
             return;
         }

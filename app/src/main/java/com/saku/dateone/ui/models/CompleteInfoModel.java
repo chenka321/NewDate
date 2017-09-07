@@ -9,8 +9,13 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
     }
 
     @Override
-    public void startMatch() {
-        mPresenter.onMatchResult(0, "success");
+    public void startSimpleMatch() {
+        mPresenter.onMatchSimpleResult(0, "success");
+    }
+
+    @Override
+    public void startCompleteMatch() {
+        mPresenter.onMatchSimpleResult(0, "success");
     }
 
     @Override

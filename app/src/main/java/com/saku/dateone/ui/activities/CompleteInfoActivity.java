@@ -118,26 +118,26 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         String et = heightEt.getText().toString().trim();
         if (TextUtils.isEmpty(et)) {
             Toast.makeText(this, "请填入身高, 单位（厘米）", Toast.LENGTH_SHORT).show();
-            return fillAll |= false;
+            return fillAll &= false;
         }
 
         String tv = occupationTv.getText().toString().trim();
         if (TextUtils.isEmpty(tv)) {
             Toast.makeText(this, "请填入职位", Toast.LENGTH_SHORT).show();
-            return fillAll |= false;
+            return fillAll &= false;
         }
 
         String income = incomeEt.getText().toString().trim();
         if (TextUtils.isEmpty(income)) {
             Toast.makeText(this, "请填入收入", Toast.LENGTH_SHORT).show();
-            return fillAll |= false;
+            return fillAll &= false;
 
         }
 
         String estate = estateLocEt.getText().toString().trim();
         if (TextUtils.isEmpty(estate)) {
             Toast.makeText(this, "请填入房产位置", Toast.LENGTH_SHORT).show();
-            return fillAll |= false;
+            return fillAll &= false;
 
         }
 
@@ -203,7 +203,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
                 if (checkOnSubmit()) {
                     LLog.d("fill all");
-                    mPresenter.onStartMatchClicked();
+                    mPresenter.onMatchCompleteClicked();
                 }
 
                 break;

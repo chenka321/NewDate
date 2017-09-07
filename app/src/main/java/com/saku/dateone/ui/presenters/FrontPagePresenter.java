@@ -44,7 +44,7 @@ public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, Fron
                 if (mView == null || mView.getViewContext() == null) {
                     return;
                 }
-                UserInfo.getInstance().isLogin = true;
+                UserInfo.getInstance().isLogin = false;
                 Intent intent;
                 if (!UserInfo.getInstance().isLogin) {
                     intent = new Intent(mView.getViewContext(), LoginActivity.class);
