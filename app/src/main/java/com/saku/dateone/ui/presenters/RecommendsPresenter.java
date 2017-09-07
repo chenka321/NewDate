@@ -7,10 +7,10 @@ import android.view.View;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.bean.TagString;
 import com.saku.dateone.ui.bean.UserInfo;
-import com.saku.dateone.ui.contracts.FrontpageContract;
+import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.activities.OppoInfoActivity;
 import com.saku.dateone.ui.list.data.FrontPageData;
-import com.saku.dateone.ui.models.FrontpageModel;
+import com.saku.dateone.ui.models.RecommendsModel;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
@@ -25,11 +25,11 @@ import static com.saku.dateone.ui.activities.OppoInfoActivity.USER_ID;
  * Time: 10:56
  * Description: 推荐列表页面
 */
-public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, FrontpageContract.M> implements FrontpageContract.P {
+public class RecommendsPresenter extends ABasePresenter<RecommendsContract.V, RecommendsContract.M> implements RecommendsContract.P {
 
     private List<ItemData> mData;
 
-    public FrontPagePresenter(FrontpageContract.V mView) {
+    public RecommendsPresenter(RecommendsContract.V mView) {
         super(mView);
     }
 
@@ -66,8 +66,8 @@ public class FrontPagePresenter extends ABasePresenter<FrontpageContract.V, Fron
     }
 
     @Override
-    protected FrontpageContract.M getModel() {
-        return new FrontpageModel(this);
+    protected RecommendsContract.M getModel() {
+        return new RecommendsModel(this);
     }
 
     @Override

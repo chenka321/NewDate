@@ -6,9 +6,11 @@ import com.saku.dateone.ui.activities.SimpleInfoActivity;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.contracts.LoginContract.P;
 import com.saku.dateone.ui.models.LoginModel;
+import com.saku.dateone.utils.Consts;
 import com.saku.lmlib.utils.PageHelper;
+import com.saku.lmlib.utils.PreferenceUtil;
 
-public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContract.M>  implements P{
+public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContract.M> implements P {
 
     public LoginPresenter(LoginContract.V mView) {
         super(mView);
@@ -33,9 +35,11 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
 
     @Override
     public void onLogin(int code, String msg) {
-//        PageHelper.getInstance().
+
+
         if (mView != null) {
-            mView.toActivity(SimpleInfoActivity.class, null, true);
+//            mView.toActivity(SimpleInfoActivity.class, null, true);
+            mView.goToNext();
         }
     }
 

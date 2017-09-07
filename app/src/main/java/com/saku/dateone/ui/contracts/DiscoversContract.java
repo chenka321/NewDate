@@ -1,6 +1,5 @@
 package com.saku.dateone.ui.contracts;
 
-import android.os.Bundle;
 
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
@@ -9,20 +8,24 @@ import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
 import java.util.List;
 
-public interface FrontpageContract {
+/**
+ * 发现列表
+ */
+public interface DiscoversContract {
     interface V extends BaseView<P> {
         void refreshRecyclerView(List<ItemData> data);
+
     }
 
-    interface P extends BasePresenter {
-
+    interface P extends BasePresenter{
+        void loadData();
+        void onLoadResult(int code, String msg);
 
         OnRecyclerClickCallBack getItemClickListener();
 
-        void loadData();
     }
 
-    interface M extends BaseModel {
-        void loadData();
+    interface M extends BaseModel{
+        void loadDiscoverList(String lastArticleId);
     }
 }

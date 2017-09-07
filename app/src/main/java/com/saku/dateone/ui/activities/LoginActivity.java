@@ -16,14 +16,18 @@ import com.saku.dateone.R;
 import com.saku.dateone.ui.adapters.TextWatcherAdapter;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.presenters.LoginPresenter;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
+import com.saku.lmlib.utils.PageHelper;
+import com.saku.lmlib.utils.PreferenceUtil;
 import com.saku.lmlib.utils.UIUtils;
 
 import org.reactivestreams.Subscription;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import io.reactivex.Flowable;
-import io.reactivex.FlowableSubscriber;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -35,6 +39,7 @@ import io.reactivex.subscribers.DisposableSubscriber;
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.V, View.OnClickListener {
 
     private static final long TOTAL_TIME = 10;
+    public static final int LOGIN_OK = 11;
     private AppCompatEditText phoneEt;
     private ImageView phoneCloseIv;
     private Button verifyBtn;
@@ -85,9 +90,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (!UIUtils.isEditTextEmpty(verifyCodeEt) && !TextUtils.isEmpty(s)) {
                     loginBtn.setEnabled(true);
                 }
-//                if (!UIUtils.isEditTextEmpty(verifyCodeEt) && !TextUtils.isEmpty(s)) {
-//                    loginBtn.setEnabled(true);
-//                }
 
                 if (!TextUtils.isEmpty(s.toString())) {
                     verifyBtn.setEnabled(true);
@@ -100,9 +102,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             public void afterTextChanged(Editable s) {
                 Log.d("lm", "verifyCodeEt afterTextChanged: s " + s.toString());
 
-//                if (!TextUtils.isEmpty(s.toString())) {
-//                    verifyBtn.setEnabled(true);
-//                }
                 if (!UIUtils.isEditTextEmpty(verifyCodeEt) && !TextUtils.isEmpty(s)) {
                     loginBtn.setEnabled(true);
                 }
@@ -183,6 +182,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         super.onDestroy();
         if (mTimerDisposable != null && !mTimerDisposable.isDisposed()) {
             mTimerDisposable.dispose();
+        }
+    }
+
+    @Override
+    public void goToNext() {
+        final String fromPage = getIntent().getStringExtra(Consts.FROM_PAGE_NAME);
+        if (PageManager.RECOMMEND_LIST.equals(fromPage)) {
+
+            // TODO: 2017/9/8 是否是第一次登录
+            final boolean firstLogin = PreferenceUtil.getBoolean(this, Consts.IS_FIRST_LOGIN, true);
+            if (firstLogin) {
+                PreferenceUtil.putBoolean(this, Consts.IS_FIRST_LOGIN, false);
+                toActivity(SimpleInfoActivity.class, null, true);
+            } else {
+                toActivity(OppoInfoActivity.class, null, true);
+            }
+        } else {
+            setResult(LOGIN_OK);  // 聊天列表，发现，我的
+            finish();
         }
     }
 }

@@ -6,4 +6,9 @@ package com.saku.dateone.utils;
 
 public class Consts {
     public static final String HAS_BASIC_INFO = "has_basic_info";
+    /**
+     *{@link PageManager}
+     */
+    public static final String FROM_PAGE_NAME = "fromPageName";
+    public static final String IS_FIRST_LOGIN = "isFristLogin";
 }

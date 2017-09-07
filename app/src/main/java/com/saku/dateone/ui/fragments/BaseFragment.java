@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import com.saku.dateone.R;
 import com.saku.dateone.ViewUnion;
 import com.saku.dateone.ui.activities.BaseActivity;
+import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.dateone.ui.views.TitleLayout;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
 import com.saku.lmlib.fragment.backpress.BackPressListener;
 
 import java.util.List;
@@ -161,6 +164,14 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public int getContainerId() {
         return 0;
     }
+
+
+    protected void gotoLogin(String pageName, int requestCode) {
+        Intent i = new Intent(mContext, LoginActivity.class);
+        i.putExtra(Consts.FROM_PAGE_NAME, pageName);
+        startActivityForResult(i, requestCode);
+    }
+
 
     @Override
     public boolean onBackPressed() {

@@ -1,5 +1,6 @@
 package com.saku.dateone.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.contracts.FrontpageContract;
+import com.saku.dateone.ui.activities.LoginActivity;
+import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.ui.contracts.DiscoversContract;
 import com.saku.dateone.ui.list.typeholders.FrontPageTypeHolder;
-import com.saku.dateone.ui.presenters.FrontPagePresenter;
+import com.saku.dateone.ui.presenters.DiscoversPresenter;
+import com.saku.dateone.ui.presenters.RecommendsPresenter;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
 import com.saku.lmlib.list.adapter.BaseListAdapter;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
@@ -18,12 +24,13 @@ import com.saku.lmlib.utils.UIUtils;
 
 import java.util.List;
 
-public class FrontpageFragment extends BaseFragment<FrontPagePresenter> implements FrontpageContract.V {
+public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implements DiscoversContract.V {
+    private static final int LOGIN_REQUEST = 1;
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
 
-    public static FrontpageFragment newInstance(Bundle bundle) {
-        FrontpageFragment f = new FrontpageFragment();
+    public static DiscoversFragment newInstance(Bundle bundle) {
+        DiscoversFragment f = new DiscoversFragment();
         f.setArguments(bundle);
         return f;
     }
@@ -45,10 +52,10 @@ public class FrontpageFragment extends BaseFragment<FrontPagePresenter> implemen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setPresenter(new FrontPagePresenter(this));
+        setPresenter(new DiscoversPresenter(this));
 
         showTitle(true);
-        mTitleLayout.setTitleContent("推荐列表");
+        mTitleLayout.setTitleContent("发现");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
         FrontPageTypeHolder typeHolder = new FrontPageTypeHolder(getContext(), mPresenter.getItemClickListener());
@@ -56,12 +63,29 @@ public class FrontpageFragment extends BaseFragment<FrontPagePresenter> implemen
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));
 
-        mPresenter.loadData();
+        if (UserInfo.getInstance().isLogin) {
+            mPresenter.loadData();
+        }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (UserInfo.getInstance().isLogin) {
+            gotoLogin(PageManager.DISCOVER_LIST, LOGIN_REQUEST);
+        }
+    }
 
     @Override
     public void refreshRecyclerView(List<ItemData> data) {
         listAdapter.setData(data);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LOGIN_REQUEST && resultCode == LoginActivity.LOGIN_OK) {
+            mPresenter.loadData();
+        }
     }
 }

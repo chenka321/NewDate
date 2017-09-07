@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.MainTabsContract;
-import com.saku.dateone.ui.fragments.FrontpageFragment;
+import com.saku.dateone.ui.fragments.RecommendsFragment;
 import com.saku.dateone.ui.presenters.MainTabsPresenter;
 
 import java.util.ArrayList;
@@ -45,10 +45,10 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
 
         mTabRg.setOnCheckedChangeListener(this);
         mMainPagerAdapter = new MainPageAdapter(getSupportFragmentManager());
-        mMainPagerAdapter.addFragment(FrontpageFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(FrontpageFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(FrontpageFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(FrontpageFragment.newInstance(null));
+        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
+        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
+        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
+        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
 
         mMainTabsVp.setAdapter(mMainPagerAdapter);
         mMainTabsVp.setOffscreenPageLimit(3);
