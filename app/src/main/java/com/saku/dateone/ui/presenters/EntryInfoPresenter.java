@@ -6,23 +6,22 @@ import android.view.View;
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
-import com.saku.dateone.ui.activities.BasicInfoActivity;
+import com.saku.dateone.ui.activities.EntryInfoActivity;
 import com.saku.dateone.ui.activities.MainTabsActivity;
-import com.saku.dateone.ui.bean.LocationInfo;
 import com.saku.dateone.ui.bean.UserInfo;
-import com.saku.dateone.ui.contracts.BasicInfoContract;
+import com.saku.dateone.ui.contracts.EntryInfoContract;
 import com.saku.dateone.ui.models.BasicInfoModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.lmlib.utils.PreferenceUtil;
 
-public class BasicInfoPresenter extends ABasePresenter<BasicInfoContract.V, BasicInfoContract.M> implements BasicInfoContract.P {
+public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, EntryInfoContract.M> implements EntryInfoContract.P {
 
     @Override
-    protected BasicInfoContract.M getModel() {
+    protected EntryInfoContract.M getModel() {
         return new BasicInfoModel(this);
     }
 
-    public BasicInfoPresenter(BasicInfoContract.V view) {
+    public EntryInfoPresenter(EntryInfoContract.V view) {
         super(view);
     }
 
@@ -43,7 +42,7 @@ public class BasicInfoPresenter extends ABasePresenter<BasicInfoContract.V, Basi
 
     @Override
     public void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district) {
-        if (who == BasicInfoActivity.USER) {
+        if (who == EntryInfoActivity.USER) {
             UserInfo.getInstance().yourLocation.province = province;
             UserInfo.getInstance().yourLocation.city = city;
             UserInfo.getInstance().yourLocation.district = district;

@@ -1,6 +1,5 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.contracts.BasicInfoContract;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 
 public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implements CompleteInfoContract.M{
@@ -10,8 +9,8 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
     }
 
     @Override
-    public void saveInfo() {
-
+    public void startMatch() {
+        mPresenter.onMatchResult(0, "success");
     }
 
     @Override

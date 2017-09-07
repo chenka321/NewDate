@@ -1,5 +1,6 @@
 package com.saku.dateone.ui.presenters;
 
+import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.models.CompleteInfoModel;
 
@@ -22,7 +23,15 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
     }
 
     @Override
-    public void onSaveInfoClicked() {
+    public void onStartMatchClicked() {
+        mModel.startMatch();
+    }
 
+    @Override
+    public void onMatchResult(int code, String msg) {
+        if (mView == null) {
+            return;
+        }
+        mView.toActivity(MainTabsActivity.class, null, true);
     }
 }

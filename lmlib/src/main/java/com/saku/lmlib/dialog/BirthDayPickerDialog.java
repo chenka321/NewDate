@@ -17,9 +17,9 @@ import java.util.Calendar;
  * User: liumin
  * Date: 2017-9-4
  * Time: 18:12
- * Description: 三列日期滚轮选择器， 选择现在时间点之后的时间
+ * Description: 三列日期滚轮选择器， 选择现在时间点之前的时间
 */
-public class DatePickerDialog extends Dialog {
+public class BirthDayPickerDialog extends Dialog {
     private final long selectedTime;
     private String mTitleString;
     private DateCallback mDateCallback;
@@ -38,7 +38,7 @@ public class DatePickerDialog extends Dialog {
     private int[] days;
     private Calendar mOriginCalendar;
 
-    public DatePickerDialog(Context context, long selectedTime, String title, DateCallback callback, DateCallback cancelCallback) {
+    public BirthDayPickerDialog(Context context, long selectedTime, String title, DateCallback callback, DateCallback cancelCallback) {
         super(context, R.style.PopDialog);
         setCancelable(false);
         mContext = context;
@@ -159,11 +159,11 @@ public class DatePickerDialog extends Dialog {
     }
 
     private void initYearData() {
-        years = new int[20];
+        years = new int[100];
         int year = mOriginCalendar.get(Calendar.YEAR);
         ArrayList<String> yearList = new ArrayList<>(years.length);
         for (int i = 0; i < years.length; i++) {
-            years[i] = year + i;
+            years[i] = year - i;
             yearList.add(mContext.getString(R.string.year_format, years[i]));
         }
         mYearPicker.setData(yearList);

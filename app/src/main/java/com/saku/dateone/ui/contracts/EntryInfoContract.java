@@ -10,7 +10,7 @@ import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 
-public interface BasicInfoContract {
+public interface EntryInfoContract {
     interface V extends BaseView<P> {
 
         /**

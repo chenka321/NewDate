@@ -20,6 +20,7 @@ import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
 import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
 import java.util.List;
@@ -111,37 +112,41 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
     }
 
-    private void checkOnSubmit() {
+    private boolean checkOnSubmit() {
+        boolean fillAll = true;
         // validate
         String et = heightEt.getText().toString().trim();
         if (TextUtils.isEmpty(et)) {
             Toast.makeText(this, "请填入身高, 单位（厘米）", Toast.LENGTH_SHORT).show();
-            return;
+            return fillAll |= false;
         }
 
         String tv = occupationTv.getText().toString().trim();
         if (TextUtils.isEmpty(tv)) {
             Toast.makeText(this, "请填入职位", Toast.LENGTH_SHORT).show();
-            return;
+            return fillAll |= false;
         }
 
         String income = incomeEt.getText().toString().trim();
         if (TextUtils.isEmpty(income)) {
             Toast.makeText(this, "请填入收入", Toast.LENGTH_SHORT).show();
-            return;
+            return fillAll |= false;
+
         }
 
         String estate = estateLocEt.getText().toString().trim();
         if (TextUtils.isEmpty(estate)) {
             Toast.makeText(this, "请填入房产位置", Toast.LENGTH_SHORT).show();
-            return;
+            return fillAll |= false;
+
         }
 
-        String moreInfo = moreInfoEt.getText().toString().trim();
-        if (TextUtils.isEmpty(moreInfo)) {
-            Toast.makeText(this, "请输入你的宝贵意见", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        String moreInfo = moreInfoEt.getText().toString().trim();
+//        if (TextUtils.isEmpty(moreInfo)) {
+//            Toast.makeText(this, "请输入你的宝贵意见", Toast.LENGTH_SHORT).show();
+//            return fillAll |= false;
+//        }
+        return true;
     }
 
     @Override
@@ -196,7 +201,10 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 break;
             case R.id.match_btn:
 
-                checkOnSubmit();
+                if (checkOnSubmit()) {
+                    LLog.d("fill all");
+                    mPresenter.onStartMatchClicked();
+                }
 
                 break;
         }
@@ -204,21 +212,22 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
     /**
      * 弹出type类型的选择框
+     *
      * @param sourceTypes 数据源
-     * @param currType 当前选择的type
-     * @param showTv 要展示选择的textview
+     * @param currType    当前选择的type
+     * @param showTv      要展示选择的textview
      * @return 选择的type
      */
     private Type showDialog(List<Type> sourceTypes, Type currType, final TextView showTv) {
         final Type[] newSelType = new Type[1];
         dialogHelper.showSingleListDialog(this, sourceTypes, currType, new OneColumnPickerDialog.SelectListener<Type>() {
-                    @Override
-                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
-                        newSelType[0] = typeValue;
-                        showTv.setText(typeValue.textShowing);
-                        dialog.dismiss();
-                    }
-                });
+            @Override
+            public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
+                newSelType[0] = typeValue;
+                showTv.setText(typeValue.textShowing);
+                dialog.dismiss();
+            }
+        });
         return newSelType.length > 0 ? newSelType[0] : null;
     }
 

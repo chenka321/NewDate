@@ -18,15 +18,20 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.saku.dateone.R;
-import com.saku.dateone.ui.contracts.BasicInfoContract;
-import com.saku.dateone.ui.presenters.BasicInfoPresenter;
+import com.saku.dateone.ui.contracts.EntryInfoContract;
+import com.saku.dateone.ui.presenters.EntryInfoPresenter;
 
 /**
  * Created by liumin on 2017/8/15.
  */
-
-public class BasicInfoActivity extends BaseActivity<BasicInfoPresenter> implements View.OnClickListener,
-        RadioGroup.OnCheckedChangeListener, BasicInfoContract.V {
+/**
+ * User: liumin
+ * Date: 2017-9-7
+ * Time: 11:16
+ * Description: 首次进入匹配姓名年龄和性别
+*/
+public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implements View.OnClickListener,
+        RadioGroup.OnCheckedChangeListener, EntryInfoContract.V {
 
     public static final int USER = 1;
     public static final int USER_CHILD = 2;
@@ -51,12 +56,12 @@ public class BasicInfoActivity extends BaseActivity<BasicInfoPresenter> implemen
 
     @Override
     protected View getContentView() {
-        return LayoutInflater.from(this).inflate(R.layout.s_basic_info_activity, mRoot, false);
+        return LayoutInflater.from(this).inflate(R.layout.s_entry_info_activity, mRoot, false);
     }
 
     @Override
-    protected BasicInfoPresenter getPresenter() {
-        return new BasicInfoPresenter(this);
+    protected EntryInfoPresenter getPresenter() {
+        return new EntryInfoPresenter(this);
     }
 
     private void initView() {
