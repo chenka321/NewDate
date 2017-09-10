@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.bean.TagString;
-import com.saku.dateone.ui.list.data.FrontPageData;
+import com.saku.dateone.ui.list.data.RecommendItemData;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.list.listeners.OnRecyclerViewClickListener;
@@ -29,37 +29,41 @@ import com.saku.lmlib.views.TagLayout;
 
 import java.util.List;
 
-public class FrontPageViewProcessor extends ListViewPorcessor<FrontPageViewProcessor.VHolder, FrontPageData, ItemData> {
+public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.VHolder, RecommendItemData, ItemData> {
 
     private OnRecyclerClickCallBack itemListener;
     private Context mContext;
-    private int tagPadding;
+    private int tagMargin;
     private TvCacheManager<TagString, List<TagString>> tvCacheManager;
+    private int tagPadding;
+    private int tagTop;
 
-    public FrontPageViewProcessor(Context context, OnRecyclerClickCallBack listener) {
+    public RecommendVProcessor(Context context, OnRecyclerClickCallBack listener) {
         itemListener = listener;
         mContext = context;
     }
 
     @Override
     public VHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.s_frontpage_item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.s_recommend_item, parent, false);
 
         setUpTvCacheManager();
-        tagPadding = UIUtils.convertDpToPx(5, mContext);
+        tagMargin = UIUtils.convertDpToPx(5, mContext);
+        tagPadding = UIUtils.convertDpToPx(3, mContext);
+        tagTop = UIUtils.convertDpToPx(1, mContext);
         final VHolder holder = new VHolder(view);
         holder.itemView.setOnClickListener(new OnRecyclerViewClickListener(holder, itemListener));
-        Log.d("lm", "onCreateViewHolder: itemListener = " + itemListener + " , viewholder = " + holder);
+//        Log.d("lm", "onCreateViewHolder: itemListener = " + itemListener + " , viewholder = " + holder);
         return holder;
     }
 
     @Override
     public boolean matchesViewType(int position, List<ItemData> data, ItemData item) {
-        return item instanceof FrontPageData;
+        return item instanceof RecommendItemData;
     }
 
     @Override
-    public void onBindViewHolder(VHolder viewHolder, List<ItemData> mData, int position, FrontPageData frontPageData) {
+    public void onBindViewHolder(VHolder viewHolder, List<ItemData> mData, int position, RecommendItemData frontPageData) {
 //        itemListener.setHolder(viewHolder);
 
         ImageUtils.loadImageWithGlide(mContext, frontPageData.userImg, 0, viewHolder.userIv);
@@ -87,7 +91,7 @@ public class FrontPageViewProcessor extends ListViewPorcessor<FrontPageViewProce
                 GradientDrawable tagBg = new GradientDrawable();
                 tagBg.setShape(GradientDrawable.RECTANGLE);
                 tagBg.mutate();
-                tagBg.setCornerRadius(tagPadding);
+                tagBg.setCornerRadius(tagMargin);
                 try {
                     tagBg.setColor(Color.parseColor(s.rgbValue));
                 } catch (Exception e) {
@@ -101,10 +105,10 @@ public class FrontPageViewProcessor extends ListViewPorcessor<FrontPageViewProce
             }
         };
 
-        tvCacheManager.setMargin(tagPadding, 0, 0, 0)
+        tvCacheManager.setMargin(tagMargin, 0, 0, 0)
                 .setTextColor(Color.WHITE)
                 .setTextSize(14)
-                .setPadding(0, 0, 0, 0);
+                .setPadding(tagPadding, tagTop, tagPadding, tagTop);
     }
 
 

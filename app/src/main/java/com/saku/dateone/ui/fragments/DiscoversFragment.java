@@ -10,24 +10,28 @@ import android.view.View;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.DiscoversContract;
-import com.saku.dateone.ui.list.typeholders.FrontPageTypeHolder;
+import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
 import com.saku.dateone.ui.presenters.DiscoversPresenter;
-import com.saku.dateone.ui.presenters.RecommendsPresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.adapter.BaseListAdapter;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
 import java.util.List;
 
-public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implements DiscoversContract.V {
-    private static final int LOGIN_REQUEST = 1;
+/**
+ * 发现
+ */
+public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> implements DiscoversContract.V {
+
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
+    private boolean isLoadingDiscover = false;
 
     public static DiscoversFragment newInstance(Bundle bundle) {
         DiscoversFragment f = new DiscoversFragment();
@@ -51,6 +55,7 @@ public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implemen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        LLog.d("lm", "discoverFragment onViewCreated: ");
 
         setPresenter(new DiscoversPresenter(this));
 
@@ -58,12 +63,12 @@ public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implemen
         mTitleLayout.setTitleContent("发现");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        FrontPageTypeHolder typeHolder = new FrontPageTypeHolder(getContext(), mPresenter.getItemClickListener());
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));
 
-        if (UserInfo.getInstance().isLogin) {
+        if (UserInfoManager.getInstance().isLogin()) {
             mPresenter.loadData();
         }
     }
@@ -71,10 +76,20 @@ public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implemen
     @Override
     public void onResume() {
         super.onResume();
-
-        if (UserInfo.getInstance().isLogin) {
-            gotoLogin(PageManager.DISCOVER_LIST, LOGIN_REQUEST);
+        LLog.d("lm", "discoverFragment onResume: ");
+        if (getCurrentTab() != 2) {
+            return;
         }
+        if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
+            gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LLog.d("lm", "discoverFragment onHiddenChanged: ");
+
     }
 
     @Override
@@ -83,8 +98,14 @@ public class DiscoversFragment extends BaseFragment<DiscoversPresenter> implemen
     }
 
     @Override
+    public void setIsLoadingDiscover(boolean isLoading) {
+        isLoadingDiscover = isLoading;
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == LOGIN_REQUEST && resultCode == LoginActivity.LOGIN_OK) {
+        LLog.d("lm", "discoverFragment onActivityResult: ");
+        if (requestCode == Consts.LOGIN_RQST_DISCOVER && resultCode == LoginActivity.LOGIN_OK) {
             mPresenter.loadData();
         }
     }

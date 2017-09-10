@@ -1,9 +1,8 @@
 package com.saku.dateone.ui.contracts;
 
 
-import com.saku.dateone.ui.bean.BasicInfo;
-import com.saku.dateone.ui.bean.OppoInfo;
 import com.saku.dateone.ui.bean.MoreInfo;
+import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 
@@ -11,8 +10,8 @@ public interface OppoInfoContract {
     interface V extends BaseView<P> {
 
         void updateUserNameIv(String imgUrl, String name);
-        void updateBasicInfo(BasicInfo oppoBasicInfo);
-        void displayMoreInfoView(MoreInfo oppoMoreInfo);
+        void updateBasicInfo(UserInfo userInfo);
+        void displayMoreInfoView(UserInfo userInfo);
 
         void markCollection(boolean isCollected);
 
@@ -22,8 +21,8 @@ public interface OppoInfoContract {
     interface P extends BasePresenter{
 
         void loadPage(long userId);
-        void onLoadPage(String code, String msg, OppoInfo oppoInfo);
-        MoreInfo getMoreInfo();
+        void onLoadPage(String code, String msg, UserInfo oppoInfo);
+        UserInfo getUserInfo();
         boolean hasMoreInfo();
 
         void onCollectionClicked();  // 收藏被点击时

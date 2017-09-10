@@ -12,12 +12,12 @@ import java.util.List;
  * 发现列表
  */
 public interface DiscoversContract {
-    interface V extends BaseView<P> {
+    interface V extends UserInfoContract.V {
         void refreshRecyclerView(List<ItemData> data);
-
+        void setIsLoadingDiscover(boolean isLoading);
     }
 
-    interface P extends BasePresenter{
+    interface P extends UserInfoContract.P{
         void loadData();
         void onLoadResult(int code, String msg);
 
@@ -25,7 +25,7 @@ public interface DiscoversContract {
 
     }
 
-    interface M extends BaseModel{
+    interface M extends UserInfoContract.M{
         void loadDiscoverList(String lastArticleId);
     }
 }

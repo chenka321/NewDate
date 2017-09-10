@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,7 @@ import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.dateone.ui.views.TitleLayout;
 import com.saku.dateone.utils.Consts;
-import com.saku.dateone.utils.PageManager;
 import com.saku.lmlib.fragment.backpress.BackPressListener;
-
-import java.util.List;
 
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements ViewUnion, BackPressListener {
     protected TitleLayout mTitleLayout;
@@ -165,10 +161,18 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         return 0;
     }
 
+    @Override
+    public void gotoLogin(int pageName, int requestCode) {
+        gotoLogin(pageName, requestCode, null);
+    }
 
-    protected void gotoLogin(String pageName, int requestCode) {
+    @Override
+    public void gotoLogin(int pageName, int requestCode, Bundle bundle) {
         Intent i = new Intent(mContext, LoginActivity.class);
-        i.putExtra(Consts.FROM_PAGE_NAME, pageName);
+        if(bundle != null) {
+            i.putExtras(bundle);
+        }
+        i.putExtra(Consts.LOGIN_FROM_PAGE_NAME, pageName);
         startActivityForResult(i, requestCode);
     }
 

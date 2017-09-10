@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.bean.Type;
+import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.TypeManager;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
 import com.saku.lmlib.utils.LLog;
@@ -118,27 +122,47 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         String et = heightEt.getText().toString().trim();
         if (TextUtils.isEmpty(et)) {
             Toast.makeText(this, "请填入身高, 单位（厘米）", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
         }
 
         String tv = occupationTv.getText().toString().trim();
         if (TextUtils.isEmpty(tv)) {
             Toast.makeText(this, "请填入职位", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
         }
 
         String income = incomeEt.getText().toString().trim();
         if (TextUtils.isEmpty(income)) {
             Toast.makeText(this, "请填入收入", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
 
         }
 
         String estate = estateLocEt.getText().toString().trim();
         if (TextUtils.isEmpty(estate)) {
             Toast.makeText(this, "请填入房产位置", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
 
+        }
+
+        if (TextUtils.isEmpty(companyTv.getText())) {
+            Toast.makeText(this, "请填入选择单位性质", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(estateTv.getText())) {
+            Toast.makeText(this, "请填入选择房产", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(carTv.getText())) {
+            Toast.makeText(this, "请填入选择车辆情况", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(schoolTv.getText())) {
+            Toast.makeText(this, "请填入选择学校情况", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
 //        String moreInfo = moreInfoEt.getText().toString().trim();
@@ -146,6 +170,17 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 //            Toast.makeText(this, "请输入你的宝贵意见", Toast.LENGTH_SHORT).show();
 //            return fillAll |= false;
 //        }
+        final UserInfo pendingInfo = UserInfoManager.getInstance().getMyPendingInfo();
+        pendingInfo.height = et;
+        pendingInfo.position = tv;
+        pendingInfo.income = income;
+        pendingInfo.estateLocation = estate;
+        pendingInfo.company = companyTv.getText().toString();
+        pendingInfo.house = estateTv.getText().toString();
+        pendingInfo.car = carTv.getText().toString();
+        pendingInfo.schoolType = schoolTv.getText().toString();
+        pendingInfo.moreIntroduce = moreInfoEt.getText().toString();
+
         return true;
     }
 
@@ -210,25 +245,23 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         }
     }
 
-    /**
-     * 弹出type类型的选择框
-     *
-     * @param sourceTypes 数据源
-     * @param currType    当前选择的type
-     * @param showTv      要展示选择的textview
-     * @return 选择的type
-     */
-    private Type showDialog(List<Type> sourceTypes, Type currType, final TextView showTv) {
-        final Type[] newSelType = new Type[1];
-        dialogHelper.showSingleListDialog(this, sourceTypes, currType, new OneColumnPickerDialog.SelectListener<Type>() {
-            @Override
-            public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
-                newSelType[0] = typeValue;
-                showTv.setText(typeValue.textShowing);
-                dialog.dismiss();
-            }
-        });
-        return newSelType.length > 0 ? newSelType[0] : null;
+    @Override
+    public void goNextOnCompleteInfo() {
+
+        if (getIntent() != null) {
+            Bundle b = new Bundle();
+            b.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
+//            final int fromPage = getIntent().getIntExtra(Consts.COMPLETE_FROM_PAGE_NAME, 0);
+//            if (fromPage == PageManager.COMPLETE_INFO_MY_SIMPLE_INFO) {
+//                b.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_NOT_LOGIN);
+//
+//            } else if (fromPage == PageManager.COMPLETE_INFO_MINE_MSG
+//                    || fromPage == PageManager.COMPLETE_INFO_MINE_MODIFY) {
+//                b.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_LOGIN);
+//            }
+
+            toActivity(MainTabsActivity.class, b, true);
+        }
     }
 
 }

@@ -89,6 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
+            app:paddingStart="3dp"
+            app:paddingEnd="3dp"
             app:margin_horizontal="5dp"
             app:margin_vertical="10dp"/>
     </LinearLayout>

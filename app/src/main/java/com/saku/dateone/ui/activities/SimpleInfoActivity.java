@@ -15,7 +15,10 @@ import com.saku.dateone.R;
 import com.saku.dateone.ui.bean.Type;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.TypeManager;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.BirthDayPickerDialog;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
@@ -31,7 +34,7 @@ import com.saku.lmlib.utils.UIUtils;
  * User: liumin
  * Date: 2017-9-4
  * Time: 16:43
- * Description: 基础信息
+ * Description: 填写基础信息页， 子女姓名年月日
  */
 public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> implements View.OnClickListener,
         CompleteInfoContract.V {
@@ -43,14 +46,14 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
     private TextView birthdayTv;
     private Type mDegree;  // 学历
     private long mSelectBirthday;
+    private TextView putMoreInfoTv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initView();
-        showTitle(true);
-        setTitle("补充信息");
+        showTitle(false);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);  // 隐藏软键盘
     }
@@ -70,10 +73,12 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
         this.educationTv = (TextView) findViewById(R.id.input_education_tv);
         this.birthdayTv = (TextView) findViewById(R.id.input_birthday_tv);
         this.matchBtn = (Button) findViewById(R.id.match_btn);
+        this.putMoreInfoTv = (TextView) findViewById(R.id.go_put_more_info_tv);
 
         matchBtn.setOnClickListener(this);
         educationTv.setOnClickListener(this);
         birthdayTv.setOnClickListener(this);
+        putMoreInfoTv.setOnClickListener(this);
 
 
     }
@@ -88,28 +93,35 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
 
     }
 
+    @Override
+    public void goNextOnCompleteInfo() {
+
+    }
+
     private boolean checkOnSubmit() {
         boolean fillAll = true;
         // validate
         String et = nameEt.getText().toString().trim();
         if (TextUtils.isEmpty(et)) {
             Toast.makeText(this, "请填入姓名", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
         }
 
         String tv = educationTv.getText().toString().trim();
         if (TextUtils.isEmpty(tv)) {
             Toast.makeText(this, "请填入学历", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
+            return false;
         }
 
         String birthday = birthdayTv.getText().toString().trim();
         if (TextUtils.isEmpty(birthday)) {
             Toast.makeText(this, "请填入出生日期", Toast.LENGTH_SHORT).show();
-            return fillAll &= false;
-
+            return false;
         }
 
+        UserInfoManager.getInstance().getMyPendingInfo().name = nameEt.getText().toString();
+        UserInfoManager.getInstance().getMyPendingInfo().education = educationTv.getText().toString();
+        UserInfoManager.getInstance().getMyPendingInfo().birthday = birthdayTv.getText().toString();
         return true;
     }
 
@@ -144,9 +156,18 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
 
                 if (checkOnSubmit()) {
                     LLog.d("fill all");
+
                     mPresenter.onMatchSimpleClicked();
                 }
 
+                break;
+            case R.id.go_put_more_info_tv:
+                if (checkOnSubmit()) {
+                    Bundle b = new Bundle();
+                    b.putInt(Consts.COMPLETE_FROM_PAGE_NAME, PageManager.COMPLETE_INFO_MY_SIMPLE_INFO);
+
+                    toActivity(CompleteInfoActivity.class, b, true);
+                }
                 break;
         }
     }

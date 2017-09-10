@@ -17,6 +17,7 @@ import com.saku.dateone.R;
 import com.saku.dateone.ViewUnion;
 import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.dateone.ui.views.TitleLayout;
+import com.saku.dateone.utils.Consts;
 import com.saku.lmlib.fragment.backpress.BackPressHandler;
 import com.saku.lmlib.fragment.backpress.BackPressListener;
 import com.saku.lmlib.utils.LLog;
@@ -117,6 +118,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
+    /**
+     *
+     * @param bundle   bundle中的键值对 会放到intent中
+     */
     @Override
     public void toActivity(Class<? extends BaseActivity> clz, Bundle bundle, boolean finishSelf) {
         Intent i = new Intent(this, clz);
@@ -193,6 +198,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                 }
             }
             super.onBackPressed();
+    }
+
+    @Override
+    public void gotoLogin(int pageName, int requestCode) {
+//        Intent i = new Intent(this, LoginActivity.class);
+//        i.putExtra(Consts.LOGIN_FROM_PAGE_NAME, pageName);
+//        startActivityForResult(i, requestCode);
+        gotoLogin(pageName, requestCode, null);
+    }
+
+    @Override
+    public void gotoLogin(int pageName, int requestCode, Bundle bundle) {
+        Intent i = new Intent(this, LoginActivity.class);
+        if(bundle != null) {
+            i.putExtras(bundle);
+        }
+        i.putExtra(Consts.LOGIN_FROM_PAGE_NAME, pageName);
+        startActivityForResult(i, requestCode);
     }
 
     @Override

@@ -82,6 +82,7 @@
         style="@style/next_btn"/>
 
     <TextView
+        android:id="@+id/go_put_more_info_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13sp"

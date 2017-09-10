@@ -5,7 +5,7 @@ import com.saku.lmlib.list.data.ItemData;
 
 import java.util.List;
 
-public class FrontPageData implements ItemData {
+public class RecommendItemData implements ItemData {
     public long userId;
     public String name;
     public String bornLocation; // 省市县

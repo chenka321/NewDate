@@ -17,15 +17,13 @@ import com.saku.dateone.ui.adapters.TextWatcherAdapter;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.presenters.LoginPresenter;
 import com.saku.dateone.utils.Consts;
-import com.saku.dateone.utils.PageManager;
-import com.saku.lmlib.utils.PageHelper;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PreferenceUtil;
 import com.saku.lmlib.utils.UIUtils;
 
 import org.reactivestreams.Subscription;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -57,6 +55,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        showTitle(true);
+        mTitleLayout.setTitleContent("登录");
         initView();
     }
 
@@ -187,20 +187,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void goToNext() {
-        final String fromPage = getIntent().getStringExtra(Consts.FROM_PAGE_NAME);
-        if (PageManager.RECOMMEND_LIST.equals(fromPage)) {
+        final int fromPage = getIntent().getIntExtra(Consts.LOGIN_FROM_PAGE_NAME, 0);
 
-            // TODO: 2017/9/8 是否是第一次登录
-            final boolean firstLogin = PreferenceUtil.getBoolean(this, Consts.IS_FIRST_LOGIN, true);
-            if (firstLogin) {
-                PreferenceUtil.putBoolean(this, Consts.IS_FIRST_LOGIN, false);
-                toActivity(SimpleInfoActivity.class, null, true);
-            } else {
-                toActivity(OppoInfoActivity.class, null, true);
-            }
+        // TODO: 2017/9/8 是否是第一次登录
+        final boolean firstLogin = UserInfoManager.getInstance().isFirstLogin();
+        if (firstLogin) {
+            toActivity(SimpleInfoActivity.class, null, true);
         } else {
-            setResult(LOGIN_OK);  // 聊天列表，发现，我的
-            finish();
+            switch (fromPage) {
+                case 21: // PageManager.RECOMMEND_LIST
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(OppoInfoActivity.USER_ID, getIntent().getLongExtra(OppoInfoActivity.USER_ID, 0));
+                    toActivity(OppoInfoActivity.class, bundle, true);
+                    break;
+                case 24:  // PageManager.CHAT_LIST
+                case 25:  // PageManager.DISCOVER_LIST
+                case 26:  // PageManager.MINE
+                    setResult(LOGIN_OK);  // 聊天列表，发现，我的
+                    finish();
+                    break;
+            }
         }
     }
 }

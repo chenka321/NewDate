@@ -15,6 +15,9 @@ import java.util.List;
 public interface CompleteInfoContract {
     interface V extends BaseView<P> {
         void chooseDegree();
+
+        /** 完成详细信息页面的开始匹配后的跳转 */
+        void goNextOnCompleteInfo();
     }
 
     interface P extends BasePresenter{
@@ -23,6 +26,7 @@ public interface CompleteInfoContract {
 
          /** 点击简单信息填写页面的开始匹配 */
         void onMatchSimpleClicked();
+        /** 点击简单信息填写页面的匹配请求回调 */
         void onMatchSimpleResult(int code, String msg);
 
         /** 点击补充信息填写页面的开始匹配 */

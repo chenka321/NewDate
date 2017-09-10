@@ -26,7 +26,7 @@
     <string name="name_guide">* 姓名将会为您保密，不会展示给用户</string>
     <string name="education">学历</string>
     <string name="born_time">出生日期</string>
-    <string name="user_id">用户：</string>
+    <string name="user_id">用户：%s</string>
     <string name="edit_user_info">资料修改</string>
     <string name="my_msg">我的消息</string>
     <string name="collection">收藏</string>
@@ -71,8 +71,9 @@
     <string name="grad_school">毕业学校:  %s</string>
     <string name="school_name_info">学校名称:  %s</string>
     <string name="addition_info">补充说明:  %s</string>
-
-
+    <string name="feedback">意见反馈</string>
+    <string name="simple_info">填写基本信息</string>
+    <string name="simple_info_content">需要填写基本信息才能正常使用哦！</string>
 
 
 </resources>

@@ -14,8 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.BasicInfo;
-import com.saku.dateone.ui.bean.MoreInfo;
+import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
@@ -24,6 +23,9 @@ import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
+/**
+ * 对方子女信息查看页
+ */
 public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements OppoInfoContract.V, View.OnClickListener {
 
     public static final String USER_ID = "user_id";
@@ -109,22 +111,22 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     }
 
     @Override
-    public void updateBasicInfo(BasicInfo oppoBasicInfo) {
-        residenceTv.setText(getString(R.string.residence, oppoBasicInfo.bornLocation));
-        locationTv.setText(getString(R.string.currentLocation, oppoBasicInfo.currentLocation));
-        birthdayTv.setText(getString(R.string.birthday, oppoBasicInfo.birthday));
-        degreeTv.setText(getString(R.string.degree, oppoBasicInfo.degree));
-        occupationTv.setText(getString(R.string.occupation, oppoBasicInfo.position));
-        fieldworkTv.setText(getString(R.string.industry, oppoBasicInfo.company));
-        salaryTv.setText(getString(R.string.salary, oppoBasicInfo.income));
+    public void updateBasicInfo(UserInfo userinfo) {
+        residenceTv.setText(getString(R.string.residence, userinfo.bornLocation));
+        locationTv.setText(getString(R.string.currentLocation, userinfo.currentLocation));
+        birthdayTv.setText(getString(R.string.birthday, userinfo.birthday));
+        degreeTv.setText(getString(R.string.degree, userinfo.education));
+        occupationTv.setText(getString(R.string.occupation, userinfo.position));
+        fieldworkTv.setText(getString(R.string.industry, userinfo.company));
+        salaryTv.setText(getString(R.string.salary, userinfo.income));
     }
 
     @Override
-    public void displayMoreInfoView(MoreInfo oppoMoreInfo) {
+    public void displayMoreInfoView(UserInfo userInfo) {
         if (!isMoreInfoOpen) {
             if (moreInfoLl == null) {
                 moreInfoLl = (LinearLayout) moreInfoVs.inflate();
-                initMoreViews(moreInfoLl, oppoMoreInfo);
+                initMoreViews(moreInfoLl, userInfo);
             } else {
                 moreInfoLl.setVisibility(View.VISIBLE);
             }
@@ -158,7 +160,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         }
     }
 
-    private void initMoreViews(final LinearLayout moreInfoLl, MoreInfo oppoMoreInfo) {
+    private void initMoreViews(final LinearLayout moreInfoLl, UserInfo userInfo) {
         oppHeightTv = (TextView) moreInfoLl.findViewById(R.id.opp_height_tv);
         oppEstateTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_tv);
         oppEstateLocTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_loc_tv);
@@ -169,24 +171,24 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         oppOtherTv = (TextView) moreInfoLl.findViewById(R.id.opp_other_tv);
         picRv = (RecyclerView) moreInfoLl.findViewById(R.id.pic_rv);
 
-        if (oppoMoreInfo == null) {
+        if (userInfo == null) {
             return;
         }
 
-        oppHeightTv.setText(getString(R.string.height_info, oppoMoreInfo.height));
-        oppEstateTv.setText(getString(R.string.has_house, oppoMoreInfo.house));
-        oppEstateLocTv.setText(getString(R.string.house_loc, oppoMoreInfo.estateLocation));
-        oppCarsTv.setText(getString(R.string.has_car, oppoMoreInfo.car));
-        oppHobbyTv.setText(getString(R.string.hobby_info, oppoMoreInfo.hobby));
-        oppSchoolTv.setText(getString(R.string.grad_school, oppoMoreInfo.schoolType));
-        oppSchoolNameTv.setText(getString(R.string.school_name_info, oppoMoreInfo.school));
-        oppOtherTv.setText(getString(R.string.addition_info, oppoMoreInfo.additionInfo));
+        oppHeightTv.setText(getString(R.string.height_info, userInfo.height));
+        oppEstateTv.setText(getString(R.string.has_house, userInfo.house));
+        oppEstateLocTv.setText(getString(R.string.house_loc, userInfo.estateLocation));
+        oppCarsTv.setText(getString(R.string.has_car, userInfo.car));
+        oppHobbyTv.setText(getString(R.string.hobby_info, userInfo.hobby));
+        oppSchoolTv.setText(getString(R.string.grad_school, userInfo.schoolType));
+        oppSchoolNameTv.setText(getString(R.string.school_name_info, userInfo.school));
+        oppOtherTv.setText(getString(R.string.addition_info, userInfo.moreIntroduce));
 
-        if (oppoMoreInfo.pics == null || oppoMoreInfo.pics.size() == 0) {
+        if (userInfo.pics == null || userInfo.pics.size() == 0) {
             return;
         }
         picRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        picRv.setAdapter(new OppoPicAdapter(this, oppoMoreInfo.pics));
+        picRv.setAdapter(new OppoPicAdapter(this, userInfo.pics));
 
         moreInfoLl.post(new Runnable() {
             @Override
@@ -216,6 +218,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
 
 //                mPresenter.onChatClicked();
 //                startActivity();
+
                 break;
             case R.id.view_more_tv:
                 if (!mPresenter.hasMoreInfo()) {
@@ -235,7 +238,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
                                 }
                             });
                 } else {
-                    displayMoreInfoView(mPresenter.getMoreInfo());
+                    displayMoreInfoView(mPresenter.getUserInfo());
                 }
                 break;
             case R.id.collection_tv:

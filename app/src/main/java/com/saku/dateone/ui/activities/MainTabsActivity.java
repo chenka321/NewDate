@@ -1,5 +1,6 @@
 package com.saku.dateone.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -14,8 +15,14 @@ import android.widget.RadioGroup;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.MainTabsContract;
+import com.saku.dateone.ui.fragments.DiscoversFragment;
+import com.saku.dateone.ui.fragments.MineFragment;
 import com.saku.dateone.ui.fragments.RecommendsFragment;
 import com.saku.dateone.ui.presenters.MainTabsPresenter;
+import com.saku.dateone.ui.views.DisabledScrollViewPager;
+import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
+import com.saku.lmlib.utils.LLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +34,15 @@ import java.util.List;
 public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         RadioGroup.OnCheckedChangeListener, MainTabsContract.V {
 
-    private ViewPager mMainTabsVp;
+    private DisabledScrollViewPager mMainTabsVp;
     private RadioGroup mTabRg;
     private RadioButton mFrontpageRb;
     private RadioButton mMsgRb;
     private RadioButton mDiscoverRb;
     private RadioButton mMineRb;
     private MainPageAdapter mMainPagerAdapter;
+
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,21 +54,68 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
 
         mTabRg.setOnCheckedChangeListener(this);
         mMainPagerAdapter = new MainPageAdapter(getSupportFragmentManager());
-        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
-        mMainPagerAdapter.addFragment(RecommendsFragment.newInstance(null));
+        fragments = new ArrayList<>();
 
+        fragments.add(RecommendsFragment.newInstance(null));
+        fragments.add(RecommendsFragment.newInstance(null));
+        fragments.add(DiscoversFragment.newInstance(null));
+        fragments.add(MineFragment.newInstance(null));
+        mMainPagerAdapter.setFragments(fragments);
         mMainTabsVp.setAdapter(mMainPagerAdapter);
         mMainTabsVp.setOffscreenPageLimit(3);
-        mMainTabsVp.setCurrentItem(0);
         mFrontpageRb.setChecked(true);
+        mMainTabsVp.setPagingEnabled(false);
+
+        showPageOnIntent();
+    }
+
+
+    private void showPageOnIntent() {
+        if (getIntent() != null) {
+            final int page = getIntent().getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0);
+            if (page == PageManager.RECOMMEND_LIST) {
+//                final Fragment recommendFragment = fragments.get(0);
+//                Bundle bundle = new Bundle();
+//                bundle.putInt(Consts.REFRESH_RECOMMEND, getIntent().getIntExtra(Consts.REFRESH_RECOMMEND, 0));
+//                recommendFragment.setArguments(bundle);
+
+                if (getIntent() != null ) {
+                    Bundle b = new Bundle();
+                    b.putInt(Consts.SHOW_MAIN_TAB_PAGE, getIntent().getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0));
+                    fragments.get(0).setArguments(b);
+                    getIntent().removeExtra(Consts.SHOW_MAIN_TAB_PAGE);
+                }
+                mMainTabsVp.setCurrentItem(0);
+                mTabRg.check(mFrontpageRb.getId());
+
+            } else if (page == PageManager.CHAT_LIST) {
+                mMainTabsVp.setCurrentItem(1);
+                mTabRg.check(mMsgRb.getId());
+            } else if (page == PageManager.DISCOVER_LIST) {
+                mMainTabsVp.setCurrentItem(2);
+                mTabRg.check(mDiscoverRb.getId());
+            } else if (page == PageManager.MINE) {
+                mMainTabsVp.setCurrentItem(3);
+                mTabRg.check(mMineRb.getId());
+            } else {
+                mMainTabsVp.setCurrentItem(0);
+                mTabRg.check(mFrontpageRb.getId());
+
+            }
+        } else {
+            mMainTabsVp.setCurrentItem(0);
+            mTabRg.check(mFrontpageRb.getId());
+
+        }
+    }
+
+    public int getCurrentPageSelected() {
+        return mMainTabsVp.getCurrentItem();
     }
 
     @Override
     protected View getContentView() {
-        final View view = LayoutInflater.from(this).inflate(R.layout.s_main_activity, mRoot, false);
-        return view;
+        return LayoutInflater.from(this).inflate(R.layout.s_main_activity, mRoot, false);
     }
 
     @Override
@@ -69,12 +125,20 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
     }
 
     private void initView() {
-        mMainTabsVp = (ViewPager) findViewById(R.id.main_tabs_vp);
+        mMainTabsVp = (DisabledScrollViewPager) findViewById(R.id.main_tabs_vp);
         mTabRg = (RadioGroup) findViewById(R.id.tab_rg);
         mFrontpageRb = (RadioButton) findViewById(R.id.frontpage_rb);
         mMsgRb = (RadioButton) findViewById(R.id.msg_rb);
         mDiscoverRb = (RadioButton) findViewById(R.id.discover_rb);
         mMineRb = (RadioButton) findViewById(R.id.mine_rb);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LLog.d("mainTabActivity ...onNewIntent ");
+
+        showPageOnIntent();
     }
 
     @Override
@@ -109,14 +173,14 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
 
     private class MainPageAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> fragments = new ArrayList<>();
+        private List<Fragment> fragments;
 
         public MainPageAdapter(FragmentManager fm) {
             super(fm);
         }
 
-        public void addFragment(Fragment fragment) {
-            fragments.add(fragment);
+        public void setFragments(List<Fragment> fragments) {
+            this.fragments = fragments;
         }
 
         @Override

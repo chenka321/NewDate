@@ -10,19 +10,24 @@ import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import java.util.List;
 
 public interface RecommendsContract {
-    interface V extends BaseView<P> {
+    interface V extends UserInfoContract.V {
         void refreshRecyclerView(List<ItemData> data);
     }
 
-    interface P extends BasePresenter {
+    interface P extends UserInfoContract.P {
 
 
         OnRecyclerClickCallBack getItemClickListener();
 
-        void loadData();
+        void loadNotLoginData();
+        void onLoadNotLoginDatResult(int code, String msg);
+
+        void loadLoginData();
+        void onLoadLoginDataResult(int code, String msg);
     }
 
-    interface M extends BaseModel {
-        void loadData();
+    interface M extends UserInfoContract.M {
+        void loadNotLoginData();
+        void loadLoginData();
     }
 }

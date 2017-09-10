@@ -4,12 +4,16 @@ import android.app.Application;
 import android.content.Context;
 
 import com.saku.dateone.utils.TypeManager;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.LLog;
+import com.saku.lmlib.utils.PreferenceUtil;
 import com.saku.lmlib.utils.SystemUtil;
 
 public class DateApplication extends Application {
 
     private static final String TAG = "DateApplication";
+
+    public static Context mAppContext;
 
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
@@ -18,6 +22,14 @@ public class DateApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LLog.setAllowLog(BuildConfig.DEBUG);
+
+        mAppContext = this;
+
+        UserInfoManager.getInstance().recoverMyInfoFromPreference();
+    }
+
+    public static Context getAppContext() {
+        return mAppContext;
     }
 
     @Override

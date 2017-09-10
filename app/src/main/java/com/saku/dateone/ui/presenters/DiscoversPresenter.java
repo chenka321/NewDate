@@ -1,33 +1,23 @@
 package com.saku.dateone.ui.presenters;
 
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
-import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.activities.OppoInfoActivity;
-import com.saku.dateone.ui.bean.TagString;
-import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.DiscoversContract;
-import com.saku.dateone.ui.contracts.RecommendsContract;
-import com.saku.dateone.ui.list.data.FrontPageData;
+import com.saku.dateone.ui.contracts.UserInfoContract;
 import com.saku.dateone.ui.models.DiscoversModel;
-import com.saku.dateone.ui.models.RecommendsModel;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.saku.dateone.ui.activities.OppoInfoActivity.USER_ID;
 
 /**
  * User: liumin
  * Date: 2017-8-31
  * Time: 10:56
- * Description: 推荐列表页面
+ * Description: 发现
 */
-public class DiscoversPresenter extends ABasePresenter<DiscoversContract.V, DiscoversContract.M> implements DiscoversContract.P {
+public class DiscoversPresenter extends UserInfoPresenter<DiscoversContract.V, DiscoversContract.M> implements DiscoversContract.P {
 
     private List<ItemData> mData;
 
@@ -43,12 +33,20 @@ public class DiscoversPresenter extends ABasePresenter<DiscoversContract.V, Disc
 
     @Override
     public void loadData() {
+
+        mView.setIsLoadingDiscover(true);
         mModel.loadDiscoverList("0");
     }
 
     @Override
     public void onLoadResult(int code, String msg) {
+        if (mView == null ) {
+            return;
+        }
+        mView.setIsLoadingDiscover(false);
+
         mView.refreshRecyclerView(mData);
+
     }
 
     @Override
@@ -72,8 +70,8 @@ public class DiscoversPresenter extends ABasePresenter<DiscoversContract.V, Disc
 //                }
 //
 //                final ItemData itemData = mData.get(position);
-//                if (itemData instanceof FrontPageData) {
-//                    final long userId = ((FrontPageData) itemData).userId;
+//                if (itemData instanceof RecommendItemData) {
+//                    final long userId = ((RecommendItemData) itemData).userId;
 //                    intent.putExtra(USER_ID, userId);
 //                }
 //                mView.toActivity(intent, false);

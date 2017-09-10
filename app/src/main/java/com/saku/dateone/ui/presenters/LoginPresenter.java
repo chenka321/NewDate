@@ -7,6 +7,7 @@ import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.contracts.LoginContract.P;
 import com.saku.dateone.ui.models.LoginModel;
 import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PageHelper;
 import com.saku.lmlib.utils.PreferenceUtil;
 
@@ -35,12 +36,17 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
 
     @Override
     public void onLogin(int code, String msg) {
-
-
-        if (mView != null) {
-//            mView.toActivity(SimpleInfoActivity.class, null, true);
-            mView.goToNext();
+        if (mView == null) {
+            return;
         }
+        // todo 返回是否第一次登录, token
+//        boolean firstLogin = PreferenceUtil.getBoolean(mView.getViewContext(), Consts.IS_FIRST_LOGIN, true);
+        final boolean firstLogin = UserInfoManager.getInstance().isFirstLogin();
+        String myToken = "lnlllnnnnn";
+
+        Log.d("lm", "onLogin: firstLogin = " + firstLogin);
+        UserInfoManager.getInstance().setLoginState(myToken, firstLogin);
+        mView.goToNext();
     }
 
     @Override

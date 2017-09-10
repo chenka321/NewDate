@@ -12,6 +12,7 @@ import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.EntryInfoContract;
 import com.saku.dateone.ui.models.BasicInfoModel;
 import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, EntryInfoContract.M> implements EntryInfoContract.P {
@@ -43,20 +44,20 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
     @Override
     public void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district) {
         if (who == EntryInfoActivity.USER) {
-            UserInfo.getInstance().yourLocation.province = province;
-            UserInfo.getInstance().yourLocation.city = city;
-            UserInfo.getInstance().yourLocation.district = district;
+            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.province = province;
+            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.city = city;
+            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.district = district;
         } else {
-            UserInfo.getInstance().childLocation.province = province;
-            UserInfo.getInstance().childLocation.city = city;
-            UserInfo.getInstance().childLocation.district = district;
+            UserInfoManager.getInstance().getMyPendingInfo().childLocation.province = province;
+            UserInfoManager.getInstance().getMyPendingInfo().childLocation.city = city;
+            UserInfoManager.getInstance().getMyPendingInfo().childLocation.district = district;
         }
 
     }
 
     @Override
     public void onGenderClicked(int gender) {
-        UserInfo.getInstance().childGender = gender;
+        UserInfoManager.getInstance().getMyPendingInfo().childGender = gender;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
         if (mView == null) {
             return;
         }
-
+        UserInfoManager.getInstance().copyPendingToShowing();
         PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);
         mView.toActivity(MainTabsActivity.class, null, true);
     }

@@ -1,8 +1,6 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.bean.BasicInfo;
-import com.saku.dateone.ui.bean.OppoInfo;
-import com.saku.dateone.ui.bean.MoreInfo;
+import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 
 import java.util.ArrayList;
@@ -15,31 +13,31 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
 
     @Override
     public void loadPageData(long userId) {
-        OppoInfo oppoInfo = new OppoInfo();
-        oppoInfo.oppoBasicInfo = new BasicInfo();
-        oppoInfo.oppoBasicInfo.hasMoreInfo = false;
-        oppoInfo.oppoBasicInfo.birthday = "1990-2-15";
-        oppoInfo.oppoBasicInfo.bornLocation = "黑龙江-松花江市";
-        oppoInfo.oppoBasicInfo.currentLocation = "深圳市-深圳";
-        oppoInfo.oppoBasicInfo.company = "马兰坡文化公司";
-        oppoInfo.oppoBasicInfo.degree = "博士";
-        oppoInfo.oppoBasicInfo.income = "60k";
-        oppoInfo.oppoBasicInfo.name = "小杜鹃";
-        oppoInfo.oppoBasicInfo.position = "宇宙行行长";
-        oppoInfo.oppoBasicInfo.targetUserId = 10200;
+        UserInfo oppoInfo = new UserInfo();
+        oppoInfo.image = "http://img1.imgtn.bdimg.com/it/u=989341999,236255160&fm=27&gp=0.jpg";
+        oppoInfo.hasMoreInfo = false;
+        oppoInfo.birthday = "1990-2-15";
+        oppoInfo.bornLocation = "黑龙江-松花江市";
+        oppoInfo.currentLocation = "深圳市-深圳";
+        oppoInfo.company = "马兰坡文化公司";
+        oppoInfo.education = "博士";
+        oppoInfo.income = "60k";
+        oppoInfo.name = "小杜鹃";
+        oppoInfo.position = "宇宙行行长";
+        oppoInfo.userId = 10200;
 
-        oppoInfo.oppoMoreInfo = new MoreInfo();
-        oppoInfo.oppoMoreInfo.height = "183cm";
-        oppoInfo.oppoMoreInfo.car = "有车";
-        oppoInfo.oppoMoreInfo.estateLocation = "黑龙江";
-        oppoInfo.oppoMoreInfo.house = "有房";
-        oppoInfo.oppoMoreInfo.hobby = "跆拳道";
-        oppoInfo.oppoMoreInfo.school = "某常春藤名校";
-        oppoInfo.oppoMoreInfo.schoolType = "海外名校";
-        oppoInfo.oppoMoreInfo.pics = new ArrayList<>();
-        oppoInfo.oppoMoreInfo.pics.add("http://img1.imgtn.bdimg.com/it/u=989341999,236255160&fm=27&gp=0.jpg");
-        oppoInfo.oppoMoreInfo.pics.add("http://img1.imgtn.bdimg.com/it/u=989341999,236255160&fm=27&gp=0.jpg");
-        oppoInfo.oppoMoreInfo.additionInfo = "傲娇的小公主";
+        oppoInfo.hasMoreInfo = true;
+        oppoInfo.height = "183cm";
+        oppoInfo.car = "有车";
+        oppoInfo.estateLocation = "黑龙江";
+        oppoInfo.house = "有房";
+        oppoInfo.hobby = "跆拳道";
+        oppoInfo.school = "某常春藤名校";
+        oppoInfo.schoolType = "海外名校";
+        oppoInfo.pics = new ArrayList<>();
+        oppoInfo.pics.add("http://img1.imgtn.bdimg.com/it/u=989341999,236255160&fm=27&gp=0.jpg");
+        oppoInfo.pics.add("http://img1.imgtn.bdimg.com/it/u=989341999,236255160&fm=27&gp=0.jpg");
+        oppoInfo.moreIntroduce = "傲娇的小公主";
 
 
         mPresenter.onLoadPage("0", "success", oppoInfo);

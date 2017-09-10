@@ -1,13 +1,13 @@
 package com.saku.dateone.ui.presenters;
 
-import com.saku.dateone.ui.bean.OppoInfo;
 import com.saku.dateone.ui.bean.MoreInfo;
+import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.models.OppoModel;
 
 public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoInfoContract.M> implements OppoInfoContract.P {
 
-    private OppoInfo mOppoInfo;
+    private UserInfo mOppoInfo;
 
     public OppoInfoPresenter(OppoInfoContract.V mView) {
         super(mView);
@@ -19,50 +19,50 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
     }
 
     @Override
-    public void onLoadPage(String code, String msg, OppoInfo oppoInfo) {
+    public void onLoadPage(String code, String msg, UserInfo userInfo) {
         if (mView == null) {
             return;
         }
-        mOppoInfo = oppoInfo;
-        if (oppoInfo.oppoBasicInfo == null) {
+        mOppoInfo = userInfo;
+        if (mOppoInfo == null) {
             return;
         }
-        mView.updateUserNameIv(oppoInfo.oppoBasicInfo.image, oppoInfo.oppoBasicInfo.name);
-        mView.updateBasicInfo(oppoInfo.oppoBasicInfo);
+        mView.updateUserNameIv(mOppoInfo.image, mOppoInfo.name);
+        mView.updateBasicInfo(mOppoInfo);
     }
 
     @Override
     public boolean hasMoreInfo() {
-        if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
-            return mOppoInfo.oppoBasicInfo.hasMoreInfo;
+        if (mOppoInfo != null) {
+            return mOppoInfo.hasMoreInfo;
         }
         return false;
     }
 
     @Override
     public void onCollectionClicked() {
-        if (mOppoInfo.oppoBasicInfo == null) {
+        if (mOppoInfo == null) {
             return;
         }
-        mModel.saveCollection(mOppoInfo.oppoBasicInfo.targetUserId);
+        mModel.saveCollection(mOppoInfo.userId);
     }
 
     @Override
     public void onSaveCollection(String code, String msg) {
         boolean isCollected = false;
         if (mView != null) {
-            if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
-                isCollected = mOppoInfo.oppoBasicInfo.isCollected;
-                mOppoInfo.oppoBasicInfo.isCollected = !isCollected;
+            if (mOppoInfo != null) {
+                isCollected = mOppoInfo.isCollected;
+                mOppoInfo.isCollected = !isCollected;
             }
             mView.markCollection(!isCollected);
         }
     }
 
     @Override
-    public MoreInfo getMoreInfo() {
-        if (mOppoInfo != null && mOppoInfo.oppoBasicInfo != null) {
-            return mOppoInfo.oppoMoreInfo;
+    public UserInfo getUserInfo() {
+        if (mOppoInfo != null) {
+            return mOppoInfo;
         }
         return null;
     }
