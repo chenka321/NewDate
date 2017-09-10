@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.CompleteInfoActivity;
 import com.saku.dateone.ui.activities.LoginActivity;
+import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
 import com.saku.dateone.ui.presenters.MinePresenter;
@@ -180,6 +181,10 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
                 addFragment(recommendF);
                 break;
             case R.id.my_msg_tv:
+                Bundle bundle = new Bundle();
+                bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.CHAT_LIST);
+
+                toActivity(MainTabsActivity.class, bundle, false);
                 break;
             case R.id.feedBack_tv:
                 break;

@@ -15,12 +15,12 @@
         android:id="@+id/tab_rg"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:background="@color/colorPrimaryLight"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/frontpage_rb"
             style="@style/main_page_btn"
-            android:background="@color/colorPrimaryLight"
             android:drawableTop="@drawable/ic_frontpage_selector"
             android:text="@string/frontpage" />
 

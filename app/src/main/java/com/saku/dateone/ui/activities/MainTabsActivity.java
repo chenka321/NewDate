@@ -66,13 +66,13 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         mFrontpageRb.setChecked(true);
         mMainTabsVp.setPagingEnabled(false);
 
-        showPageOnIntent();
+        showPageOnIntent(getIntent());
     }
 
 
-    private void showPageOnIntent() {
-        if (getIntent() != null) {
-            final int page = getIntent().getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0);
+    private void showPageOnIntent(Intent intent) {
+        if (intent != null) {
+            final int page = intent.getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0);
             if (page == PageManager.RECOMMEND_LIST) {
 //                final Fragment recommendFragment = fragments.get(0);
 //                Bundle bundle = new Bundle();
@@ -138,7 +138,7 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         super.onNewIntent(intent);
         LLog.d("mainTabActivity ...onNewIntent ");
 
-        showPageOnIntent();
+        showPageOnIntent(intent);
     }
 
     @Override
