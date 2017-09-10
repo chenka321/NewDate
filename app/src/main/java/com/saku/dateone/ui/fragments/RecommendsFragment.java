@@ -93,17 +93,6 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         } else {
             mPresenter.loadNotLoginData();
         }
-//        if (getArguments() != null) {
-//            final int refreshWhich = getArguments().getInt(Consts.REFRESH_RECOMMEND);
-//            if (refreshWhich == Consts.REFRESH_RECOMMEND_LOGIN) {
-//                mPresenter.loadLoginData();
-//            } else if (refreshWhich == Consts.REFRESH_RECOMMEND_NOT_LOGIN) {
-//                mPresenter.loadNotLoginData();
-//            }
-//        } else {
-//            mPresenter.loadNotLoginData();
-//        }
-//        getArguments().remove(Consts.REFRESH_RECOMMEND);
     }
 
 
@@ -143,6 +132,11 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
         }
 
+    }
+
+
+    public void refresh() {
+        loadData();
     }
 
     @Override

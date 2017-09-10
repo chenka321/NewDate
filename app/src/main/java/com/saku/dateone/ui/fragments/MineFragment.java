@@ -160,8 +160,8 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         if (isVisibleToUser) {
             checkUserInfo();
         }
-
     }
+
 
     @Override
     public void refreshInfoView() {
@@ -181,10 +181,11 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
                 addFragment(recommendF);
                 break;
             case R.id.my_msg_tv:
-                Bundle bundle = new Bundle();
-                bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.CHAT_LIST);
-
-                toActivity(MainTabsActivity.class, bundle, false);
+                Bundle msgBundle = new Bundle();
+                final long userId = UserInfoManager.getInstance().getMyShowingInfo().userId;
+                msgBundle.putLong(Consts.MY_USER_ID, userId);
+                Fragment myMsgF = MyMsgFragment.newInstance(msgBundle);
+                addFragment(myMsgF);
                 break;
             case R.id.feedBack_tv:
                 break;

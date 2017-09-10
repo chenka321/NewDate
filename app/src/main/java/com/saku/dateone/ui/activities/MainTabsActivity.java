@@ -74,16 +74,11 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         if (intent != null) {
             final int page = intent.getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0);
             if (page == PageManager.RECOMMEND_LIST) {
-//                final Fragment recommendFragment = fragments.get(0);
-//                Bundle bundle = new Bundle();
-//                bundle.putInt(Consts.REFRESH_RECOMMEND, getIntent().getIntExtra(Consts.REFRESH_RECOMMEND, 0));
-//                recommendFragment.setArguments(bundle);
-
                 if (getIntent() != null ) {
                     Bundle b = new Bundle();
                     b.putInt(Consts.SHOW_MAIN_TAB_PAGE, getIntent().getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0));
-                    fragments.get(0).setArguments(b);
-                    getIntent().removeExtra(Consts.SHOW_MAIN_TAB_PAGE);
+//                    fragments.get(0).setArguments(b);
+                    ((RecommendsFragment) fragments.get(0)).refresh();
                 }
                 mMainTabsVp.setCurrentItem(0);
                 mTabRg.check(mFrontpageRb.getId());
@@ -100,8 +95,9 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
             } else {
                 mMainTabsVp.setCurrentItem(0);
                 mTabRg.check(mFrontpageRb.getId());
-
             }
+
+            getIntent().removeExtra(Consts.SHOW_MAIN_TAB_PAGE);
         } else {
             mMainTabsVp.setCurrentItem(0);
             mTabRg.check(mFrontpageRb.getId());
