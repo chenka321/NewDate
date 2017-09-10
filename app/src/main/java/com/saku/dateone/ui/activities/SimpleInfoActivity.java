@@ -80,6 +80,8 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
         birthdayTv.setOnClickListener(this);
         putMoreInfoTv.setOnClickListener(this);
 
+        putMoreInfoTv.getPaint().setUnderlineText(true);
+
 
     }
 

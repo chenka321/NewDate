@@ -168,6 +168,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void gotoLogin(int pageName, int requestCode, Bundle bundle) {
+        if (mContext == null) {
+            return;
+        }
         Intent i = new Intent(mContext, LoginActivity.class);
         if(bundle != null) {
             i.putExtras(bundle);

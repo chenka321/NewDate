@@ -53,7 +53,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
         setPresenter(new RecommendsPresenter(this));
 
-        setTitle();
+        showTitle(false);
         initRecyclerView();
         loadData();
     }
@@ -109,27 +109,14 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     public void onResume() {
         super.onResume();
         LLog.d("lm", "RecommendFragment onResume: ");
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        LLog.d("lm", "RecommendFragment onPause: ");
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        LLog.d("lm", "RecommendFragment onStart: ");
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        LLog.d("lm", "RecommendFragment onStop: ");
-
+        if (getArguments() != null) {
+            if (getArguments().getInt(Consts.SHOW_MAIN_TAB_PAGE) == PageManager.RECOMMEND_LIST) {
+                getArguments().remove(Consts.SHOW_MAIN_TAB_PAGE);
+                loadData();
+                LLog.d("lm", "onResume:  loading");
+            }
+        }
     }
 
     @Override

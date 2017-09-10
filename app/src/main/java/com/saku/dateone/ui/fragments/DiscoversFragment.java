@@ -76,13 +76,13 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
     @Override
     public void onResume() {
         super.onResume();
-        LLog.d("lm", "discoverFragment onResume: ");
-        if (getCurrentTab() != 2) {
-            return;
-        }
-        if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
-            gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
-        }
+        LLog.d("lm", "discoverFragment onResume: ");  // // 造成登录页面 没登录就返回 又进入登录页
+//        if (getCurrentTab() != 2) {
+//            return;
+//        }
+//        if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
+//            gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
+//        }
     }
 
     @Override
@@ -100,6 +100,17 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
     @Override
     public void setIsLoadingDiscover(boolean isLoading) {
         isLoadingDiscover = isLoading;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser) {
+            if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
+                gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
+            }
+        }
     }
 
     @Override

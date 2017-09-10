@@ -102,7 +102,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         super.onResume();
         LLog.d("lm", "MineFragment onResume: ");
 
-        checkUserInfo();
+//        checkUserInfo();  // 造成登录页面 没登录就返回 又进入登录页
     }
 
     private void checkUserInfo() {
@@ -128,16 +128,14 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
         LLog.d("lm", "MineFragment onHiddenChanged: ");
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LLog.d("lm", "MineFragment onActivityResult: ");
         if (requestCode == Consts.LOGIN_RQST_MINE && resultCode == LoginActivity.LOGIN_OK) {
-            mPresenter.checkUserInfo();
+            checkUserInfo();
         }
     }
 
@@ -145,6 +143,10 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         LLog.d("lm", "MineFragment setUserVisibleHint: " + isVisibleToUser);
+
+        if (isVisibleToUser) {
+            checkUserInfo();
+        }
 
     }
 

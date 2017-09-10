@@ -10,8 +10,8 @@ import java.util.List;
 */
 public class UserInfo {
     public int childGender; // 1 男， 2 女
-    public LocationInfo yourLocation = new LocationInfo();
-    public LocationInfo childLocation = new LocationInfo();
+//    public LocationInfo yourLocation = new LocationInfo();
+//    public LocationInfo childLocation = new LocationInfo();
 
 //    public boolean isLogin;
     public String token;

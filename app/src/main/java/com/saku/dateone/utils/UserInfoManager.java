@@ -127,8 +127,8 @@ public class UserInfoManager {
      */
     public boolean hasSimpleLocal() {
         final UserInfo showingInfo = getMyShowingInfo();
-        return showingInfo != null
-                && !(TextUtils.isEmpty(showingInfo.name)
+        return showingInfo != null &&
+                (!TextUtils.isEmpty(showingInfo.name)
                 && !TextUtils.isEmpty(showingInfo.birthday)
                 && !TextUtils.isEmpty(showingInfo.education));
     }

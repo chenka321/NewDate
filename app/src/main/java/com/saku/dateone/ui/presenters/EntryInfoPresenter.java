@@ -15,6 +15,8 @@ import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PreferenceUtil;
 
+import static android.text.TextUtils.concat;
+
 public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, EntryInfoContract.M> implements EntryInfoContract.P {
 
     @Override
@@ -44,13 +46,13 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
     @Override
     public void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district) {
         if (who == EntryInfoActivity.USER) {
-            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.province = province;
-            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.city = city;
-            UserInfoManager.getInstance().getMyPendingInfo().yourLocation.district = district;
+            final String bornLocation = "";
+            bornLocation.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
+            UserInfoManager.getInstance().getMyPendingInfo().bornLocation = bornLocation;
         } else {
-            UserInfoManager.getInstance().getMyPendingInfo().childLocation.province = province;
-            UserInfoManager.getInstance().getMyPendingInfo().childLocation.city = city;
-            UserInfoManager.getInstance().getMyPendingInfo().childLocation.district = district;
+            final String curentLoc = "";
+            curentLoc.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
+            UserInfoManager.getInstance().getMyPendingInfo().currentLocation = curentLoc;
         }
 
     }
