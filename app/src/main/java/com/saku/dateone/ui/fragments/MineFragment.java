@@ -144,7 +144,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LLog.d("lm", "MineFragment onActivityResult: ");
-        if (requestCode == Consts.LOGIN_RQST_MINE && resultCode == LoginActivity.LOGIN_OK) {
+        if (requestCode == Consts.LOGIN_RQST_MINE) {
             checkUserInfo();
         }
     }

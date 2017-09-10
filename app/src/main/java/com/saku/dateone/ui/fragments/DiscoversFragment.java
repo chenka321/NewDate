@@ -122,7 +122,7 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LLog.d("lm", "discoverFragment onActivityResult: ");
-        if (requestCode == Consts.LOGIN_RQST_DISCOVER && resultCode == LoginActivity.LOGIN_OK) {
+        if (requestCode == Consts.LOGIN_RQST_DISCOVER) {
             mPresenter.loadData();
         }
     }
