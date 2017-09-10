@@ -43,6 +43,9 @@ public abstract class UserInfoPresenter<V1 extends UserInfoContract.V, M1 extend
         UserInfoManager.getInstance().saveShowingInfo(userInfo);
         if (mView != null && !UserInfoManager.getInstance().hasSimpleLocal() ) {
             mView.showFillBasicInfoDialog();
+
+        } else if (mView != null){
+            mView.hideErrorView();
         }
     }
 }

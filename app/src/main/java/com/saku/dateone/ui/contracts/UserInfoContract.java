@@ -12,6 +12,11 @@ public interface UserInfoContract {
     interface V extends BaseView<P> {
 
         void showFillBasicInfoDialog();
+
+        void showErrorLogin();
+        void showErrorFillSimple();
+
+        void hideErrorView();
     }
 
     interface P extends BasePresenter{

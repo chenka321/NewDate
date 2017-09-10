@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/userinfo_error_fl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:clickable="false"
+    android:background="@color/white"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/login_in_userinfo_btn"
+        style="@style/next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/go_login"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/fill_simple_info_in_userinfo_btn"-->
+        <!--style="@style/next_btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="@string/go_fill"-->
+        <!--android:textSize="15sp" />-->
+</FrameLayout>

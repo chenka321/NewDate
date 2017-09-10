@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
 import com.saku.dateone.ui.presenters.MinePresenter;
@@ -40,21 +39,22 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     }
 
     @Override
-    protected View getContentView() {
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.s_mine_fragment, mFragmentRoot, false);
+    protected View getNormalContent() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.s_mine_fragment, mFragmentRoot, false);
         initViews(view);
         return view;
     }
 
-    @Override
-    public int getContainerId() {
-        return R.id.mine_root_ll;
-    }
+    //    @Override
+//    public int getContainerId() {
+//        return R.id.mine_root_fl;
+//    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        showTitle(false);
         Log.d("lm", "MineFragment onViewCreated: ");
         setPresenter(new MinePresenter(this));
 
@@ -109,14 +109,24 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         if (getCurrentTab() == 3) {
             if (UserInfoManager.getInstance().isLogin()) {
                 if (UserInfoManager.getInstance().hasSimpleLocal()) {
+                    hideErrorView();
                     fillViews();
                 } else {
-                    mPresenter.checkUserInfo();
+                    if (mPresenter.checkUserInfo()) {
+                        showErrorFillSimple();
+                    } else {
+                        hideErrorView();
+                    }
                 }
             } else {
-                gotoLogin(PageManager.MINE, Consts.LOGIN_RQST_MINE);
+                showErrorLogin();
             }
         }
+    }
+
+    @Override
+    protected void login() {
+        gotoLogin(PageManager.MINE, Consts.LOGIN_RQST_MINE);
     }
 
     @Override

@@ -40,17 +40,18 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
     }
 
     @Override
-    protected View getContentView() {
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.s_list_fragment, mFragmentRoot, false);
+    protected View getNormalContent() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.s_list_fragment, mFragmentRoot, false);
         this.listRv = (RecyclerView) view.findViewById(R.id.list);
-
         return view;
     }
 
+
     @Override
-    public int getContainerId() {
-        return R.id.frontpage_container_fl;
+    protected void login() {
+        gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -107,8 +108,13 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser) {
-            if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
-                gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
+            if (isLoadingDiscover) {
+                return;
+            }
+            if (!UserInfoManager.getInstance().isLogin()) {
+                showErrorLogin();
+            } else {
+                hideErrorView();
             }
         }
     }

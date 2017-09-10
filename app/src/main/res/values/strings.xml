@@ -74,6 +74,8 @@
     <string name="feedback">意见反馈</string>
     <string name="simple_info">填写基本信息</string>
     <string name="simple_info_content">需要填写基本信息才能正常使用哦！</string>
+    <string name="go_login">去登录</string>
+    <string name="go_fill">去填写</string>
 
 
 </resources>
