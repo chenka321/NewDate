@@ -1,9 +1,13 @@
 package com.saku.dateone.utils;
 
+import android.util.SparseArray;
+
 import com.saku.dateone.ui.bean.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liumin on 2017/9/6.
@@ -14,6 +18,7 @@ public class TypeManager {
 
     private List<Type> genders;
     private List<Type> companyTypes;
+    private SparseArray<String> companyTypeMap; // key是显示的id// , value是type 的name， 用于请求或者显示
     private List<Type> houses;
     private List<Type> cars;
     private List<Type> schoolTypes;
@@ -120,11 +125,39 @@ public class TypeManager {
         privateCompany.id = 4;
         privateCompany.name = "企业";
         companyTypes.add(privateCompany);
+        return companyTypes;
+    }
+
+    public SparseArray<String> getCompanyTypeMap() {
+        if (companyTypeMap != null) {
+            return companyTypeMap;
+        }
+        companyTypes = new ArrayList<>();
+        Type gov = new Type();
+        gov.id = 1;
+        gov.name = "政府";
+        companyTypes.add(gov);
+        Type publicService = new Type();
+        publicService.id = 2;
+        publicService.name = "事业单位";
+        companyTypes.add(publicService);
+        Type foreighCompany = new Type();
+        foreighCompany.id = 3;
+        foreighCompany.name = "外企";
+        companyTypes.add(foreighCompany);
+        Type privateCompany = new Type();
+        privateCompany.id = 4;
+        privateCompany.name = "企业";
+        companyTypes.add(privateCompany);
 
         setDialogShowingText(companyTypes);
 
+        companyTypeMap = new SparseArray<>();
 
-        return companyTypes;
+        for (Type type : companyTypes) {
+            companyTypeMap.put(type.id, type.name);
+        }
+        return companyTypeMap;
     }
 
     public void setCompanyTypes(List<Type> companyTypes) {

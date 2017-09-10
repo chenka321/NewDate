@@ -37,10 +37,15 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
     private TvCacheManager<TagString, List<TagString>> tvCacheManager;
     private int tagPadding;
     private int tagTop;
+    private int which;
 
-    public RecommendVProcessor(Context context, OnRecyclerClickCallBack listener) {
-        itemListener = listener;
+    /**
+     * @param which 1： 推荐列表， 2： 收藏列表
+     */
+    public RecommendVProcessor(Context context, int which, OnRecyclerClickCallBack itemClick) {
+        itemListener = itemClick;
         mContext = context;
+        this.which = which;
     }
 
     @Override
@@ -53,7 +58,6 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
         tagTop = UIUtils.convertDpToPx(1, mContext);
         final VHolder holder = new VHolder(view);
         holder.itemView.setOnClickListener(new OnRecyclerViewClickListener(holder, itemListener));
-//        Log.d("lm", "onCreateViewHolder: itemListener = " + itemListener + " , viewholder = " + holder);
         return holder;
     }
 
@@ -78,10 +82,19 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
 
         viewHolder.locationTv.setText(viewHolder.locationTv.getText().toString().concat(frontPageData.currentLocation));
         viewHolder.residenceLocTv.setText(viewHolder.residenceLocTv.getText().toString().concat(frontPageData.bornLocation));
-
         tvCacheManager.showTextView(frontPageData.tags, viewHolder.tagsTl);
-    }
 
+        if (which == 2) {
+            viewHolder.collectionTv.setVisibility(View.VISIBLE);
+            viewHolder.nameAgeOccupationTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+        } else {
+            viewHolder.collectionTv.setVisibility(View.GONE);
+            viewHolder.nameAgeOccupationTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_right, 0);
+            viewHolder.nameAgeOccupationTv.setCompoundDrawablePadding(15);
+        }
+
+    }
 
     private void setUpTvCacheManager() {
         tvCacheManager = new TvCacheManager<TagString, List<TagString>>(mContext) {
@@ -118,6 +131,7 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
         public TextView residenceLocTv;
         public TextView locationTv;
         public TagLayout tagsTl;
+        public final TextView collectionTv;
 
         public VHolder(View itemView) {
             super(itemView);
@@ -127,6 +141,7 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
             this.residenceLocTv = (TextView) itemView.findViewById(R.id.residence_loc_tv);
             this.locationTv = (TextView) itemView.findViewById(R.id.location_tv);
             this.tagsTl = (TagLayout) itemView.findViewById(R.id.tags_ll);
+            this.collectionTv = (TextView) itemView.findViewById(R.id.collection_tv);
         }
     }
 }

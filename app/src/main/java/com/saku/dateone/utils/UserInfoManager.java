@@ -34,7 +34,11 @@ public class UserInfoManager {
 
     public UserInfo getMyPendingInfo() {
         if (mMyPendingInfo == null) {
-            mMyPendingInfo = new UserInfo();
+            if (mMyShowingInfo != null) {
+                mMyPendingInfo = mMyShowingInfo;
+            } else {
+                mMyPendingInfo = new UserInfo();
+            }
         }
         return mMyPendingInfo;
     }
@@ -97,7 +101,7 @@ public class UserInfoManager {
             Log.d("lm", " userInfoManager isFirstLogin hasSimpleInfo : ");
             return false;
         }
-        Log.d("lm", "userInfoManager IS_FIRST_LOGIN : "+ PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true));
+        Log.d("lm", "userInfoManager IS_FIRST_LOGIN : " + PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true));
 
         return PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
     }
@@ -118,7 +122,7 @@ public class UserInfoManager {
     @Deprecated
     public boolean hasBasicInfo() {
         final boolean isFirstlogin = PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
-        return  (!isFirstlogin && hasSimpleLocal());
+        return (!isFirstlogin && hasSimpleLocal());
     }
 
 
@@ -129,8 +133,8 @@ public class UserInfoManager {
         final UserInfo showingInfo = getMyShowingInfo();
         return showingInfo != null &&
                 (!TextUtils.isEmpty(showingInfo.name)
-                && !TextUtils.isEmpty(showingInfo.birthday)
-                && !TextUtils.isEmpty(showingInfo.education));
+                        && !TextUtils.isEmpty(showingInfo.birthday)
+                        && !TextUtils.isEmpty(showingInfo.education));
     }
 
     /**
@@ -138,7 +142,7 @@ public class UserInfoManager {
      */
     public void copyPendingToShowing() {
         LLog.d("lm", " ------------- copyPendingToShowing: ");
-        if (mMyPendingInfo != null) {
+        if (getMyPendingInfo() != null) {
             final String tojson = GsonUtils.getInstance().tojson(mMyPendingInfo);
             PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_USER_INFO, tojson);
             setMyShowingInfo(mMyPendingInfo);

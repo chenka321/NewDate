@@ -167,7 +167,6 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
                 if (checkOnSubmit()) {
                     Bundle b = new Bundle();
                     b.putInt(Consts.COMPLETE_FROM_PAGE_NAME, PageManager.COMPLETE_INFO_MY_SIMPLE_INFO);
-
                     toActivity(CompleteInfoActivity.class, b, true);
                 }
                 break;

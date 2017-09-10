@@ -64,7 +64,7 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         mTitleLayout.setTitleContent("发现");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), mPresenter.getItemClickListener());
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), 1, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));

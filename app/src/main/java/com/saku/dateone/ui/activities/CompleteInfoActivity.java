@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,8 +28,6 @@ import com.saku.lmlib.dialog.OneColumnPickerDialog;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
-import java.util.List;
-
 /**
  * Created by liumin on 2017/8/15.
  */
@@ -43,7 +42,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         CompleteInfoContract.V {
 
     private EditText heightEt;
-    private TextView companyTv;
+    private TextView companyTypeTv;
     private EditText occupationTv;
     private EditText incomeEt;
     private TextView estateTv;
@@ -85,7 +84,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
     private void initView() {
         heightEt = (EditText) findViewById(R.id.input_height_et);
-        companyTv = (TextView) findViewById(R.id.input_company_tv);
+        companyTypeTv = (TextView) findViewById(R.id.input_company_tv);
         occupationTv = (EditText) findViewById(R.id.input_position_et);
         incomeEt = (EditText) findViewById(R.id.input_income_et);
         estateTv = (TextView) findViewById(R.id.input_estate_tv);
@@ -99,7 +98,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         uploadPicBtn = (Button) findViewById(R.id.upload_pic_btn);
         matchBtn = (Button) findViewById(R.id.match_btn);
 
-        companyTv.setOnClickListener(this);
+        companyTypeTv.setOnClickListener(this);
         estateTv.setOnClickListener(this);
         carTv.setOnClickListener(this);
         schoolTv.setOnClickListener(this);
@@ -145,7 +144,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
         }
 
-        if (TextUtils.isEmpty(companyTv.getText())) {
+        if (TextUtils.isEmpty(companyTypeTv.getText())) {
             Toast.makeText(this, "请填入选择单位性质", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -165,17 +164,16 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             return false;
         }
 
-//        String moreInfo = moreInfoEt.getText().toString().trim();
-//        if (TextUtils.isEmpty(moreInfo)) {
-//            Toast.makeText(this, "请输入你的宝贵意见", Toast.LENGTH_SHORT).show();
-//            return fillAll |= false;
-//        }
         final UserInfo pendingInfo = UserInfoManager.getInstance().getMyPendingInfo();
         pendingInfo.height = et;
         pendingInfo.position = tv;
         pendingInfo.income = income;
         pendingInfo.estateLocation = estate;
-        pendingInfo.company = companyTv.getText().toString();
+        final SparseArray<String> companyTypeMap = TypeManager.getInstance().getCompanyTypeMap();
+        final int index = companyTypeMap.indexOfValue(companyTypeTv.getText().toString());
+        final int key = companyTypeMap.keyAt(index);
+        pendingInfo.company = key;
+
         pendingInfo.house = estateTv.getText().toString();
         pendingInfo.car = carTv.getText().toString();
         pendingInfo.schoolType = schoolTv.getText().toString();
@@ -196,7 +194,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                     @Override
                     public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
                         mCurrComType = typeValue;
-                        companyTv.setText(typeValue.textShowing);
+                        companyTypeTv.setText(typeValue.textShowing);
                         dialog.dismiss();
                     }
                 });

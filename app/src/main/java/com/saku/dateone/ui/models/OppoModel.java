@@ -19,7 +19,7 @@ public class OppoModel extends ABaseModel<OppoInfoContract.P> implements OppoInf
         oppoInfo.birthday = "1990-2-15";
         oppoInfo.bornLocation = "黑龙江-松花江市";
         oppoInfo.currentLocation = "深圳市-深圳";
-        oppoInfo.company = "马兰坡文化公司";
+        oppoInfo.company = 1;
         oppoInfo.education = "博士";
         oppoInfo.income = "60k";
         oppoInfo.name = "小杜鹃";

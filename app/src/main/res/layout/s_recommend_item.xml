@@ -25,12 +25,11 @@
                 tools:src="@drawable/user_example" />
         </com.saku.lmlib.views.RoundRectFrameLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:paddingLeft="10dp"
-            android:orientation="vertical">
+            android:paddingLeft="10dp">
 
             <TextView
                 android:id="@+id/name_age_occupation_tv"
@@ -43,6 +42,7 @@
 
             <TextView
                 android:id="@+id/residence_loc_tv"
+                android:layout_below="@id/name_age_occupation_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -54,6 +54,7 @@
 
             <TextView
                 android:id="@+id/location_tv"
+                android:layout_below="@id/residence_loc_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -63,7 +64,19 @@
                 android:drawableLeft="@drawable/location"
                 android:drawablePadding="5dp"
                 tools:text="现居  上海浦东新区"/>
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/collection_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_collection"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:drawablePadding="10dp"
+                android:layout_alignParentRight="true"
+                android:textColor="#555555"
+                android:text="@string/collection"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <View

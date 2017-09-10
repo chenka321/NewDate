@@ -18,6 +18,7 @@ import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
+import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
@@ -117,7 +118,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         birthdayTv.setText(getString(R.string.birthday, userinfo.birthday));
         degreeTv.setText(getString(R.string.degree, userinfo.education));
         occupationTv.setText(getString(R.string.occupation, userinfo.position));
-        fieldworkTv.setText(getString(R.string.industry, userinfo.company));
+        fieldworkTv.setText(getString(R.string.industry, TypeManager.getInstance().getCompanyTypeMap().get(userinfo.company)));
         salaryTv.setText(getString(R.string.salary, userinfo.income));
     }
 

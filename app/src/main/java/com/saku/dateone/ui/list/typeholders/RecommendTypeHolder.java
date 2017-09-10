@@ -11,10 +11,13 @@ import java.util.List;
 
 public class RecommendTypeHolder extends BaseTypeHolder<List<ItemData>> {
 
-    public RecommendTypeHolder(Context context, OnRecyclerClickCallBack listener) {
+    /**
+     * @param which  1： 推荐列表， 2： 收藏列表
+     */
+    public RecommendTypeHolder(Context context, int which, OnRecyclerClickCallBack itemListener) {
         super(context);
 
-        mViewPros.put(1, new RecommendVProcessor(mContext, listener));
+        mViewPros.put(1, new RecommendVProcessor(mContext, which, itemListener));
     }
 
 

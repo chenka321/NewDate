@@ -26,7 +26,7 @@ public class UserInfo {
     public String currentLocation; // 省市县
     public String birthday;
     public String education; // 学历
-    public String company;  // 所在公司
+    public int company;  // 公司性质
     public String position;
     public String income;
     public boolean isCollected;

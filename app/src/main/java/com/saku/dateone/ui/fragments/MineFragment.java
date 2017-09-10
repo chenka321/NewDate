@@ -3,6 +3,7 @@ package com.saku.dateone.ui.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
+import com.saku.dateone.ui.activities.CompleteInfoActivity;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
@@ -169,8 +171,13 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_edit_tv:
+                toActivity(CompleteInfoActivity.class, null, false);
                 break;
             case R.id.collection_tv:
+                Bundle b = new Bundle();
+                b.putInt(Consts.RECOMMEND_TYPE, 2);
+                Fragment recommendF = RecommendsFragment.newInstance(b);
+                addFragment(recommendF);
                 break;
             case R.id.my_msg_tv:
                 break;

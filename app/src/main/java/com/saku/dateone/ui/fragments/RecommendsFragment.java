@@ -27,6 +27,7 @@ import java.util.List;
 public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> implements RecommendsContract.V {
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
+    private int pageType;
 
     public static RecommendsFragment newInstance(Bundle bundle) {
         RecommendsFragment f = new RecommendsFragment();
@@ -53,14 +54,15 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
         setPresenter(new RecommendsPresenter(this));
 
-        showTitle(false);
         initRecyclerView();
+        setTitle();
         loadData();
     }
 
     private void initRecyclerView() {
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), mPresenter.getItemClickListener());
+        pageType = getArguments() != null ? getArguments().getInt(Consts.RECOMMEND_TYPE, 1) : 1;
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), pageType, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));
@@ -68,6 +70,11 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
     private void setTitle() {
         showTitle(true);
+        if (pageType == 2) {
+            mTitleLayout.setTitleContent("收藏");
+            mTitleLayout.showLeftBtn(true);
+            return;
+        }
         final String bornLocation = UserInfoManager.getInstance().getMyPendingInfo().bornLocation;
         if (TextUtils.isEmpty(bornLocation)) {
             mTitleLayout.setTitleContent("推荐列表");
