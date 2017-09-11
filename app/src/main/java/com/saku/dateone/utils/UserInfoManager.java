@@ -4,7 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.saku.dateone.DateApplication;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PreferenceUtil;
 

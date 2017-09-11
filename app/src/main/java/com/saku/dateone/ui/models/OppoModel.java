@@ -1,6 +1,6 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 
 import java.util.ArrayList;

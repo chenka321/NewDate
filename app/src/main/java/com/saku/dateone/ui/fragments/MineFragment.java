@@ -13,9 +13,7 @@ import android.widget.TextView;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.CompleteInfoActivity;
-import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.activities.MainTabsActivity;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
 import com.saku.dateone.ui.presenters.MinePresenter;
 import com.saku.dateone.utils.Consts;

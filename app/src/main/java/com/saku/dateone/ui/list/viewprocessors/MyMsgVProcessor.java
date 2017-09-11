@@ -1,33 +1,19 @@
 package com.saku.dateone.ui.list.viewprocessors;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.MyMsg;
-import com.saku.dateone.ui.bean.TagString;
-import com.saku.dateone.ui.list.data.RecommendItemData;
+import com.saku.dateone.bean.MyMsg;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.list.listeners.OnRecyclerViewClickListener;
 import com.saku.lmlib.list.viewprocessor.ListViewPorcessor;
 import com.saku.lmlib.utils.DateUtils;
-import com.saku.lmlib.utils.ImageUtils;
-import com.saku.lmlib.utils.ShowUtils;
-import com.saku.lmlib.utils.TvCacheManager;
-import com.saku.lmlib.utils.UIUtils;
-import com.saku.lmlib.views.TagLayout;
 
 import java.util.List;
 

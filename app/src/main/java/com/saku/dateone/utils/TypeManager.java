@@ -2,12 +2,10 @@ package com.saku.dateone.utils;
 
 import android.util.SparseArray;
 
-import com.saku.dateone.ui.bean.Type;
+import com.saku.dateone.bean.Type;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liumin on 2017/9/6.

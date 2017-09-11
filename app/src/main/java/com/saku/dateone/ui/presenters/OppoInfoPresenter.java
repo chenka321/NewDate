@@ -1,7 +1,6 @@
 package com.saku.dateone.ui.presenters;
 
-import com.saku.dateone.ui.bean.MoreInfo;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.models.OppoModel;
 

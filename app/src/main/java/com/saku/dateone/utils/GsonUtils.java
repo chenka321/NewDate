@@ -1,6 +1,7 @@
 package com.saku.dateone.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -35,7 +36,8 @@ public class GsonUtils {
 
     public Gson getGson() {
         if (gson == null) {
-            gson = new Gson();
+//            gson = new Gson();
+            gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
         }
         return gson;
     }

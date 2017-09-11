@@ -5,8 +5,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.bean.TagString;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.TagString;
 import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.activities.OppoInfoActivity;
 import com.saku.dateone.ui.list.data.RecommendItemData;
@@ -16,7 +15,6 @@ import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
-import com.saku.lmlib.utils.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;

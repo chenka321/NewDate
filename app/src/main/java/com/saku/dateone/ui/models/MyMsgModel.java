@@ -1,9 +1,7 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.bean.MyMsg;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.MyMsg;
 import com.saku.dateone.ui.contracts.MyMsgContract;
-import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.lmlib.list.data.ItemData;
 
 import java.util.ArrayList;

@@ -1,10 +1,7 @@
 package com.saku.dateone.ui.presenters;
 
-import com.saku.dateone.ui.bean.UserInfo;
-import com.saku.dateone.ui.contracts.BaseView;
-import com.saku.dateone.ui.contracts.MineContract;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.UserInfoContract;
-import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.utils.UserInfoManager;
 
 /**

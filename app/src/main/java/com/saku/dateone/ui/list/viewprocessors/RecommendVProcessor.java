@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.TagString;
+import com.saku.dateone.bean.TagString;
 import com.saku.dateone.ui.list.data.RecommendItemData;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;

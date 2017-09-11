@@ -1,6 +1,6 @@
 package com.saku.dateone.ui.list.data;
 
-import com.saku.dateone.ui.bean.TagString;
+import com.saku.dateone.bean.TagString;
 import com.saku.lmlib.list.data.ItemData;
 
 import java.util.List;

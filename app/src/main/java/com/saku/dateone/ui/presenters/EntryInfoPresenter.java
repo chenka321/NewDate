@@ -8,14 +8,11 @@ import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.saku.dateone.ui.activities.EntryInfoActivity;
 import com.saku.dateone.ui.activities.MainTabsActivity;
-import com.saku.dateone.ui.bean.UserInfo;
 import com.saku.dateone.ui.contracts.EntryInfoContract;
 import com.saku.dateone.ui.models.BasicInfoModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PreferenceUtil;
-
-import static android.text.TextUtils.concat;
 
 public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, EntryInfoContract.M> implements EntryInfoContract.P {
 

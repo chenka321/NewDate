@@ -1,28 +1,14 @@
 package com.saku.dateone.ui.presenters;
 
-import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
-import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.ui.activities.OppoInfoActivity;
-import com.saku.dateone.ui.bean.MyMsg;
-import com.saku.dateone.ui.bean.TagString;
+import com.saku.dateone.bean.MyMsg;
 import com.saku.dateone.ui.contracts.MyMsgContract;
-import com.saku.dateone.ui.contracts.RecommendsContract;
-import com.saku.dateone.ui.list.data.RecommendItemData;
 import com.saku.dateone.ui.models.MyMsgModel;
-import com.saku.dateone.ui.models.RecommendsModel;
-import com.saku.dateone.utils.Consts;
-import com.saku.dateone.utils.PageManager;
-import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.saku.dateone.ui.activities.OppoInfoActivity.USER_ID;
 
 /**
  * User: liumin

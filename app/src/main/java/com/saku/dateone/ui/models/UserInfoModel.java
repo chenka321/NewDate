@@ -1,7 +1,6 @@
 package com.saku.dateone.ui.models;
 
-import com.saku.dateone.ui.bean.UserInfo;
-import com.saku.dateone.ui.contracts.MineContract;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.UserInfoContract;
 
 public class UserInfoModel<P extends UserInfoContract.P> extends ABaseModel<P> implements UserInfoContract.M {

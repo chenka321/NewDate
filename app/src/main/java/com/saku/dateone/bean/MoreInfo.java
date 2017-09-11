@@ -1,6 +1,4 @@
-package com.saku.dateone.ui.bean;
-
-import java.util.List;
+package com.saku.dateone.bean;
 
 /**
  * User: liumin

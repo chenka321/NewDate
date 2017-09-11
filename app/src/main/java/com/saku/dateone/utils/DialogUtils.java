@@ -2,10 +2,9 @@ package com.saku.dateone.utils;
 
 import android.content.Context;
 
-import com.saku.dateone.ui.bean.Type;
+import com.saku.dateone.bean.Type;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
-import com.saku.lmlib.model.SingleWheelData;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.saku.dateone.ui.bean;
+package com.saku.dateone.bean;
 
 import java.util.List;
 

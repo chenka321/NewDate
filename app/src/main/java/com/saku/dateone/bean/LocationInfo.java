@@ -1,4 +1,4 @@
-package com.saku.dateone.ui.bean;
+package com.saku.dateone.bean;
 
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;

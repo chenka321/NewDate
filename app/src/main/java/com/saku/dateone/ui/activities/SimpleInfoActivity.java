@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.Type;
+import com.saku.dateone.bean.Type;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
 import com.saku.dateone.utils.Consts;

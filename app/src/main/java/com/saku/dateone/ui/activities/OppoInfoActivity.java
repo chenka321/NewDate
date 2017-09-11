@@ -14,7 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
-import com.saku.dateone.ui.bean.UserInfo;
+import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
