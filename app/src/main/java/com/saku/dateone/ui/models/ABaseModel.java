@@ -53,7 +53,7 @@ public abstract class ABaseModel<P extends BasePresenter> implements BaseModel {
         }
     }
 
-    protected <T> ObservableTransformer<T, T> defaultSchedulers() {
+    private <T> ObservableTransformer<T, T> defaultSchedulers() {
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(@NonNull Observable<T> upstream) {
@@ -62,18 +62,6 @@ public abstract class ABaseModel<P extends BasePresenter> implements BaseModel {
             }
         };
     }
-
-
-
-//    public static <T> FlowableTransformer<T, T> defaultSchedulers1() {
-//        return new FlowableTransformer<T, T>() {
-//            @Override
-//            public Publisher<T> apply(@NonNull Flowable<T> upstream) {
-//                return upstream.subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread());
-//            }
-//        };
-//    }
 
     /**
      * 订阅网络请求返回的被观察者，传入观察者，对接这一对关系，并且完成线程切换，返回观察者
@@ -88,43 +76,4 @@ public abstract class ABaseModel<P extends BasePresenter> implements BaseModel {
                 .subscribeWith(observer);
     }
 
-    public void test() {
-        final Observable<ApiResponse<String>> loginObsv = mApi.login("123");
-//        final Observable<ApiResponse<String>> loginObsv = null;
-
-//        loginObsv.observeOn(Schedulers.io())
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//        loginObsv.compose(ABaseModel.<ApiResponse<String>>defaultSchedulers())
-//                .subscribeWith(new DisposableObserver<ApiResponse<String>>() {
-//            @Override
-//            public void onNext(@NonNull ApiResponse<String> s) {
-//
-//            }
-//
-//            @Override
-//            public void onError(@NonNull Throwable e) {
-//
-//            }
-//
-//            @Override
-//            public void onComplete() {
-//
-//            }
-//        });
-
-        mComDisposable.add(
-        loginObsv.compose(this.<ApiResponse<String>>defaultSchedulers())
-                .subscribeWith(new RespObserver<ApiResponse<String>, String>() {
-
-                    @Override
-                    public void onSuccess(String data) {
-
-                    }
-
-                    @Override
-                    public void onFail(int code, String msg) {
-
-                    }
-                }));
-    }
 }
