@@ -38,4 +38,5 @@ public abstract class ABasePresenter<V extends BaseView<? extends BasePresenter>
     protected void onFail(int code, String msg){}
 
     protected abstract M getModel();
+
 }

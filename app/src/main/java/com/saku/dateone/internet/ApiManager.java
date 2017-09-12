@@ -28,7 +28,7 @@ public class ApiManager {
 
     private ApiManager() {}
 
-    public ApiManager getAllApis() {
+    public static ApiManager getAllApis() {
         if (sAllApis == null) {
             synchronized (ApiManager.class) {
                 if (sAllApis == null) {

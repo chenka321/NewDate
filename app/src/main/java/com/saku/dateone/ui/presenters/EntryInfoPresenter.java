@@ -66,7 +66,7 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
 
     @Override
     public void onStartMatchResult(int code, String msg) {
-//        onResult(code, msg);
+//        onSuccess(code, msg);
         if (mView == null) {
             return;
         }

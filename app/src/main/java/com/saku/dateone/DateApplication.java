@@ -3,11 +3,14 @@ package com.saku.dateone;
 import android.app.Application;
 import android.content.Context;
 
+import com.saku.dateone.internet.ApiManager;
 import com.saku.dateone.utils.TypeManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PreferenceUtil;
 import com.saku.lmlib.utils.SystemUtil;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 public class DateApplication extends Application {
 
@@ -26,6 +29,7 @@ public class DateApplication extends Application {
         mAppContext = this;
 
         UserInfoManager.getInstance().recoverMyInfoFromPreference();
+
     }
 
     public static Context getAppContext() {

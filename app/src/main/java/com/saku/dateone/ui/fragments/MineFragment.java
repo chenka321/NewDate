@@ -90,10 +90,10 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         }
         mineUserNameTv.setText(userInfo.name);
         mineUserBirthdayTv.setText(userInfo.birthday);
-        if (!TextUtils.isEmpty(userInfo.image)) {
-            ImageUtils.loadImageWithGlide(mContext, userInfo.image, 0, userIv);
+        if (!TextUtils.isEmpty(userInfo.userImage)) {
+            ImageUtils.loadImageWithGlide(mContext, userInfo.userImage, 0, userIv);
         }
-        mineUserIdTv.setText(getString(R.string.user_id, "" + userInfo.userId));
+        mineUserIdTv.setText(getString(R.string.user_id, "" + userInfo.id));
 
     }
 
@@ -180,7 +180,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
                 break;
             case R.id.my_msg_tv:
                 Bundle msgBundle = new Bundle();
-                final long userId = UserInfoManager.getInstance().getMyShowingInfo().userId;
+                final long userId = UserInfoManager.getInstance().getMyShowingInfo().id;
                 msgBundle.putLong(Consts.MY_USER_ID, userId);
                 Fragment myMsgF = MyMsgFragment.newInstance(msgBundle);
                 addFragment(myMsgF);

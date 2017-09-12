@@ -92,7 +92,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         occupationTv = (EditText) findViewById(R.id.input_position_et);
         incomeTv = (TextView) findViewById(R.id.input_income_tv);
         estateTv = (TextView) findViewById(R.id.input_estate_tv);
-        estateLocEt = (EditText) findViewById(R.id.input_estate_loc_et);
+//        estateLocEt = (EditText) findViewById(R.id.input_estate_loc_et);
         carTv = (TextView) findViewById(R.id.input_car_tv);
         schoolTv = (TextView) findViewById(R.id.input_school_tv);
         schoolNameEt = (EditText) findViewById(R.id.input_school_name_et);
