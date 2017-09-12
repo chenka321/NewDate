@@ -71,15 +71,15 @@
             style="@style/opp_chat_tv"
             tools:text="学历:  研究生" />
 
-        <TextView
-            android:id="@+id/opp_fieldwork_tv"
-            style="@style/opp_chat_tv"
-            tools:text="行业:  金融" />
+        <!--<TextView-->
+            <!--android:id="@+id/opp_fieldwork_tv"-->
+            <!--style="@style/opp_chat_tv"-->
+            <!--tools:text="行业:  金融" />-->
 
         <TextView
             android:id="@+id/opp_occupation_tv"
             style="@style/opp_chat_tv"
-            tools:text="职业:  产品总监" />
+            tools:text="职业:  医生" />
 
         <TextView
             android:id="@+id/opp_salary_tv"

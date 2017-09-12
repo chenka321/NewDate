@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.saku.dateone.R;
-import com.saku.dateone.bean.Type;
+import com.saku.dateone.bean.Dict;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
 import com.saku.dateone.utils.Consts;
@@ -44,7 +44,7 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
     private EditText nameEt;
     private TextView educationTv;
     private TextView birthdayTv;
-    private Type mDegree;  // 学历
+    private Dict mEducationDict;  // 学历
     private long mSelectBirthday;
     private TextView putMoreInfoTv;
 
@@ -103,27 +103,18 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
     private boolean checkOnSubmit() {
         boolean fillAll = true;
         // validate
-        String et = nameEt.getText().toString().trim();
-        if (TextUtils.isEmpty(et)) {
-            Toast.makeText(this, "请填入姓名", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        String name = nameEt.getText().toString().trim();
+        if (UIUtils.showToast(this, name, "请填入姓名")) return false;
 
-        String tv = educationTv.getText().toString().trim();
-        if (TextUtils.isEmpty(tv)) {
-            Toast.makeText(this, "请填入学历", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        String education = educationTv.getText().toString().trim();
+        if (UIUtils.showToast(this, education, "请选择学历")) return false;
 
         String birthday = birthdayTv.getText().toString().trim();
-        if (TextUtils.isEmpty(birthday)) {
-            Toast.makeText(this, "请填入出生日期", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        if (UIUtils.showToast(this, birthday, "请选择出生日期")) return false;
 
-        UserInfoManager.getInstance().getMyPendingInfo().name = nameEt.getText().toString();
-        UserInfoManager.getInstance().getMyPendingInfo().education = educationTv.getText().toString();
-        UserInfoManager.getInstance().getMyPendingInfo().birthday = birthdayTv.getText().toString();
+        UserInfoManager.getInstance().getMyPendingInfo().name =name;
+        UserInfoManager.getInstance().getMyPendingInfo().education = mEducationDict.id;
+        UserInfoManager.getInstance().getMyPendingInfo().birthday =birthday;
         return true;
     }
 
@@ -135,11 +126,11 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
         }
         switch (v.getId()) {
             case R.id.input_education_tv:
-                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getDegrees(), mDegree, new OneColumnPickerDialog.SelectListener<Type>() {
+                dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getTypeConfig().education, mEducationDict, new OneColumnPickerDialog.SelectListener<Dict>() {
                     @Override
-                    public void onSelect(OneColumnPickerDialog dialog, Type typeValue) {
-                        mDegree = typeValue;
-                        educationTv.setText(typeValue.textShowing);
+                    public void onSelect(OneColumnPickerDialog dialog, Dict type) {
+                        mEducationDict = type;
+                        educationTv.setText(type.textShowing);
                         dialog.dismiss();
                     }
                 });

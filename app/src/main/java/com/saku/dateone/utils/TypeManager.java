@@ -1,26 +1,35 @@
 package com.saku.dateone.utils;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.saku.dateone.bean.Type;
+import com.saku.dateone.DateApplication;
+import com.saku.dateone.bean.Dict;
+import com.saku.dateone.bean.TypeConfig;
+import com.saku.lmlib.utils.PreferenceUtil;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liumin on 2017/9/6.
  */
 
 public class TypeManager {
+    private static final String DICT_TYPES = "dict_types";
     private static TypeManager sManager;
 
-    private List<Type> genders;
-    private List<Type> companyTypes;
+    private SparseArray<String> incomeMap;
+    private SparseArray<String> gendersMap;
     private SparseArray<String> companyTypeMap; // key是显示的id// , value是type 的name， 用于请求或者显示
-    private List<Type> houses;
-    private List<Type> cars;
-    private List<Type> schoolTypes;
-    private List<Type> degrees;
+    private SparseArray<String> housesMap;
+    private SparseArray<String> carsMap;
+    private SparseArray<String> schoolTypesMap;
+    private SparseArray<String> educationMap;
+    private SparseArray<String> userTypeMap;
+    private TypeConfig mTypeConfig; // 从后端拿到的字典类型列表
+    private Map<String, List<Dict>> mAllTypes;  // key = dictValue
 
     private TypeManager() {
     }
@@ -34,215 +43,191 @@ public class TypeManager {
         return sManager;
     }
 
-
-    public List<Type> getDegrees() {
-        if (degrees != null) {
-            return degrees;
+    /**
+     * 请求字典接口成功或失败都需要调
+     */
+    public void setTypeConfig(TypeConfig config) {
+        if (config == null) {
+            final String dictsCacheStr = PreferenceUtil.getString(DateApplication.getAppContext(), DICT_TYPES, "");
+            final TypeConfig typeConfig = GsonUtils.getInstance().getGson().fromJson(dictsCacheStr, TypeConfig.class);
+            this.mTypeConfig = typeConfig == null ? new TypeConfig() : typeConfig;
+        } else {
+            final String dictsStr = GsonUtils.getInstance().tojson(config);
+            PreferenceUtil.putString(DateApplication.getAppContext(), DICT_TYPES, dictsStr);
+            this.mTypeConfig = config == null ? new TypeConfig() : config;
         }
-        degrees = new ArrayList<>();
-        Type doctor = new Type();
-        doctor.id = 1;
-        doctor.name = "博士";
-        degrees.add(doctor);
-        Type postGrad = new Type();
-        postGrad.id = 2;
-        postGrad.name = "硕士";
-        degrees.add(postGrad);
-
-        Type grad = new Type();
-        grad.id = 2;
-        grad.name = "本科";
-        degrees.add(grad);
-
-        Type highSchool = new Type();
-        highSchool.id = 2;
-        highSchool.name = "高中";
-        degrees.add(highSchool);
-
-        Type vocaccion = new Type();
-        vocaccion.id = 2;
-        vocaccion.name = "大专";
-        degrees.add(vocaccion);
-
-        setDialogShowingText(degrees);
-        return degrees;
+        configToShowMap(config);
+        configToSourceMap();
     }
 
-    public void setDegrees(List<Type> degrees) {
-        this.degrees = degrees;
+    public TypeConfig getTypeConfig() {
+        return mTypeConfig;
     }
 
-
-
-    public List<Type> getGenders() {
-        if (genders != null) {
-            return genders;
-        }
-        genders = new ArrayList<>();
-        Type female = new Type();
-        female.id = 1;
-        female.name = "女";
-        genders.add(female);
-        Type male = new Type();
-        male.id = 2;
-        male.name = "男";
-        genders.add(male);
-
-        setDialogShowingText(genders);
-        return genders;
+    /**
+     * 转化成以dictValue为键， list为值的map
+     */
+    private void configToSourceMap() {
+        mAllTypes = new HashMap<>();
+        putToSourceMap(mTypeConfig.car);
+        putToSourceMap(mTypeConfig.income);
+        putToSourceMap(mTypeConfig.companyType);
+        putToSourceMap(mTypeConfig.education);
+        putToSourceMap(mTypeConfig.gender);
+        putToSourceMap(mTypeConfig.house);
+        putToSourceMap(mTypeConfig.userType);
+        putToSourceMap(mTypeConfig.schoolType);
     }
 
-    private void setDialogShowingText(List<Type> list) {
-        for (int i = 0; i < list.size(); i++) {
-            list.get(i).textShowing = list.get(i).name;
+    private void putToSourceMap(List<Dict> source) {
+        if (source != null && source.size() > 0) {
+            mAllTypes.put(source.get(0).dictValue, source);
         }
     }
 
-    public void setGenders(List<Type> genders) {
-        this.genders = genders;
+
+    /**
+     * 转化成展示的map
+     */
+    private void configToShowMap(TypeConfig config) {
+        if (config == null) {
+            convertToIncomeMap(null);
+            convertToCarsMap(null);
+            convertToCompanyTypeMap(null);
+            convertToEducationMap(null);
+            convertToGendersMap(null);
+            convertToHousesMap(null);
+            convertToSchoolTypesMap(null);
+            return;
+        }
+        convertToIncomeMap(config.income);
+        convertToCarsMap(config.car);
+        convertToCompanyTypeMap(config.companyType);
+        convertToEducationMap(config.education);
+        convertToGendersMap(config.gender);
+        convertToHousesMap(config.house);
+        convertToSchoolTypesMap(config.schoolType);
     }
 
-    public List<Type> getCompanyTypes() {
-        if (companyTypes != null) {
-            return companyTypes;
-        }
-        companyTypes = new ArrayList<>();
-        Type gov = new Type();
-        gov.id = 1;
-        gov.name = "政府";
-        companyTypes.add(gov);
-        Type publicService = new Type();
-        publicService.id = 2;
-        publicService.name = "事业单位";
-        companyTypes.add(publicService);
-        Type foreighCompany = new Type();
-        foreighCompany.id = 3;
-        foreighCompany.name = "外企";
-        companyTypes.add(foreighCompany);
-        Type privateCompany = new Type();
-        privateCompany.id = 4;
-        privateCompany.name = "企业";
-        companyTypes.add(privateCompany);
-        return companyTypes;
+    public SparseArray<String> getIncomeMap() {
+        return incomeMap;
+    }
+
+    public void convertToIncomeMap(List<Dict> source) {
+        this.incomeMap = convertToMap(source);
+    }
+
+    public SparseArray<String> getGendersMap() {
+        return gendersMap;
+    }
+
+    public void convertToGendersMap(List<Dict> genderDicts) {
+        this.gendersMap = convertToMap(genderDicts);
     }
 
     public SparseArray<String> getCompanyTypeMap() {
-        if (companyTypeMap != null) {
-            return companyTypeMap;
-        }
-        companyTypes = new ArrayList<>();
-        Type gov = new Type();
-        gov.id = 1;
-        gov.name = "政府";
-        companyTypes.add(gov);
-        Type publicService = new Type();
-        publicService.id = 2;
-        publicService.name = "事业单位";
-        companyTypes.add(publicService);
-        Type foreighCompany = new Type();
-        foreighCompany.id = 3;
-        foreighCompany.name = "外企";
-        companyTypes.add(foreighCompany);
-        Type privateCompany = new Type();
-        privateCompany.id = 4;
-        privateCompany.name = "企业";
-        companyTypes.add(privateCompany);
-
-        setDialogShowingText(companyTypes);
-
-        companyTypeMap = new SparseArray<>();
-
-        for (Type type : companyTypes) {
-            companyTypeMap.put(type.id, type.name);
-        }
         return companyTypeMap;
     }
 
-    public void setCompanyTypes(List<Type> companyTypes) {
-        this.companyTypes = companyTypes;
+    public void convertToCompanyTypeMap(List<Dict> companyTypeDicts) {
+        this.companyTypeMap = convertToMap(companyTypeDicts);
     }
 
-    public List<Type> getHouses() {
-        if (houses != null) {
-            return houses;
+    public SparseArray<String> getHousesMap() {
+        return housesMap;
+    }
+
+    public void convertToHousesMap(List<Dict> housesDicts) {
+        this.housesMap = convertToMap(housesDicts);
+    }
+
+    public SparseArray<String> getCarsMap() {
+        return carsMap;
+    }
+
+    public void convertToCarsMap(List<Dict> carDicts) {
+        this.carsMap = convertToMap(carDicts);
+    }
+
+    public SparseArray<String> getSchoolTypesMap() {
+        return schoolTypesMap;
+    }
+
+    public void convertToSchoolTypesMap(List<Dict> schoolDicts) {
+        this.schoolTypesMap = convertToMap(schoolDicts);
+    }
+
+    public SparseArray<String> getEducationMap() {
+        return educationMap;
+    }
+
+    public void convertToEducationMap(List<Dict> educationDicts) {
+        this.educationMap = convertToMap(educationDicts);
+    }
+
+
+    private void setDialogShowingText(List<Dict> list) {
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).textShowing = list.get(i).dictDesc;
         }
-        houses = new ArrayList<>();
-        Type noHouse = new Type();
-        noHouse.id = 1;
-        noHouse.name = "无房";
-        houses.add(noHouse);
-        Type hasHouse = new Type();
-        hasHouse.id = 2;
-        hasHouse.name = "有房";
-        houses.add(hasHouse);
-        Type multiHouse = new Type();
-        multiHouse.id = 3;
-        multiHouse.name = "多套";
-        houses.add(multiHouse);
-
-        setDialogShowingText(houses);
-
-        return houses;
     }
 
-    public void setHouses(List<Type> houses) {
-        this.houses = houses;
-    }
-
-    public List<Type> getCars() {
-        if (cars != null) {
-            return cars;
+    /**
+     * 转化成展示数据
+     *
+     * @param dicts 数据源
+     * @return key:字典id， value： 展示的文字
+     */
+    private SparseArray<String> convertToMap(List<Dict> dicts) {
+        if (dicts == null) {
+            return new SparseArray<>();
         }
-        cars = new ArrayList<>();
-        Type noCar = new Type();
-        noCar.id = 1;
-        noCar.name = "无车";
-        cars.add(noCar);
-        Type hasCar = new Type();
-        hasCar.id = 2;
-        hasCar.name = "有车";
-        cars.add(hasCar);
+        setDialogShowingText(dicts);
 
-        setDialogShowingText(cars);
-
-
-        return cars;
-    }
-
-    public void setCars(List<Type> cars) {
-        this.cars = cars;
-    }
-
-    public List<Type> getSchoolTypes() {
-        if (schoolTypes != null) {
-            return schoolTypes;
+        SparseArray<String> map = new SparseArray<>();
+        for (Dict dict : dicts) {
+            map.put(dict.id, dict.dictDesc);
         }
-        schoolTypes = new ArrayList<>();
-        Type firstLevel = new Type();
-        firstLevel.id = 1;
-        firstLevel.name = "一本";
-        schoolTypes.add(firstLevel);
-        Type two11 = new Type();
-        two11.id = 2;
-        two11.name = "211";
-        schoolTypes.add(two11);
-
-        Type nine85 = new Type();
-        nine85.id = 3;
-        nine85.name = "985";
-        schoolTypes.add(nine85);
-        Type overseaPrestige = new Type();
-        overseaPrestige.id = 4;
-        overseaPrestige.name = "国外名牌院校";
-        schoolTypes.add(overseaPrestige);
-
-        setDialogShowingText(schoolTypes);
-
-
-        return schoolTypes;
+        return map;
     }
 
-    public void setSchoolTypes(List<Type> schoolTypes) {
-        this.schoolTypes = schoolTypes;
+    public String getMapValue(SparseArray<String> sourceMap, int key) {
+        if (sourceMap != null) {
+//            final int index = sourceMap.indexOfKey(key);
+//            if (index < sourceMap.size()) {
+//                return sourceMap.get()
+//            }
+            return TextUtils.isEmpty(sourceMap.get(key)) ? "" : sourceMap.get(key);
+        }
+        return "";
+    }
+
+    public int getMapKey(SparseArray<String> sourceMap, String value) {
+
+        if (sourceMap != null && null != value) {
+            for (int i = 0; i < sourceMap.size(); i++) {
+                final String typeValue = sourceMap.valueAt(i);
+                if (null == typeValue) {
+                    continue;
+                }
+                if (typeValue.equals(value)) {
+                    return sourceMap.keyAt(i);
+                }
+            }
+            return -1;
+        }
+        return -1;
+    }
+
+    public Dict getDict(int id, List<Dict> source) {
+        if (source == null) {
+            return null;
+        }
+        for (Dict d : source) {
+            if (d.id == id) {
+                return d;
+            }
+        }
+        return null;
     }
 }

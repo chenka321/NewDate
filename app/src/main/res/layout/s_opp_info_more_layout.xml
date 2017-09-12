@@ -27,10 +27,10 @@
         style="@style/opp_chat_tv"
         tools:text="房产:  有房" />
 
-    <TextView
-        android:id="@+id/opp_estate_loc_tv"
-        style="@style/opp_chat_tv"
-        tools:text="房产位置:  上海" />
+    <!--<TextView-->
+        <!--android:id="@+id/opp_estate_loc_tv"-->
+        <!--style="@style/opp_chat_tv"-->
+        <!--tools:text="房产位置:  上海" />-->
 
     <TextView
         android:id="@+id/opp_cars_tv"

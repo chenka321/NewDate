@@ -80,11 +80,10 @@
                     style="@style/user_info_tv"
                     android:text="@string/income" />
 
-                <EditText
-                    android:id="@+id/input_income_et"
-                    style="@style/user_info_et"
-                    android:hint="请填入收入"
-                    android:inputType="text" />
+                <TextView
+                    android:id="@+id/input_income_tv"
+                    style="@style/user_info_right_tv"
+                    android:hint="请选择收入" />
             </LinearLayout>
 
             <View
@@ -99,29 +98,29 @@
 
                 <TextView
                     android:id="@+id/input_estate_tv"
-                    android:hint="请选择房产信息"
-                    style="@style/user_info_right_tv"/>
+                    style="@style/user_info_right_tv"
+                    android:hint="请选择房产信息" />
             </LinearLayout>
 
             <View
                 style="@style/HorizontalLine" />
 
-            <LinearLayout
-                style="@style/user_info_ll">
+            <!--<LinearLayout-->
+                <!--style="@style/user_info_ll">-->
 
-                <TextView
-                    style="@style/user_info_tv"
-                    android:text="@string/estate_loc" />
+                <!--<TextView-->
+                    <!--style="@style/user_info_tv"-->
+                    <!--android:text="@string/estate_loc" />-->
 
-                <EditText
-                    android:id="@+id/input_estate_loc_et"
-                    style="@style/user_info_et"
-                    android:hint="请填入房产位置"
-                    android:inputType="text" />
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:id="@+id/input_estate_loc_et"-->
+                    <!--style="@style/user_info_et"-->
+                    <!--android:hint="请填入房产位置"-->
+                    <!--android:inputType="text" />-->
+            <!--</LinearLayout>-->
 
-            <View
-                style="@style/HorizontalLine" />
+            <!--<View-->
+                <!--style="@style/HorizontalLine" />-->
 
             <LinearLayout
                 style="@style/user_info_ll">
@@ -152,6 +151,21 @@
                     style="@style/user_info_right_tv"/>
             </LinearLayout>
 
+            <View
+                style="@style/HorizontalLine" />
+
+            <!--&lt;!&ndash;<LinearLayout&ndash;&gt;  基本信息中填了-->
+                <!--style="@style/user_info_ll">-->
+
+                <!--<TextView-->
+                    <!--style="@style/user_info_tv"-->
+                    <!--android:text="@string/degree_info" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/input_degree_tv"-->
+                    <!--android:hint="请选择学历"-->
+                    <!--style="@style/user_info_right_tv"/>-->
+            <!--</LinearLayout>-->
             <View
                 style="@style/HorizontalLine" />
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
@@ -37,7 +38,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     private TextView locationTv;
     private TextView birthdayTv;
     private TextView degreeTv;
-    private TextView fieldworkTv;
+//    private TextView fieldworkTv;
     private TextView occupationTv;
     private TextView salaryTv;
     private TextView viewMoreTv;
@@ -46,7 +47,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     private boolean isMoreInfoOpen;
     private TextView oppHeightTv;
     private TextView oppEstateTv;
-    private TextView oppEstateLocTv;
+//    private TextView oppEstateLocTv;
     private TextView oppCarsTv;
     private TextView oppHobbyTv;
     private TextView oppSchoolTv;
@@ -93,7 +94,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         locationTv = (TextView) findViewById(R.id.opp_location_tv);
         birthdayTv = (TextView) findViewById(R.id.opp_birthday_tv);
         degreeTv = (TextView) findViewById(R.id.opp_education_tv);
-        fieldworkTv = (TextView) findViewById(R.id.opp_fieldwork_tv);
+//        fieldworkTv = (TextView) findViewById(R.id.opp_fieldwork_tv);
         occupationTv = (TextView) findViewById(R.id.opp_occupation_tv);
         salaryTv = (TextView) findViewById(R.id.opp_salary_tv);
         viewMoreTv = (TextView) findViewById(R.id.view_more_tv);
@@ -116,10 +117,12 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         residenceTv.setText(getString(R.string.residence, userinfo.bornLocation));
         locationTv.setText(getString(R.string.currentLocation, userinfo.currentLocation));
         birthdayTv.setText(getString(R.string.birthday, userinfo.birthday));
-        degreeTv.setText(getString(R.string.degree, userinfo.education));
-        occupationTv.setText(getString(R.string.occupation, userinfo.position));
-        fieldworkTv.setText(getString(R.string.industry, TypeManager.getInstance().getCompanyTypeMap().get(userinfo.company)));
-        salaryTv.setText(getString(R.string.salary, userinfo.income));
+        final String educationType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getEducationMap(), userinfo.education);
+        degreeTv.setText(getString(R.string.degree, educationType));
+        occupationTv.setText(getString(R.string.occupation, userinfo.profession));
+        final String incomeType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getIncomeMap(), userinfo.income);
+//        fieldworkTv.setText(getString(R.string.industry, TypeManager.getInstance().getCompanyTypeMap().get(userinfo.company)));
+        salaryTv.setText(getString(R.string.salary, incomeType));
     }
 
     @Override
@@ -164,7 +167,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
     private void initMoreViews(final LinearLayout moreInfoLl, UserInfo userInfo) {
         oppHeightTv = (TextView) moreInfoLl.findViewById(R.id.opp_height_tv);
         oppEstateTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_tv);
-        oppEstateLocTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_loc_tv);
+//        oppEstateLocTv = (TextView) moreInfoLl.findViewById(R.id.opp_estate_loc_tv);
         oppCarsTv = (TextView) moreInfoLl.findViewById(R.id.opp_cars_tv);
         oppHobbyTv = (TextView) moreInfoLl.findViewById(R.id.opp_hobby_tv);
         oppSchoolTv = (TextView) moreInfoLl.findViewById(R.id.opp_school_tv);
@@ -176,20 +179,23 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
             return;
         }
 
-        oppHeightTv.setText(getString(R.string.height_info, userInfo.height));
-        oppEstateTv.setText(getString(R.string.has_house, userInfo.house));
-        oppEstateLocTv.setText(getString(R.string.house_loc, userInfo.estateLocation));
-        oppCarsTv.setText(getString(R.string.has_car, userInfo.car));
+        oppHeightTv.setText(getString(R.string.height_info, "" + userInfo.height));
+        final String houseType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getCarsMap(), userInfo.house);
+        oppEstateTv.setText(getString(R.string.has_house, houseType));
+//        oppEstateLocTv.setText(getString(R.string.house_loc, userInfo.estateLocation));
+        final String carType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getCarsMap(), userInfo.car);
+        oppCarsTv.setText(getString(R.string.has_car, carType));
         oppHobbyTv.setText(getString(R.string.hobby_info, userInfo.hobby));
-        oppSchoolTv.setText(getString(R.string.grad_school, userInfo.schoolType));
+        final String schoolType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getCarsMap(), userInfo.schoolType);
+        oppSchoolTv.setText(getString(R.string.grad_school, schoolType));
         oppSchoolNameTv.setText(getString(R.string.school_name_info, userInfo.school));
         oppOtherTv.setText(getString(R.string.addition_info, userInfo.moreIntroduce));
 
-        if (userInfo.pics == null || userInfo.pics.size() == 0) {
+        if (userInfo.photo == null || userInfo.photo.size() == 0) {
             return;
         }
         picRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        picRv.setAdapter(new OppoPicAdapter(this, userInfo.pics));
+        picRv.setAdapter(new OppoPicAdapter(this, userInfo.photo));
 
         moreInfoLl.post(new Runnable() {
             @Override

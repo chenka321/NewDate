@@ -97,10 +97,10 @@
                 style="@style/opp_chat_tv"
                 tools:text="学历:  研究生" />
 
-            <TextView
-                android:id="@+id/opp_fieldwork_tv"
-                style="@style/opp_chat_tv"
-                tools:text="行业:  金融" />
+            <!--<TextView-->
+                <!--android:id="@+id/opp_fieldwork_tv"-->
+                <!--style="@style/opp_chat_tv"-->
+                <!--tools:text="行业:  金融" />-->
 
             <TextView
                 android:id="@+id/opp_occupation_tv"

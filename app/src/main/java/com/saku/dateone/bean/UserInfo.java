@@ -1,5 +1,8 @@
 package com.saku.dateone.bean;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -18,31 +21,97 @@ public class UserInfo {
 
     //******* 基本信息
 
-    public long userId;
-    public String name;
-    // TODO: 2017/9/10 用户图片
-    public String image;  // 缺字段
-    public String bornLocation; // 省市县
-    public String currentLocation; // 省市县
-    public String birthday;
-    public String education; // 学历
-    public int company;  // 公司性质
-    public String position;
-    public String income;
-    public boolean isCollected;
-
+    @SerializedName("hasMoreInfo")
+    @Expose
     public boolean hasMoreInfo = true;
 
-    //****** 更多信息
-    public String height;
-    public String house;
-    // TODO: 2017/9/10 房产位置
-    public String estateLocation;
-    public String car;
+    @SerializedName("id")
+    @Expose
+    public long id;
+    @SerializedName("name")
+    @Expose
+    public String name;
+    @SerializedName("parentId")
+    @Expose
+    public int parentId;
+    @SerializedName("gender")
+    @Expose
+    public int gender;
+    @SerializedName("bornLocation")
+    @Expose
+    public String bornLocation;
+    @SerializedName("currentLocation")
+    @Expose
+    public String currentLocation;
+    @SerializedName("birthday")
+    @Expose
+    public String birthday;
+    @SerializedName("height")
+    @Expose
+    public int height;
+    @SerializedName("education")
+    @Expose
+    public int education;
+    @SerializedName("profession")  // 职业
+    @Expose
+    public String profession;
+    @SerializedName("company")
+    @Expose
+    public int company;
+    @SerializedName("position")
+    @Expose
+    public String position;
+    @SerializedName("schoolType")
+    @Expose
+    public int schoolType;
+    @SerializedName("school")
+    @Expose
     public String school;
-    public String schoolType;
+    @SerializedName("income")
+    @Expose
+    public int income;
+    @SerializedName("car")
+    @Expose
+    public int car;
+    @SerializedName("house")
+    @Expose
+    public int house;
+    @SerializedName("photo")
+    @Expose
+    public List<String> photo;  // 更多照片
+    @SerializedName("userImage")
+    @Expose
+    public String userImage;  // 用户头像
+    @SerializedName("hobby")
+    @Expose
     public String hobby;
+    @SerializedName("score")
+    @Expose
+    public int score;
+    @SerializedName("label")
+    @Expose
+    public List<TagString> label;  // 企业高管，多才多艺
+    @SerializedName("createdate")
+    @Expose
+    public int createdate;
+    @SerializedName("lastmodified")
+    @Expose
+    public int lastmodified;
+    @SerializedName("parent")
+    @Expose
+    public UserInfo parent;
+
+    @SerializedName("children")
+    @Expose
+    public UserInfo children;
+    @SerializedName("isCollected")
+    @Expose
+    public boolean isCollected;
+    //****** 更多信息
+    @SerializedName("moreIntroduce")
+    @Expose
     public String moreIntroduce;
-    public List<String> pics;
+
+    private final static long serialVersionUID = 6174277449626158915L;
 
 }

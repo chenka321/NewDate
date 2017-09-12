@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.dialog.CustomDialog;
@@ -89,6 +90,17 @@ public class UIUtils {
 //            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
         }
-
     }
+
+    /**
+     * @return 是否显示Toast
+     */
+    public static boolean showToast(Context context, String text, String errorText) {
+        if (TextUtils.isEmpty(text)) {
+            Toast.makeText(context, errorText, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
 }

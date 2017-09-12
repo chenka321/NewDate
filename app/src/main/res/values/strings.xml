@@ -60,7 +60,7 @@
     <string name="currentLocation">现居:  %s</string>
     <string name="birthday">生日:  %s</string>
     <string name="degree">学历:  %s</string>
-    <string name="industry">行业:  %s</string>
+    <!--<string name="industry">行业:  %s</string>-->
     <string name="occupation">职业:  %s</string>
     <string name="height_info">身高:  %s</string>
     <string name="has_house">房产:  %s</string>
@@ -68,14 +68,15 @@
     <string name="salary">薪资:  %s</string>
     <string name="has_car">车辆情况:  %s</string>
     <string name="hobby_info">爱好:  %s</string>
-    <string name="grad_school">毕业学校:  %s</string>
-    <string name="school_name_info">学校名称:  %s</string>
+    <string name="grad_school">毕业学校类型:  %s</string>
+    <string name="school_name_info">毕业学校名称:  %s</string>
     <string name="addition_info">补充说明:  %s</string>
     <string name="feedback">意见反馈</string>
     <string name="simple_info">填写基本信息</string>
     <string name="simple_info_content">需要填写基本信息才能正常使用哦！</string>
     <string name="go_login">去登录</string>
     <string name="go_fill">去填写</string>
+    <string name="degree_info">学历</string>
 
 
 </resources>

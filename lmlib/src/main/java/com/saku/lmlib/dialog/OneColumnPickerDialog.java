@@ -32,7 +32,7 @@ public class OneColumnPickerDialog extends Dialog {
     }
 
     public interface SelectListener<D extends SingleWheelData> {
-        void onSelect(OneColumnPickerDialog dialog, D typeValue);
+        void onSelect(OneColumnPickerDialog dialog, D type);
     }
 
     public static class Builder<T extends SingleWheelData> extends BaseDialogBuilder<Builder> {

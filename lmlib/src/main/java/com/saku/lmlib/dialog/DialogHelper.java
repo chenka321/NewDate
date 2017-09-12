@@ -1,6 +1,7 @@
 package com.saku.lmlib.dialog;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.saku.lmlib.model.SingleWheelData;
 import com.saku.lmlib.utils.LLog;
@@ -16,6 +17,10 @@ public class DialogHelper {
                                                                  T current,
                                                                  OneColumnPickerDialog.SelectListener<T> confirmListener) {
         LLog.d("searchSources: " + displayList);
+        if (displayList == null) {
+            Toast.makeText(context, "没有数据源！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int selectedIndex = 0;
         if (current != null && displayList.contains(current)) {
             selectedIndex = displayList.indexOf(current);
@@ -26,7 +31,7 @@ public class DialogHelper {
                 .setConfirmListener(confirmListener)
                 .setCancelListener(new OneColumnPickerDialog.SelectListener<T>() {
                     @Override
-                    public void onSelect(OneColumnPickerDialog dialog, T typeValue) {
+                    public void onSelect(OneColumnPickerDialog dialog, T type) {
                         dialog.dismiss();
                     }
 

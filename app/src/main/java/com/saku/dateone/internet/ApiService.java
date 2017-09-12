@@ -29,8 +29,13 @@ public interface ApiService {
             @Path("url") String url,
             @QueryMap Map<String, String> maps);
 
-
     @POST("/api/commonuser/login")
-    Observable<ApiResponse> login(@Field("phone") String phone);
+    Observable<ApiResponse<String>> login(@Field("phone") String phone);
+
+    /**
+     * 未登录是的信息推荐
+     */
+    @GET("/api/recommend/show/unlogin")
+    Observable<ApiResponse> unloginRecommend(@Field("phone") String phone);
 
 }

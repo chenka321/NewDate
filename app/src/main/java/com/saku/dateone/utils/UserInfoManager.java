@@ -134,7 +134,7 @@ public class UserInfoManager {
         return showingInfo != null &&
                 (!TextUtils.isEmpty(showingInfo.name)
                         && !TextUtils.isEmpty(showingInfo.birthday)
-                        && !TextUtils.isEmpty(showingInfo.education));
+                        && showingInfo.education != 0);
     }
 
     /**

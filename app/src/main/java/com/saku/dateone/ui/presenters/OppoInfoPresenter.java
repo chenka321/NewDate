@@ -26,7 +26,7 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
         if (mOppoInfo == null) {
             return;
         }
-        mView.updateUserNameIv(mOppoInfo.image, mOppoInfo.name);
+        mView.updateUserNameIv(mOppoInfo.userImage, mOppoInfo.name);
         mView.updateBasicInfo(mOppoInfo);
     }
 
@@ -43,7 +43,7 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
         if (mOppoInfo == null) {
             return;
         }
-        mModel.saveCollection(mOppoInfo.userId);
+        mModel.saveCollection(mOppoInfo.id);
     }
 
     @Override

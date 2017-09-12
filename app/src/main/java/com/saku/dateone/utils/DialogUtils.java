@@ -2,7 +2,7 @@ package com.saku.dateone.utils;
 
 import android.content.Context;
 
-import com.saku.dateone.bean.Type;
+import com.saku.dateone.bean.Dict;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
 
@@ -16,8 +16,8 @@ public class DialogUtils {
     private DialogHelper dialogHelper = new DialogHelper();
 
 
-    public void popSingleColumnDialog(Context context, List<Type> source, Type current,
-                                      OneColumnPickerDialog.SelectListener<Type> listener) {
+    public void popSingleColumnDialog(Context context, List<Dict> source, Dict current,
+                                      OneColumnPickerDialog.SelectListener<Dict> listener) {
         dialogHelper.showSingleListDialog(context, source, current, listener);
     }
 
