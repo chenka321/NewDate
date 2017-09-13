@@ -1,16 +1,12 @@
 package com.saku.dateone.ui.contracts;
 
 
-import android.os.Bundle;
-import android.view.View;
-
-import com.lljjcoder.city_20170724.bean.CityBean;
-import com.lljjcoder.city_20170724.bean.DistrictBean;
-import com.lljjcoder.city_20170724.bean.ProvinceBean;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface CompleteInfoContract {
     interface V extends BaseView<P> {
@@ -23,8 +19,6 @@ public interface CompleteInfoContract {
     }
 
     interface P extends BasePresenter{
-        /** 选择照片返回 */
-        void onChooseImages(List<String> imgsChosen);
 
          /** 点击简单信息填写页面的开始匹配 */
         void onMatchSimpleClicked();
@@ -34,11 +28,14 @@ public interface CompleteInfoContract {
         /** 点击补充信息填写页面的开始匹配 */
         void onMatchCompleteClicked();
         void onMatchCompleteResult(int code, String msg);
+
+        RespObserver<ApiResponse<String>, String> getUploadPicObserver();
     }
 
     interface M extends BaseModel{
         void startSimpleMatch(); // 开始匹配
         void startCompleteMatch(); // 开始完整信息页面匹配
-        void saveImage();
+
+        void uploadPics(ArrayList<String> picList);  // 上传图片
     }
 }

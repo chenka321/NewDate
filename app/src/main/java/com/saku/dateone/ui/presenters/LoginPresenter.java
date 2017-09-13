@@ -2,12 +2,16 @@ package com.saku.dateone.ui.presenters;
 
 import android.util.Log;
 
+import com.saku.dateone.bean.LoginData;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.activities.SimpleInfoActivity;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.contracts.LoginContract.P;
 import com.saku.dateone.ui.models.LoginModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PageHelper;
 import com.saku.lmlib.utils.PreferenceUtil;
 
@@ -25,6 +29,7 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
     @Override
     public void onLoginBtnClicked(String phoneNumber, String veriCode) {
         Log.d("lm", "onLoginBtnClicked: " + phoneNumber + " , veriCode = " + veriCode);
+        mView.showLoading();
         mModel.login(phoneNumber, veriCode);
     }
 
@@ -35,22 +40,31 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
     }
 
     @Override
-    public void onLogin(int code, String msg) {
-        if (mView == null) {
-            return;
-        }
-        // todo 返回是否第一次登录, token
-//        boolean firstLogin = PreferenceUtil.getBoolean(mView.getViewContext(), Consts.IS_FIRST_LOGIN, true);
-        final boolean firstLogin = UserInfoManager.getInstance().isFirstLogin();
-        String myToken = "lnlllnnnnn";
+    public void onGetVeriCode(int code, String msg) {
 
-        Log.d("lm", "onLogin: firstLogin = " + firstLogin);
-        UserInfoManager.getInstance().setLoginState(myToken, firstLogin);
-        mView.goToNext();
     }
 
     @Override
-    public void onGetVeriCode(int code, String msg) {
+    public RespObserver<ApiResponse<LoginData>, LoginData> getLoginObserver() {
+        return new RespObserver<ApiResponse<LoginData>, LoginData>() {
+            @Override
+            public void onSuccess(LoginData data) {
+                if (mView != null) {
+                    mView.dismissLoading();
+                }
+                LLog.d("lm", "onSuccess: token" + data.token + " , firstLogin " + data.isFirstLogin);
+                UserInfoManager.getInstance().setLoginState(data.token, data.isFirstLogin);
+                mView.goToNext();
+            }
 
+            @Override
+            public void onFail(int code, String msg) {
+                if (mView != null) {
+                    mView.dismissLoading();
+                }
+                LLog.d("lm", "onSuccess: onFail" + msg);
+
+            }
+        };
     }
 }

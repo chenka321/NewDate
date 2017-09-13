@@ -159,6 +159,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             mLoadingDialog.setCancelable(false);
             mLoadingDialog.setMessage("正在加载...");
         }
+        if (mLoadingDialog.isShowing()) {
+            return;
+        }
         mLoadingDialog.show();
     }
 

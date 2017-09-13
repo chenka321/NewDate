@@ -99,11 +99,8 @@ public class UserInfoManager {
      */
     public boolean isFirstLogin() {
         if (hasSimpleLocal()) {
-            Log.d("lm", " userInfoManager isFirstLogin hasSimpleInfo : ");
             return false;
         }
-        Log.d("lm", "userInfoManager IS_FIRST_LOGIN : " + PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true));
-
         return PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
     }
 

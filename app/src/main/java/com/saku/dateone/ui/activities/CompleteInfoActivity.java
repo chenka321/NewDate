@@ -229,11 +229,12 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 selectAlbum();
                 break;
             case R.id.match_btn:
+                // TODO: 2017/9/14 检查所填的内容
+//                if (checkOnSubmit()) {
+//                    mPresenter.onMatchCompleteClicked();
+//                }
+                mPresenter.onMatchCompleteClicked();
 
-                if (checkOnSubmit()) {
-                    LLog.d("fill all");
-                    mPresenter.onMatchCompleteClicked();
-                }
                 break;
         }
     }
@@ -333,19 +334,23 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             mPresenter.setPicList(mTotalPics);
             picListAdapter.notifyDataSetChanged();
         } else if (requestCode == SEE_BIG_PIC) {
-            final String picDelete = data.getStringExtra(BigPicActivity.PIC_PATH_DELETE);
-            if (TextUtils.isEmpty(picDelete)) {
-                return;
-            }
-
-            for (Iterator<String> iterator = mTotalPics.iterator(); iterator.hasNext();) {
-                String pic = iterator.next();
-                if (picDelete.equals(pic)) {
-                    iterator.remove();
-                }
-            }
-            picListAdapter.notifyDataSetChanged();
+            deletePicture(data);
         }
+    }
+
+    private void deletePicture(Intent data) {
+        final String picDelete = data.getStringExtra(BigPicActivity.PIC_PATH_DELETE);
+        if (TextUtils.isEmpty(picDelete)) {
+            return;
+        }
+
+        for (Iterator<String> iterator = mTotalPics.iterator(); iterator.hasNext();) {
+            String pic = iterator.next();
+            if (picDelete.equals(pic)) {
+                iterator.remove();
+            }
+        }
+        picListAdapter.notifyDataSetChanged();
     }
 
     @Override

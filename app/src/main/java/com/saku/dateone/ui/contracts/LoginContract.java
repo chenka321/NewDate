@@ -1,5 +1,8 @@
 package com.saku.dateone.ui.contracts;
 
+import com.saku.dateone.bean.LoginData;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.lmlib.list.data.ItemData;
@@ -23,11 +26,10 @@ public interface LoginContract {
          * @param phoneNumber 手机号码
          */
         void onGetVeriCodeClicked(String phoneNumber);
-
-        /** 登录接口回调 */
-        void onLogin(int code, String msg);
         /** 验证码接口回调 */
         void onGetVeriCode(int code, String msg);
+
+        RespObserver<ApiResponse<LoginData>, LoginData> getLoginObserver();
     }
 
     interface M extends BaseModel {

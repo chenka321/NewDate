@@ -1,6 +1,7 @@
 package com.saku.dateone.internet;
 
 import com.saku.dateone.bean.Article;
+import com.saku.dateone.bean.LoginData;
 import com.saku.dateone.bean.TypeConfig;
 import com.saku.dateone.bean.UserInfo;
 
@@ -14,6 +15,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -31,9 +33,9 @@ public interface ApiService {
     long CONNECT_TIME_OUT = 10;
     String BASE_URL = "http://119.23.220.163:8080";
 
-
+    @FormUrlEncoded
     @POST("/api/commonuser/login")
-    Observable<ApiResponse<String>> login(@Field("phone") String phone);
+    Observable<ApiResponse<LoginData>> login(@Field("phone") String phone);
 
 //
 //
