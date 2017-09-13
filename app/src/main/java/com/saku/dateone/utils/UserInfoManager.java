@@ -3,6 +3,7 @@ package com.saku.dateone.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.JsonSyntaxException;
 import com.saku.dateone.DateApplication;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.lmlib.utils.LLog;
@@ -61,15 +62,15 @@ public class UserInfoManager {
     }
 
     public void recoverMyInfoFromPreference() {
-        final boolean firstLogin = PreferenceUtil.getBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
-        final String myToken = PreferenceUtil.getString(DateApplication.getAppContext(), Consts.MY_TOKEN, "");
-        final long myUserId = PreferenceUtil.getLong(DateApplication.getAppContext(), Consts.MY_USER_ID, 0);
-
         final String myInfoStr = PreferenceUtil.getString(DateApplication.getAppContext(), Consts.MY_USER_INFO, "");
 
         if (!TextUtils.isEmpty(myInfoStr)) {
-            final UserInfo userInfo = GsonUtils.getInstance().getGson().fromJson(myInfoStr, UserInfo.class);
-            setMyShowingInfo(userInfo);
+            try {
+                final UserInfo userInfo = GsonUtils.getInstance().getGson().fromJson(myInfoStr, UserInfo.class);
+                setMyShowingInfo(userInfo);
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
         }
     }
 

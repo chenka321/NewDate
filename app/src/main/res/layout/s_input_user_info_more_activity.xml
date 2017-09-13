@@ -166,9 +166,8 @@
                     <!--android:hint="请选择学历"-->
                     <!--style="@style/user_info_right_tv"/>-->
             <!--</LinearLayout>-->
-            <View
-                style="@style/HorizontalLine" />
-
+            <!--<View-->
+                <!--style="@style/HorizontalLine" />-->
 
             <LinearLayout
                 style="@style/user_info_ll">
@@ -176,7 +175,6 @@
                 <TextView
                     style="@style/user_info_tv"
                     android:text="@string/school_name" />
-
 
                 <EditText
                     android:id="@+id/input_school_name_et"
@@ -186,9 +184,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                 android:background="#eeeeee"/>
+                style="@style/HorizontalLine" />
 
             <TextView
                 android:text="@string/hobby"
@@ -214,6 +210,12 @@
                 android:background="@drawable/bg_dark_line_box"
                 android:hint="请输入你的宝贵意见"/>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/upload_pic_rv"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="10dp"/>
+
             <Button
                 android:id="@+id/upload_pic_btn"
                 android:text="@string/upload_pic"
@@ -221,13 +223,6 @@
                 android:layout_width="150dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/upload_pic_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp" />
 
             <Button
                 android:id="@+id/match_btn"

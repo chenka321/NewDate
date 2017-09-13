@@ -10,13 +10,15 @@ import java.util.List;
  * Date: 2017-8-31
  * Time: 15:43
  * Description: 用户信息
-*/
+ */
 public class UserInfo {
     public int childGender; // 1 男， 2 女
 //    public LocationInfo yourLocation = new LocationInfo();
 //    public LocationInfo childLocation = new LocationInfo();
 
-//    public boolean isLogin;
+    //    public boolean isLogin;
+    @SerializedName("token")
+    @Expose
     public String token;
 
     //******* 基本信息

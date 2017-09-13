@@ -103,7 +103,7 @@ public class SplashActivity extends BaseActivity implements LocationListener {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case PermissionHelper.LOCATION_PERMISSION_REQUEST_CODE: {
+            case PermissionHelper.LOCATION_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     catchLocation();

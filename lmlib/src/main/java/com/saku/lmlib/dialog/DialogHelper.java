@@ -17,7 +17,7 @@ public class DialogHelper {
                                                                  T current,
                                                                  OneColumnPickerDialog.SelectListener<T> confirmListener) {
         LLog.d("searchSources: " + displayList);
-        if (displayList == null) {
+        if (displayList == null || displayList.size() == 0) {
             Toast.makeText(context, "没有数据源！", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -1,9 +1,14 @@
 package com.saku.dateone.ui.activities;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +22,7 @@ import com.saku.dateone.R;
 import com.saku.dateone.bean.Dict;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
+import com.saku.dateone.ui.list.typeholders.StringTypeHolder;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
@@ -24,10 +30,18 @@ import com.saku.dateone.utils.TypeManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.DialogHelper;
 import com.saku.lmlib.dialog.OneColumnPickerDialog;
+import com.saku.lmlib.helper.PermissionHelper;
+import com.saku.lmlib.list.adapter.StringAdapter;
+import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * Created by liumin on 2017/8/15.
@@ -41,7 +55,7 @@ import java.util.List;
  */
 public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> implements View.OnClickListener,
         CompleteInfoContract.V {
-
+    private static final int REQUEST_ALBUM = 2; // 选择相册照片
     private EditText heightEt;
     private TextView companyTypeTv;
     private EditText occupationTv;
@@ -51,7 +65,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private TextView carTv;
     private TextView schoolTv;
     private EditText schoolNameEt;
-//    private TextView educationTv;
+    //    private TextView educationTv;
     private GridView hobbyGv;
     private EditText moreInfoEt;
     private RecyclerView uploadPicRv;
@@ -63,7 +77,9 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     private Dict mCurrHouseDict;
     private Dict mCurrCarDict;
     private Dict mSchoolDict;
-//    private Dict mEducationDict;
+    private StringAdapter picListAdapter;
+    private File mImageFile;
+    private ArrayList<String> mTotalPics;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,17 +108,21 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         occupationTv = (EditText) findViewById(R.id.input_position_et);
         incomeTv = (TextView) findViewById(R.id.input_income_tv);
         estateTv = (TextView) findViewById(R.id.input_estate_tv);
-//        estateLocEt = (EditText) findViewById(R.id.input_estate_loc_et);
         carTv = (TextView) findViewById(R.id.input_car_tv);
         schoolTv = (TextView) findViewById(R.id.input_school_tv);
         schoolNameEt = (EditText) findViewById(R.id.input_school_name_et);
-//        educationTv = (TextView) findViewById(R.id.input_degree_tv);
         hobbyGv = (GridView) findViewById(R.id.hobby_gv);
         moreInfoEt = (EditText) findViewById(R.id.more_info_et);
         uploadPicRv = (RecyclerView) findViewById(R.id.upload_pic_rv);
         uploadPicBtn = (Button) findViewById(R.id.upload_pic_btn);
         matchBtn = (Button) findViewById(R.id.match_btn);
 
+        uploadPicRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        uploadPicRv.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL));
+        StringTypeHolder typeHolder = new StringTypeHolder(this, mPresenter.getPicItemClickListener());
+        picListAdapter = new StringAdapter(null, typeHolder);
+        uploadPicRv.setAdapter(picListAdapter);
+        uploadPicRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, this)));
         companyTypeTv.setOnClickListener(this);
         estateTv.setOnClickListener(this);
         carTv.setOnClickListener(this);
@@ -110,16 +130,12 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         incomeTv.setOnClickListener(this);
 //        educationTv.setOnClickListener(this);
         matchBtn.setOnClickListener(this);
+        uploadPicBtn.setOnClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    public void chooseDegree() {
-
     }
 
     private boolean checkOnSubmit() {
@@ -186,22 +202,11 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             pendingInfo.height = 0;
         }
         pendingInfo.position = tv;
-//        pendingInfo.income = TypeManager.getInstance().getMapKey(TypeManager.getInstance().getIncomeMap(), income);
-//        pendingInfo.estateLocation = estate;
-//        pendingInfo.company = TypeManager.getInstance().getMapKey(TypeManager.getInstance().getCompanyTypeMap(),
-//                companyTypeTv.getText().toString());
-//        pendingInfo.house = TypeManager.getInstance().getMapKey(TypeManager.getInstance().getHousesMap(),
-//                estateTv.getText().toString());
-//        pendingInfo.car = TypeManager.getInstance().getMapKey(TypeManager.getInstance().getCarsMap(),
-//                carTv.getText().toString());
-//        pendingInfo.schoolType = TypeManager.getInstance().getMapKey(TypeManager.getInstance().getSchoolTypesMap(),
-//                schoolTv.getText().toString());
         pendingInfo.house = mCurrHouseDict.id;
         pendingInfo.car = mCurrCarDict.id;
         pendingInfo.schoolType = mSchoolDict.id;
         pendingInfo.income = mCurrIncomeDict.id;
         pendingInfo.company = mCurrComDict.id;
-//        pendingInfo.education = mEducationDict.id;
         pendingInfo.school = schoolTv.getText().toString();
         pendingInfo.moreIntroduce = moreInfoEt.getText().toString();
 
@@ -230,10 +235,8 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             case R.id.input_income_tv:
                 showIncomePicker();
                 break;
-//            case R.id.input_degree_tv:
-//                showEducationPicker();
-//                break;
             case R.id.upload_pic_btn:
+                selectAlbum();
                 break;
             case R.id.match_btn:
 
@@ -244,18 +247,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 break;
         }
     }
-//
-//    private void showEducationPicker() {
-//        dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getTypeConfig().education,
-//                mEducationDict, new OneColumnPickerDialog.SelectListener<Dict>() {
-//                    @Override
-//                    public void onSelect(OneColumnPickerDialog dialog, Dict type) {
-//                        mEducationDict = type;
-//                        educationTv.setText(type.textShowing);
-//                        dialog.dismiss();
-//                    }
-//                });
-//    }
 
     private void showIncomePicker() {
         dialogHelper.showSingleListDialog(this, TypeManager.getInstance().getTypeConfig().income,
@@ -263,7 +254,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                     @Override
                     public void onSelect(OneColumnPickerDialog dialog, Dict type) {
                         mCurrIncomeDict = type;
-                        schoolTv.setText(type.textShowing);
+                        incomeTv.setText(type.textShowing);
                         dialog.dismiss();
                     }
                 });
@@ -317,23 +308,60 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 });
     }
 
+    private void selectAlbum() {
+        PermissionHelper permissionH = new PermissionHelper();
+        if (!permissionH.requestStoragePermission(this)) {
+            return;
+        }
+//        if (mPicsData == null) {
+//            mPicsData = new ArrayList<>();
+//        }
+        if (mTotalPics == null) {
+            mTotalPics = new ArrayList<>();
+        }
+        MultiImageSelector.create()
+                .showCamera(false) // show camera or not. true by default
+                .count(8 - mTotalPics.size()) // max select image size, 9 by default. used width #.multi()
+                .multi() // multi mode, default mode;   .single() // single mode
+                .origin(mTotalPics) // original select data set, used width #.multi()
+                .start(this, REQUEST_ALBUM);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ALBUM && data != null) {
+
+            mTotalPics = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            Log.d("lm", "choose picture onActivityResult: " + mTotalPics);
+            picListAdapter.setData(mTotalPics);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case PermissionHelper.READ_STORAGE_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    selectAlbum();
+                } else {
+                    finish();
+                }
+            }
+        }
+    }
+
     @Override
     public void goNextOnCompleteInfo() {
 
         if (getIntent() != null) {
             Bundle b = new Bundle();
             b.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
-//            final int fromPage = getIntent().getIntExtra(Consts.COMPLETE_FROM_PAGE_NAME, 0);
-//            if (fromPage == PageManager.COMPLETE_INFO_MY_SIMPLE_INFO) {
-//                b.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_NOT_LOGIN);
-//
-//            } else if (fromPage == PageManager.COMPLETE_INFO_MINE_MSG
-//                    || fromPage == PageManager.COMPLETE_INFO_MINE_MODIFY) {
-//                b.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_LOGIN);
-//            }
-
             toActivity(MainTabsActivity.class, b, true);
         }
     }
+
 
 }

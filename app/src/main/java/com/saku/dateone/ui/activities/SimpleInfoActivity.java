@@ -91,11 +91,6 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
     }
 
     @Override
-    public void chooseDegree() {
-
-    }
-
-    @Override
     public void goNextOnCompleteInfo() {
 
     }

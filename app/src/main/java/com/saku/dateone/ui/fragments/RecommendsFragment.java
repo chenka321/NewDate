@@ -37,7 +37,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
     @Override
     protected View getContentView() {
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.s_list_fragment, mFragmentRoot, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.s_list_fragment, mFragmentRoot, false);
         this.listRv = (RecyclerView) view.findViewById(R.id.list);
 
         return view;
@@ -60,12 +60,12 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     }
 
     private void initRecyclerView() {
-        listRv.setLayoutManager(new LinearLayoutManager(getContext()));
+        listRv.setLayoutManager(new LinearLayoutManager(mContext));
         pageType = getArguments() != null ? getArguments().getInt(Consts.RECOMMEND_TYPE, 1) : 1;
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), pageType, mPresenter.getItemClickListener());
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(mContext, pageType, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
-        listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));
+        listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, mContext)));
     }
 
     private void setTitle() {

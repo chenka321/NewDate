@@ -23,4 +23,6 @@ public class ImageUtils {
                 .placeholder(placeHolderResId)
                 .into(iv);
     }
+
+
 }

@@ -2,6 +2,8 @@
     <string name="app_name">lmlib</string>
     <string name="location_permission_title">允许相亲在您使用应用时获取位置吗？</string>
     <string name="loc_permission_msg">我们需要获取你的位置情况，以便更精准地为您推荐优质单身男女青年信息</string>
+    <string name="read_storage_permission_title">允许本应用获取读取您的SD卡内容吗？</string>
+    <string name="read_storage_permission_msg">我们需要获取你的SD卡权限，来读取您的照片信息</string>
     <string name="permit">允许</string>
     <string name="not_permit">不允许</string>
     <string name="cancel">取消</string>

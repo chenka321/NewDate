@@ -1,6 +1,7 @@
 package com.saku.dateone.ui.presenters;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
@@ -8,6 +9,7 @@ import com.saku.dateone.ui.models.CompleteInfoModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
+import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 import java.util.List;
@@ -64,5 +66,17 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
 //        b.putInt(Consts.COMPLETE_FROM_PAGE_NAME, Consts.COMPLETE_INFO_MY_SIMPLE_INFO);
 //        mView.toActivity(MainTabsActivity.class, null, true);
         mView.goNextOnCompleteInfo();
+    }
+
+    /**
+     * 照片点击事件
+     */
+    public OnRecyclerClickCallBack getPicItemClickListener() {
+        return new OnRecyclerClickCallBack() {
+            @Override
+            public void onClick(int position, View view) {
+
+            }
+        };
     }
 }

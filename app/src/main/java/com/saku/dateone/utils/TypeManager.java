@@ -10,6 +10,7 @@ import com.saku.dateone.bean.TypeConfig;
 import com.saku.dateone.storage.FileUtils;
 import com.saku.lmlib.utils.PreferenceUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +51,8 @@ public class TypeManager {
      */
     public void setTypeConfig(TypeConfig config) {
         if (config == null) {
-            TypeConfig typeConfig = null;
             String dictsCacheStr = PreferenceUtil.getString(DateApplication.getAppContext(), DICT_TYPES, "");
+            TypeConfig typeConfig = null;
             if (TextUtils.isEmpty(dictsCacheStr)) {
                 dictsCacheStr = FileUtils.getJsonFromAssets(DateApplication.getAppContext(), "config.json");
             }
@@ -66,8 +67,9 @@ public class TypeManager {
             PreferenceUtil.putString(DateApplication.getAppContext(), DICT_TYPES, dictsStr);
             this.mTypeConfig = config == null ? new TypeConfig() : config;
         }
-        configToShowMap(config);
+        configToShowMap(mTypeConfig);
         configToSourceMap();
+        setTypeConfigShowingText(mTypeConfig);
     }
 
     public TypeConfig getTypeConfig() {
@@ -176,10 +178,14 @@ public class TypeManager {
     }
 
 
-    private void setDialogShowingText(List<Dict> list) {
+    private List<Dict> setDialogShowingText(List<Dict> list) {
+        if (list == null) {
+            return new ArrayList<>();
+        }
         for (int i = 0; i < list.size(); i++) {
             list.get(i).textShowing = list.get(i).dictDesc;
         }
+        return list;
     }
 
     /**
@@ -239,5 +245,19 @@ public class TypeManager {
             }
         }
         return null;
+    }
+
+    /**
+     * 添加显示到选择器中的文字
+     */
+    private void setTypeConfigShowingText(TypeConfig typeConfig) {
+        typeConfig.house = setDialogShowingText(typeConfig.house);
+        typeConfig.income = setDialogShowingText(typeConfig.income);
+        typeConfig.car = setDialogShowingText(typeConfig.car);
+        typeConfig.companyType = setDialogShowingText(typeConfig.companyType);
+        typeConfig.education = setDialogShowingText(typeConfig.education);
+        typeConfig.gender = setDialogShowingText(typeConfig.gender);
+        typeConfig.schoolType = setDialogShowingText(typeConfig.schoolType);
+        typeConfig.userType = setDialogShowingText(typeConfig.userType);
     }
 }
