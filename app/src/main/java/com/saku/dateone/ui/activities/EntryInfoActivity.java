@@ -106,8 +106,11 @@ public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implemen
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
         if (checkedId == R.id.female_rb) {
             Log.d("lm", "onCheckedChanged: female");
+
+            mPresenter.onGenderClicked(69);
         } else if (checkedId == R.id.male_rb) {
             Log.d("lm", "onCheckedChanged: male");
+            mPresenter.onGenderClicked(68);
         }
     }
 

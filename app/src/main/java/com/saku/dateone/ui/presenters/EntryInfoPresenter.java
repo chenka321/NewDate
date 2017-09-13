@@ -56,7 +56,8 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
 
     @Override
     public void onGenderClicked(int gender) {
-        UserInfoManager.getInstance().getMyPendingInfo().childGender = gender;
+//        UserInfoManager.getInstance().getMyPendingInfo().childGender = gender;
+        UserInfoManager.getInstance().getMyPendingInfo().gender = gender;
     }
 
     @Override

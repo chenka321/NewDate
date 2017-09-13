@@ -3,9 +3,11 @@ package com.saku.dateone.utils;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
+import com.google.gson.JsonSyntaxException;
 import com.saku.dateone.DateApplication;
 import com.saku.dateone.bean.Dict;
 import com.saku.dateone.bean.TypeConfig;
+import com.saku.dateone.storage.FileUtils;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 import java.util.HashMap;
@@ -48,8 +50,16 @@ public class TypeManager {
      */
     public void setTypeConfig(TypeConfig config) {
         if (config == null) {
-            final String dictsCacheStr = PreferenceUtil.getString(DateApplication.getAppContext(), DICT_TYPES, "");
-            final TypeConfig typeConfig = GsonUtils.getInstance().getGson().fromJson(dictsCacheStr, TypeConfig.class);
+            TypeConfig typeConfig = null;
+            String dictsCacheStr = PreferenceUtil.getString(DateApplication.getAppContext(), DICT_TYPES, "");
+            if (TextUtils.isEmpty(dictsCacheStr)) {
+                dictsCacheStr = FileUtils.getJsonFromAssets(DateApplication.getAppContext(), "config.json");
+            }
+            try {
+                typeConfig = GsonUtils.getInstance().getGson().fromJson(dictsCacheStr, TypeConfig.class);
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
             this.mTypeConfig = typeConfig == null ? new TypeConfig() : typeConfig;
         } else {
             final String dictsStr = GsonUtils.getInstance().tojson(config);

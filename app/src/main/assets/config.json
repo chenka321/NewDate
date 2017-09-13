@@ -1,0 +1,172 @@
+{
+  "income": [
+    {
+      "id": 81,
+      "dictType": "Income",
+      "dictValue": "1",
+      "dictDesc": "5000以下"
+    },
+    {
+      "id": 82,
+      "dictType": "Income",
+      "dictValue": "2",
+      "dictDesc": "5000~10000元"
+    },
+    {
+      "id": 83,
+      "dictType": "Income",
+      "dictValue": "3",
+      "dictDesc": "10000~20000元"
+    },
+    {
+      "id": 84,
+      "dictType": "Income",
+      "dictValue": "4",
+      "dictDesc": "20000~50000元"
+    },
+    {
+      "id": 85,
+      "dictType": "Income",
+      "dictValue": "5",
+      "dictDesc": "50000以上"
+    }
+  ],
+  "education": [
+    {
+      "id": 71,
+      "dictType": "Education",
+      "dictValue": "1",
+      "dictDesc": "高中"
+    },
+    {
+      "id": 72,
+      "dictType": "Education",
+      "dictValue": "2",
+      "dictDesc": "大专"
+    },
+    {
+      "id": 73,
+      "dictType": "Education",
+      "dictValue": "3",
+      "dictDesc": "本科"
+    },
+    {
+      "id": 74,
+      "dictType": "Education",
+      "dictValue": "4",
+      "dictDesc": "硕士"
+    },
+    {
+      "id": 75,
+      "dictType": "Education",
+      "dictValue": "5",
+      "dictDesc": "博士"
+    }
+  ],
+  "gender": [
+    {
+      "id": 68,
+      "dictType": "Gender",
+      "dictValue": "Male",
+      "dictDesc": "男"
+    },
+    {
+      "id": 69,
+      "dictType": "Gender",
+      "dictValue": "Female",
+      "dictDesc": "女"
+    }
+  ],
+  "companyType": [
+    {
+      "id": 86,
+      "dictType": "Company",
+      "dictValue": "1",
+      "dictDesc": "政府"
+    },
+    {
+      "id": 87,
+      "dictType": "Company",
+      "dictValue": "2",
+      "dictDesc": "事业单位"
+    },
+    {
+      "id": 88,
+      "dictType": "Company",
+      "dictValue": "3",
+      "dictDesc": "国企"
+    },
+    {
+      "id": 89,
+      "dictType": "Company",
+      "dictValue": "4",
+      "dictDesc": "外企"
+    },
+    {
+      "id": 90,
+      "dictType": "Company",
+      "dictValue": "5",
+      "dictDesc": "民企"
+    }
+  ],
+  "car": [
+    {
+      "id": 96,
+      "dictType": "Car",
+      "dictValue": "true",
+      "dictDesc": "有车"
+    },
+    {
+      "id": 97,
+      "dictType": "Car",
+      "dictValue": "false",
+      "dictDesc": "无车"
+    },
+    {
+      "id": 162,
+      "dictType": "Car",
+      "dictValue": "0",
+      "dictDesc": "否"
+    },
+    {
+      "id": 163,
+      "dictType": "Car",
+      "dictValue": "1",
+      "dictDesc": "是"
+    }
+  ],
+  "userType": [
+    {
+      "id": 1,
+      "dictType": "USER_TYPE",
+      "dictValue": "COMMON",
+      "dictDesc": "普通用户"
+    },
+    {
+      "id": 80,
+      "dictType": "USER_TYPE",
+      "dictValue": "ROBOT",
+      "dictDesc": "机器用户"
+    }
+  ],
+  "house": [
+    {
+      "id": 76,
+      "dictType": "House",
+      "dictValue": "1",
+      "dictDesc": "无房产"
+    },
+    {
+      "id": 77,
+      "dictType": "House",
+      "dictValue": "2",
+      "dictDesc": "一套房产"
+    },
+    {
+      "id": 78,
+      "dictType": "House",
+      "dictValue": "3",
+      "dictDesc": "多套房产"
+    }
+  ]
+}

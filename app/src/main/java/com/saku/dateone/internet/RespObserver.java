@@ -7,6 +7,13 @@ import io.reactivex.observers.DisposableObserver;
  * Created by liumin on 2017/9/12.
  */
 
+/**
+ *
+ /**
+ * 网络请求的返回观察者
+ * @param <T> 网络请求返回的完整数据
+ * @param <D> 网络请求返回的数据中的data类型
+ */
 public abstract class RespObserver<T, D> extends DisposableObserver<T> {
     @Override
     public void onNext(@NonNull T t) {
