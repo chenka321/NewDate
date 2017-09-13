@@ -38,6 +38,7 @@ import com.saku.lmlib.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
@@ -56,6 +57,7 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> implements View.OnClickListener,
         CompleteInfoContract.V {
     private static final int REQUEST_ALBUM = 2; // 选择相册照片
+    private static final int SEE_BIG_PIC = 20; // 查看大图
     private EditText heightEt;
     private TextView companyTypeTv;
     private EditText occupationTv;
@@ -118,11 +120,12 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         matchBtn = (Button) findViewById(R.id.match_btn);
 
         uploadPicRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-//        uploadPicRv.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.HORIZONTAL));
         StringTypeHolder typeHolder = new StringTypeHolder(this, mPresenter.getPicItemClickListener());
-        picListAdapter = new StringAdapter(null, typeHolder);
+        mTotalPics = new ArrayList<>();
+        picListAdapter = new StringAdapter(mTotalPics, typeHolder);
         uploadPicRv.setAdapter(picListAdapter);
         uploadPicRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, this)));
+
         companyTypeTv.setOnClickListener(this);
         estateTv.setOnClickListener(this);
         carTv.setOnClickListener(this);
@@ -139,8 +142,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     }
 
     private boolean checkOnSubmit() {
-        boolean fillAll = true;
-        // validate
         String et = heightEt.getText().toString().trim();
         if (TextUtils.isEmpty(et)) {
             Toast.makeText(this, "请填入身高, 单位（厘米）", Toast.LENGTH_SHORT).show();
@@ -158,12 +159,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             Toast.makeText(this, "请选择收入", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-//        String estate = estateLocEt.getText().toString().trim();
-//        if (TextUtils.isEmpty(estate)) {
-//            Toast.makeText(this, "请填入房产位置", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
 
         if (TextUtils.isEmpty(companyTypeTv.getText())) {
             Toast.makeText(this, "请填入选择单位性质", Toast.LENGTH_SHORT).show();
@@ -189,11 +184,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             Toast.makeText(this, "请填入选择收入", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-//        if (TextUtils.isEmpty(educationTv.getText())) {
-//            Toast.makeText(this, "请填入选择学历", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
 
         final UserInfo pendingInfo = UserInfoManager.getInstance().getMyPendingInfo();
         try {
@@ -313,9 +303,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         if (!permissionH.requestStoragePermission(this)) {
             return;
         }
-//        if (mPicsData == null) {
-//            mPicsData = new ArrayList<>();
-//        }
         if (mTotalPics == null) {
             mTotalPics = new ArrayList<>();
         }
@@ -323,8 +310,16 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 .showCamera(false) // show camera or not. true by default
                 .count(8 - mTotalPics.size()) // max select image size, 9 by default. used width #.multi()
                 .multi() // multi mode, default mode;   .single() // single mode
-                .origin(mTotalPics) // original select data set, used width #.multi()
+                .origin(null) // original select data set, used width #.multi()
                 .start(this, REQUEST_ALBUM);
+    }
+
+    @Override
+    public void startPicActivity(String picPath) {
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Intent i = new Intent(this, BigPicActivity.class);
+        i.putExtra(BigPicActivity.PIC_PATH, picPath);
+        this.startActivityForResult(i, SEE_BIG_PIC);
     }
 
     @Override
@@ -332,9 +327,24 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ALBUM && data != null) {
 
-            mTotalPics = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-            Log.d("lm", "choose picture onActivityResult: " + mTotalPics);
-            picListAdapter.setData(mTotalPics);
+            final ArrayList<String> newList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            Log.d("lm", "choose picture onActivityResult: " + newList);
+            mTotalPics.addAll(newList);
+            mPresenter.setPicList(mTotalPics);
+            picListAdapter.notifyDataSetChanged();
+        } else if (requestCode == SEE_BIG_PIC) {
+            final String picDelete = data.getStringExtra(BigPicActivity.PIC_PATH_DELETE);
+            if (TextUtils.isEmpty(picDelete)) {
+                return;
+            }
+
+            for (Iterator<String> iterator = mTotalPics.iterator(); iterator.hasNext();) {
+                String pic = iterator.next();
+                if (picDelete.equals(pic)) {
+                    iterator.remove();
+                }
+            }
+            picListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -352,6 +362,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
             }
         }
     }
+
 
     @Override
     public void goNextOnCompleteInfo() {

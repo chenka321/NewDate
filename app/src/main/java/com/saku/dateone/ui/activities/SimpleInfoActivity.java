@@ -95,6 +95,11 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
 
     }
 
+    @Override
+    public void startPicActivity(String picPath) {
+
+    }
+
     private boolean checkOnSubmit() {
         boolean fillAll = true;
         // validate

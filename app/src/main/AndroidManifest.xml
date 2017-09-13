@@ -94,6 +94,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activities.BigPicActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <!--Image Selector Entry-->
         <activity

@@ -10,11 +10,13 @@ import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
-import com.saku.lmlib.utils.PreferenceUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V, CompleteInfoContract.M> implements CompleteInfoContract.P {
+
+    private ArrayList<String> mPicList;
 
     @Override
     protected CompleteInfoContract.M getModel() {
@@ -75,8 +77,14 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         return new OnRecyclerClickCallBack() {
             @Override
             public void onClick(int position, View view) {
-
+                if (mPicList != null && mPicList.size() > position) {
+                    mView.startPicActivity(mPicList.get(position));
+                }
             }
         };
+    }
+
+    public void setPicList(ArrayList<String> picList) {
+        this.mPicList = picList;
     }
 }

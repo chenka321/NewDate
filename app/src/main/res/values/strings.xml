@@ -77,6 +77,7 @@
     <string name="go_login">去登录</string>
     <string name="go_fill">去填写</string>
     <string name="degree_info">学历</string>
+    <string name="delete">删除</string>
 
 
 </resources>

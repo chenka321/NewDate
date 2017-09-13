@@ -18,6 +18,8 @@ public interface CompleteInfoContract {
 
         /** 完成详细信息页面的开始匹配后的跳转 */
         void goNextOnCompleteInfo();
+
+        void startPicActivity(String picPath);
     }
 
     interface P extends BasePresenter{
