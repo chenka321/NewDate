@@ -11,6 +11,8 @@ public interface MineContract {
     }
 
     interface P extends UserInfoContract.P {
+        /** 登出 */
+        void onLogoutClicked();
     }
 
     interface M extends UserInfoContract.M {

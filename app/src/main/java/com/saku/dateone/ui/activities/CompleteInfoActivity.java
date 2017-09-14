@@ -368,16 +368,4 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         }
     }
 
-
-    @Override
-    public void goNextOnCompleteInfo() {
-
-        if (getIntent() != null) {
-            Bundle b = new Bundle();
-            b.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
-            toActivity(MainTabsActivity.class, b, true);
-        }
-    }
-
-
 }

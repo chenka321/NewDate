@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.MainTabsContract;
+import com.saku.dateone.ui.fragments.ChatListFragment;
 import com.saku.dateone.ui.fragments.DiscoversFragment;
 import com.saku.dateone.ui.fragments.MineFragment;
 import com.saku.dateone.ui.fragments.RecommendsFragment;
@@ -57,7 +58,7 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         fragments = new ArrayList<>();
 
         fragments.add(RecommendsFragment.newInstance(null));
-        fragments.add(RecommendsFragment.newInstance(null));
+        fragments.add(ChatListFragment.newInstance(null));
         fragments.add(DiscoversFragment.newInstance(null));
         fragments.add(MineFragment.newInstance(null));
         mMainPagerAdapter.setFragments(fragments);
@@ -74,12 +75,7 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         if (intent != null) {
             final int page = intent.getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0);
             if (page == PageManager.RECOMMEND_LIST) {
-                if (getIntent() != null ) {
-                    Bundle b = new Bundle();
-                    b.putInt(Consts.SHOW_MAIN_TAB_PAGE, getIntent().getIntExtra(Consts.SHOW_MAIN_TAB_PAGE, 0));
-//                    fragments.get(0).setArguments(b);
-                    ((RecommendsFragment) fragments.get(0)).refresh();
-                }
+                ((RecommendsFragment) fragments.get(0)).refresh();
                 mMainTabsVp.setCurrentItem(0);
                 mTabRg.check(mFrontpageRb.getId());
 
@@ -97,7 +93,6 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
                 mTabRg.check(mFrontpageRb.getId());
             }
 
-            getIntent().removeExtra(Consts.SHOW_MAIN_TAB_PAGE);
         } else {
             mMainTabsVp.setCurrentItem(0);
             mTabRg.check(mFrontpageRb.getId());
@@ -129,6 +124,12 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
         mMineRb = (RadioButton) findViewById(R.id.mine_rb);
     }
 
+    /**
+     * 从entryinfoActicity\ simpleInfoActivity\ CompleteInfoActivity 开始匹配\ mineFragment# 修改信息
+     * 跳转到该页面，刷新数据
+     *
+     * @param intent
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

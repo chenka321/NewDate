@@ -99,7 +99,7 @@ public abstract class UserInfoFragment<P extends UserInfoContract.P> extends Bas
     public void showFillBasicInfoDialog() {
         UIUtils.showTwoBtnDialog(mContext, 0, getString(R.string.simple_info),
                 getString(R.string.simple_info_content),
-                getString(R.string.confirm), getString(R.string.later),
+                getString(R.string.confirm_go_fill), getString(R.string.later),
                 new CommonDialog.OnCloseListener() {
                     @Override
                     public void onClick(Dialog dialog) {

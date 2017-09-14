@@ -14,6 +14,7 @@ import com.saku.dateone.ui.activities.BaseActivity;
  */
 public interface ViewUnion {
     void showLoading();
+    void showLoading(String text);
 
     void dismissLoading();
 

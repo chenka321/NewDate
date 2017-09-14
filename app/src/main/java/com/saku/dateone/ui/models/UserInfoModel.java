@@ -16,6 +16,7 @@ public class UserInfoModel<P extends UserInfoContract.P> extends ABaseModel<P> i
         UserInfo userInfo = new UserInfo();
         userInfo.name = "LMin";
         userInfo.birthday = "2008年8月";
+//        userInfo.education = 4;
         userInfo.id = 334344;
         mPresenter.onLoadUserInfoReult(0, "sucess", userInfo);
     }

@@ -53,7 +53,7 @@
     <string name="title_activity_test_acticity">TestActicity</string>
     <string name="complete_info">补充完整信息</string>
     <string name="complete_info_content">您的信息不完整，需要补充完整信息才能看到对方信息，去填写补充信息？</string>
-    <string name="confirm">去填写</string>
+    <string name="confirm_go_fill">去填写</string>
     <string name="later">先看看</string>
 
     <string name="residence">户籍:  %s</string>
@@ -78,6 +78,10 @@
     <string name="go_fill">去填写</string>
     <string name="degree_info">学历</string>
     <string name="delete">删除</string>
+    <string name="is_loading">正在加载...</string>
+    <string name="confirm_logout">确定登出吗？</string>
+    <string name="delete_info_if_logout">登出会删除您的缓存数据， 还要继续吗？</string>
+    <string name="confirm">确定</string>
 
 
 </resources>

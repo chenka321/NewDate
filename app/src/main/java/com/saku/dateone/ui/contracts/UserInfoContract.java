@@ -11,6 +11,9 @@ import com.saku.dateone.ui.presenters.BasePresenter;
 public interface UserInfoContract {
     interface V extends BaseView<P> {
 
+        /**
+         * 弹出填写基本信息的弹框
+         */
         void showFillBasicInfoDialog();
 
         void showErrorLogin();
@@ -22,7 +25,7 @@ public interface UserInfoContract {
     interface P extends BasePresenter{
         /**
          * 检查是否有缓存用户信息以及是否有 基本的信息
-         * @return true 正在加载用户信息，或者弹框让用户填基本信息, false 有基本信息；
+         * @return true 显示错误界面，false 隐藏错误界面；
          * <p>
          *
          *

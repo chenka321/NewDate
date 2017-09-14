@@ -69,16 +69,23 @@ public class SplashActivity extends BaseActivity implements LocationListener {
     @Override
     protected void onStart() {
         super.onStart();
+        final boolean showSplash = PreferenceUtil.getBoolean(this, Consts.SHOW_SPLASH, true);
         if (mPermissionHelper.checkLocationPermission(this)) {
             catchLocation();
-            mFrameLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("lm", "run: location 111111 = " + mLocation);
-                    goToNextScene();
-                }
+            if (showSplash) {
+                mFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("lm", "run: location 111111 = " + mLocation);
+                        PreferenceUtil.putBoolean(SplashActivity.this, Consts.SHOW_SPLASH, false);
+                        goToNextScene();
+                    }
 
-            }, 2000);
+                }, 2000);
+            } else {
+                goToNextScene();
+            }
+
         }
     }
 

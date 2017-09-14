@@ -41,13 +41,18 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         if (mView == null) {
             return;
         }
+        onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
+    }
+
+    /**
+     * 上传填写的内容成功回调
+     * @param refreshWhich 下个页面要请求的数据，未登录推荐数据{@link Consts#REFRESH_RECOMMEND_NOT_LOGIN}， 已登录推荐数据{@link Consts#REFRESH_RECOMMEND_LOGIN}
+     */
+    private void onFillResult(int refreshWhich) {
         Bundle bundle = new Bundle();
         bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
-        bundle.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_LOGIN);
-
-//        UserInfoManager.getInstance().setFirstLogin(false);
+        bundle.putInt(Consts.REFRESH_RECOMMEND, refreshWhich);
         UserInfoManager.getInstance().copyPendingToShowing();
-
         mView.toActivity(MainTabsActivity.class, bundle, true);
     }
 
@@ -64,8 +69,10 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
             return;
         }
 
-        UserInfoManager.getInstance().copyPendingToShowing();
-        mView.goNextOnCompleteInfo();
+        onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
+
+//        UserInfoManager.getInstance().copyPendingToShowing();
+//        mView.goNextOnCompleteInfo();
     }
 
     /**

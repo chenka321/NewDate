@@ -5,15 +5,11 @@ import android.util.Log;
 import com.saku.dateone.bean.LoginData;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
-import com.saku.dateone.ui.activities.SimpleInfoActivity;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.contracts.LoginContract.P;
 import com.saku.dateone.ui.models.LoginModel;
-import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.LLog;
-import com.saku.lmlib.utils.PageHelper;
-import com.saku.lmlib.utils.PreferenceUtil;
 
 public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContract.M> implements P {
 
@@ -52,8 +48,8 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
                 if (mView != null) {
                     mView.dismissLoading();
                 }
-                LLog.d("lm", "onSuccess: token" + data.token + " , firstLogin " + data.isFirstLogin);
-                UserInfoManager.getInstance().setLoginState(data.token, data.isFirstLogin);
+                LLog.d("lm", "onSuccess: token" + data.token + " , firstLogin " + data.ifFirstLogin);
+                UserInfoManager.getInstance().setLoginState(data.token, data.ifFirstLogin);
                 mView.goToNext();
             }
 

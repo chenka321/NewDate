@@ -96,21 +96,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        LLog.d("lm", "onResume: " + this.getComponentName());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LLog.d("lm", "onPause: " + this.getComponentName());
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        LLog.d("lm", "onDestroy: " + this.getComponentName());
 
         if (mPresenter != null) {
             mPresenter.destroy();
@@ -154,10 +141,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     public void showLoading() {
+        showLoading(getString(R.string.is_loading));
+    }
+
+    @Override
+    public void showLoading(String text) {
         if (mLoadingDialog == null) {
             mLoadingDialog = new ProgressDialog(this);
             mLoadingDialog.setCancelable(false);
-            mLoadingDialog.setMessage("正在加载...");
+            mLoadingDialog.setMessage(text);
         }
         if (mLoadingDialog.isShowing()) {
             return;

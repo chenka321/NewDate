@@ -32,7 +32,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("lm", "onCreateView: " + this.getTag());
         mFragmentRoot = (LinearLayout) inflater.inflate(R.layout.s_base_activity, container, false);
         mFragmentRoot.addView(getContentView());
         initView();
@@ -53,7 +52,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void onAttach(Context context) {
-        Log.d("lm", "onAttach: " + this.getTag());
 
         super.onAttach(context);
         mContext = context;
@@ -68,7 +66,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d("lm", "onDetach: " + this.getTag());
 
         if (getActivity() != null) {
             if (getActivity() instanceof BaseActivity) {
@@ -104,13 +101,19 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void showLoading() {
+        showLoading(getString(R.string.is_loading));
+    }
+
+    @Override
+    public void showLoading(String text) {
         if (mLoadingDialog == null) {
             mLoadingDialog = new ProgressDialog(mContext);
             mLoadingDialog.setCancelable(false);
-            mLoadingDialog.setMessage("正在加载...");
+            mLoadingDialog.setMessage(text);
         }
         mLoadingDialog.show();
     }
+
 
     @Override
     public void dismissLoading() {

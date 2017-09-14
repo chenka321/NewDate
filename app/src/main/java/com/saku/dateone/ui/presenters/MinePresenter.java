@@ -3,6 +3,7 @@ package com.saku.dateone.ui.presenters;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
 import com.saku.dateone.ui.models.MineModel;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.data.ItemData;
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class MinePresenter extends UserInfoPresenter<MineContract.V, MineContrac
         if (mView != null) {
             mView.refreshInfoView();
         }
+    }
+
+    @Override
+    public void onLogoutClicked() {
+        UserInfoManager.getInstance().onLogout();
     }
 }
 

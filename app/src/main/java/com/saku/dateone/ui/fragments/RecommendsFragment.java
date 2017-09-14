@@ -28,6 +28,9 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
     private int pageType;
+    private LinearLayoutManager mLayoutManager;
+    private boolean mIsLoadingMore;
+    private boolean refreshData;
 
     public static RecommendsFragment newInstance(Bundle bundle) {
         RecommendsFragment f = new RecommendsFragment();
@@ -60,12 +63,30 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     }
 
     private void initRecyclerView() {
-        listRv.setLayoutManager(new LinearLayoutManager(mContext));
+        mLayoutManager = new LinearLayoutManager(mContext);
+        listRv.setLayoutManager(mLayoutManager);
         pageType = getArguments() != null ? getArguments().getInt(Consts.RECOMMEND_TYPE, 1) : 1;
         RecommendTypeHolder typeHolder = new RecommendTypeHolder(mContext, pageType, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, mContext)));
+
+        mIsLoadingMore = false;
+        listRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && !mIsLoadingMore) {
+                    final int visibleCount = mLayoutManager.getChildCount();
+                    final int totalCount = mLayoutManager.getItemCount();
+                    final int pastCount = mLayoutManager.findFirstVisibleItemPosition();
+
+                    if (visibleCount + pastCount >= totalCount) {
+                        Log.d("lm", "-----onScrolled: 获取新数据.....");
+                    }
+                }
+            }
+        });
     }
 
     private void setTitle() {
@@ -106,37 +127,18 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         super.onResume();
         LLog.d("lm", "RecommendFragment onResume: ");
 
-        if (getArguments() != null) {
-            if (getArguments().getInt(Consts.SHOW_MAIN_TAB_PAGE) == PageManager.RECOMMEND_LIST) {
-                getArguments().remove(Consts.SHOW_MAIN_TAB_PAGE);
-                loadData();
-                LLog.d("lm", "onResume:  loading");
-            }
-        }
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-
         // TODO: 2017/9/10 填完补充信息跳过来要拉数据, 填写简单信息， 补充信息， 我的-我的消息某一种类型
-        LLog.d("lm", "RecommendFragment onHiddenChanged: ");
-        if (!hidden) {
-            if (getArguments() != null) {
-                if (getArguments().getInt(Consts.SHOW_MAIN_TAB_PAGE) == PageManager.RECOMMEND_LIST) {
-                    getArguments().remove(Consts.SHOW_MAIN_TAB_PAGE);
-                    loadData();
-                    LLog.d("lm", "onHiddenChanged:  loading");
-                }
-            }
-
+        if (refreshData) {
+            refreshData = false;
+            loadData();
+            LLog.d("lm", "RecommendFragment onResume:  loading -------- ");
         }
-
     }
+
 
 
     public void refresh() {
-        loadData();
+        refreshData = true;
     }
 
     @Override

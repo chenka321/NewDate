@@ -25,7 +25,9 @@ public class Consts {
     /** 回到mainTab需要显示哪个页面 */
     public static final String SHOW_MAIN_TAB_PAGE = "show_main_tab_page";
 
-    /** 回到mainTab的推荐信息刷新已登录接口还是未登录接口 */
+    /** 回到mainTab的推荐信息刷新已登录接口还是未登录接口
+     * 【传不传都没有影响， 推荐列表刷新根据是否登录，不是根据这个字段】
+     * */
     public static final String REFRESH_RECOMMEND = "refresh_recommend";
 
 
@@ -49,4 +51,5 @@ public class Consts {
 
     /** 收藏列表破还是推荐列表 1 是推荐， 2是收藏*/
     public static final String RECOMMEND_TYPE = "recommend_type";
+    public static final String SHOW_SPLASH = "show_splash"; // 是否展示开屏
 }

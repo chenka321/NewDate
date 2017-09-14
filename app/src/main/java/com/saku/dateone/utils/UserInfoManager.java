@@ -83,7 +83,7 @@ public class UserInfoManager {
         return !TextUtils.isEmpty(myToken);
     }
 
-    /**
+    /** 登录成功， 设置登录状态数据
      * @param isFirstLogin 用户是否是有基本信息
      */
     public void setLoginState(String myToken, boolean isFirstLogin) {
@@ -156,5 +156,13 @@ public class UserInfoManager {
         final String userInfoJson = GsonUtils.getInstance().tojson(showingInfo);
         PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_USER_INFO, userInfoJson);
         setMyShowingInfo(showingInfo);
+    }
+
+    public void onLogout() {
+        PreferenceUtil.putBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
+        PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_TOKEN, "");
+        PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_USER_INFO, "");
+        mMyShowingInfo = null;
+        mMyPendingInfo = null;
     }
 }

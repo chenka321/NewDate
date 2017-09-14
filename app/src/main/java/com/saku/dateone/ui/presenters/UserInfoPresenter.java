@@ -21,7 +21,7 @@ public abstract class UserInfoPresenter<V1 extends UserInfoContract.V, M1 extend
         final UserInfo userInfo = UserInfoManager.getInstance().getMyShowingInfo();
         if (userInfo == null) {
             mModel.loadUserInfo();
-            return true;
+            return false;
         } else if (!UserInfoManager.getInstance().hasSimpleLocal()) {
             mView.showFillBasicInfoDialog();
             return true;

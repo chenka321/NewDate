@@ -6,5 +6,5 @@ package com.saku.dateone.bean;
 
 public class LoginData {
     public String token;
-    public boolean isFirstLogin;
+    public boolean ifFirstLogin;
 }

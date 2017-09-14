@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
@@ -231,7 +230,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
                 if (!mPresenter.hasMoreInfo()) {
                     UIUtils.showTwoBtnDialog(this, 0, getString(R.string.complete_info),
                             getString(R.string.complete_info_content),
-                            getString(R.string.confirm), getString(R.string.later),
+                            getString(R.string.confirm_go_fill), getString(R.string.later),
                             new CommonDialog.OnCloseListener() {
                                 @Override
                                 public void onClick(Dialog dialog) {

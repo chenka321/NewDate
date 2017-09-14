@@ -11,6 +11,7 @@ import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.contracts.EntryInfoContract;
 import com.saku.dateone.ui.models.BasicInfoModel;
 import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.PreferenceUtil;
 
@@ -73,6 +74,12 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
         }
         UserInfoManager.getInstance().copyPendingToShowing();
         PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);
-        mView.toActivity(MainTabsActivity.class, null, true);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
+        bundle.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_NOT_LOGIN);
+        UserInfoManager.getInstance().copyPendingToShowing();
+        mView.toActivity(MainTabsActivity.class, bundle, true);
     }
 }

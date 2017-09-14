@@ -1,5 +1,6 @@
 package com.saku.dateone.ui.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,8 +20,10 @@ import com.saku.dateone.ui.presenters.MinePresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
+import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
+import com.saku.lmlib.utils.UIUtils;
 
 public class MineFragment extends UserInfoFragment<MinePresenter> implements MineContract.V, View.OnClickListener {
     public TextView mineUserIdTv;
@@ -138,11 +141,6 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        LLog.d("lm", "MineFragment onHiddenChanged: ");
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LLog.d("lm", "MineFragment onActivityResult: ");
         if (requestCode == Consts.LOGIN_RQST_MINE) {
@@ -164,6 +162,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     @Override
     public void refreshInfoView() {
         fillViews();
+        mFragmentRoot.requestLayout();
     }
 
     @Override
@@ -188,6 +187,18 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
             case R.id.feedBack_tv:
                 break;
             case R.id.logout_tv:
+                UIUtils.showTwoBtnDialog(mContext, 0,
+                        getString(R.string.confirm_logout),
+                        getString(R.string.delete_info_if_logout),
+                        getString(R.string.confirm),
+                        getString(R.string.cancel),
+                        new CommonDialog.OnCloseListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                mPresenter.onLogoutClicked();
+                            }
+                        }, null);
+
                 break;
 
 

@@ -27,7 +27,7 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
 
     @Override
     public void startCompleteMatch() {
-        mPresenter.onMatchSimpleResult(0, "success");
+        mPresenter.onMatchCompleteResult(0, "success");
     }
 
     @Override

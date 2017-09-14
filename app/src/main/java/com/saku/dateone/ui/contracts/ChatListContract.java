@@ -1,26 +1,19 @@
 package com.saku.dateone.ui.contracts;
 
 
-import android.os.Bundle;
-import android.view.View;
-
-import com.lljjcoder.city_20170724.bean.CityBean;
-import com.lljjcoder.city_20170724.bean.DistrictBean;
-import com.lljjcoder.city_20170724.bean.ProvinceBean;
-import com.saku.dateone.ui.models.BaseModel;
-import com.saku.dateone.ui.presenters.BasePresenter;
+import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
 public interface ChatListContract {
-    interface V extends BaseView<P> {
+    interface V extends UserInfoContract.V {
 
     }
 
-    interface P extends BasePresenter{
-        void onStartMatchClicked();
-        void onMatchResult(int code, String msg);
+    interface P extends UserInfoContract.P {
+        void loadData();
+
+        OnRecyclerClickCallBack getItemClickListener();
     }
 
-    interface M extends BaseModel{
-        void startMatch(); // 开始网络请求
+    interface M extends UserInfoContract.M{
     }
 }
