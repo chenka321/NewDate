@@ -96,9 +96,6 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         }
 
         onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
-
-//        UserInfoManager.getInstance().copyPendingToShowing();
-//        mView.goNextOnCompleteInfo();
     }
 
     /**
@@ -145,44 +142,6 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         if (mPicCompressCmp == null) {
             mPicCompressCmp = new CompositeDisposable();
         }
-//        String name = new DateFormat().format("yyyyMMdd_hhmmss",
-//                Calendar.getInstance(Locale.CHINA)) + ".jpg";
-//        final String destFilePath = picCacheFolder + File.separator + name;
-//        if (mCompressedPaths.contains(destFilePath)) {
-//            Log.d("lm", "CompleteInfoPresenter ------ compressPics: 已经压缩过了");
-//            return mCompressedPaths;
-//        }
-
-//        for (String picPath : picList) {
-//            final File file = new File(picPath);
-//            if (!file.exists()) {
-//                continue;
-//            }
-//            final String destFilePath = picCacheFolder + File.separator + file.getName();
-//            final Bitmap bitmap = ImageUtils.compressImage(picPath, destSize, destSize);
-//
-//            final Disposable disposable = Flowable.just(destFilePath).map(new Function<String, String>() {
-//                @Override
-//                public String apply(@NonNull String s) throws Exception {
-//                    ImageUtils.saveBitmapToFile(bitmap, s);
-//                    compressedPaths.add(destFilePath);
-//                    return "1----1";
-//                }
-//            }).subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(new Consumer<String>() {
-//                @Override
-//                public void accept(String s) throws Exception {
-//                    LLog.d("lm", "CompleteInfoPresenter ------ accept: " + s);
-//                    LLog.d("lm", "CompleteInfoPresenter ------ accept: --- resultSize = " + compressedPaths.size());
-//                }
-//            });
-//            compressCmp.add(disposable);
-//
-////            ImageUtils.saveBitmapToFile(bitmap, destFilePath);
-////            compressedPaths.add(destFilePath);
-//        }
-
         final Disposable d = Observable.fromIterable(picList)
                 .map(new Function<String, String>() {
                     @Override
