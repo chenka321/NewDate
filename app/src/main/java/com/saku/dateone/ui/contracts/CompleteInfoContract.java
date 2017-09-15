@@ -7,6 +7,7 @@ import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CompleteInfoContract {
     interface V extends BaseView<P> {
@@ -16,6 +17,12 @@ public interface CompleteInfoContract {
 //        void goNextOnCompleteInfo();
 
         void startPicActivity(String picPath);
+
+        /**
+         * 打开上传图片的service
+         * @param compressedPaths 压缩过的图片路径
+         */
+        void openUploadService(List<String> compressedPaths);
     }
 
     interface P extends BasePresenter{

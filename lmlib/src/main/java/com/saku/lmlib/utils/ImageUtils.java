@@ -127,6 +127,7 @@ public class ImageUtils {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
         FileOutputStream fos = null;
         try {
+            LLog.d("lm", "ImageUtils ------ saveBitmapToFile: " + os.size());
             fos = new FileOutputStream(destPath);
             fos.write(os.toByteArray());
             fos.flush();

@@ -96,6 +96,7 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         }
 
         onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
+//        mView.openUploadService(mCompressedPaths);  // 压缩完成后直接上传
     }
 
     /**
@@ -111,67 +112,71 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
             }
         };
     }
+//
+//    /**
+//     * 保存选择的图片路径
+//     */
+//    public void setPicList(ArrayList<String> picList) {
+//        this.mPicList = picList;
+//        UserInfoManager.getInstance().getMyPendingInfo().photo = mPicList;
+//        final String picCacheFolder = FileUtils.getExternalCacheFolder(mView.getViewContext()) + File.separator + "morePics";
+//
+//        UserInfoManager.getInstance().setUploadPicPaths(compressPics(picCacheFolder, mPicList));
+//    }
 
-    /**
-     * 保存选择的图片路径
-     */
-    public void setPicList(ArrayList<String> picList) {
-        this.mPicList = picList;
-        UserInfoManager.getInstance().getMyPendingInfo().photo = mPicList;
-        final String picCacheFolder = FileUtils.getExternalCacheFolder(mView.getViewContext()) + File.separator + "morePics";
-
-        UserInfoManager.getInstance().setUploadPicPaths(compressPics(picCacheFolder, mPicList));
-    }
-
-    /**
-     * 压缩图片
-     */
-    private List<String> compressPics(final String picCacheFolder, ArrayList<String> picList) {
-        if (picList == null) {
-            return null;
-        }
-        File folder = new File(picCacheFolder);
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-        final int destSize = UIUtils.convertDpToPx(80, mView.getViewContext());
-        if (mCompressedPaths == null) {
-            mCompressedPaths = new ArrayList<>();
-        }
-
-        if (mPicCompressCmp == null) {
-            mPicCompressCmp = new CompositeDisposable();
-        }
-        final Disposable d = Observable.fromIterable(picList)
-                .map(new Function<String, String>() {
-                    @Override
-                    public String apply(@NonNull String srcPath) throws Exception {
-
-//                        final File destFile = new File(picCacheFolder, name);
-                        final String destFilePath = picCacheFolder + File.separator + srcPath.substring(srcPath.lastIndexOf("/") + 1);
-//                        final String destFilePath = picCacheFolder + File.separator + in.incrementAndGet()+".jpg";
-
-                        if (mCompressedPaths.contains(destFilePath)) {
-                            return " 已经压缩过了";
-                        }
-                        final Bitmap bitmap = ImageUtils.compressImage(srcPath, destSize, destSize);
-                        ImageUtils.saveBitmapToFile(bitmap, destFilePath);
-                        mCompressedPaths.add(destFilePath);
-                        return destFilePath;
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        LLog.d("lm", "CompleteInfoPresenter ------ accept: " + s);
-                        LLog.d("lm", "CompleteInfoPresenter ------ accept: --- resultSize = " + mCompressedPaths.size());
-                    }
-                });
-        mPicCompressCmp.add(d);
-
-        return mCompressedPaths;
-    }
+//    /**
+//     * 压缩图片
+//     */
+//    private List<String> compressPics(final String picCacheFolder, ArrayList<String> picList) {
+//        if (picList == null) {
+//            return null;
+//        }
+//        File cacheFolder = new File(picCacheFolder);
+//        if (!cacheFolder.exists()) {
+//            cacheFolder.mkdir();
+//        }
+//        final int destSize = UIUtils.convertDpToPx(240, mView.getViewContext());
+//        if (mCompressedPaths == null) {
+//            mCompressedPaths = new ArrayList<>();
+//        }
+//
+//        if (mPicCompressCmp == null) {
+//            mPicCompressCmp = new CompositeDisposable();
+//        }
+//
+//        final Disposable disposable = Observable.fromArray(picList).flatMap(new Function<ArrayList<String>, ObservableSource<List<String>>>() {
+//            @Override
+//            public ObservableSource<List<String>> apply(@NonNull ArrayList<String> strings) throws Exception {
+//                for (String srcPath : strings) {
+//                    final String destFilePath = picCacheFolder + File.separator + srcPath.substring(srcPath.lastIndexOf("/") + 1);
+//                    if (mCompressedPaths.contains(destFilePath)) {
+//                        Log.d("lm", "CompleteInfoPresenter ------ apply: 已经压缩过了 ");
+//                        continue;
+//                    }
+//                    final Bitmap bitmap = ImageUtils.compressImage(srcPath, destSize, destSize);
+//                    ImageUtils.saveBitmapToFile(bitmap, destFilePath);
+//                    mCompressedPaths.add(destFilePath);
+//                }
+//
+//                return Observable.fromArray(mCompressedPaths);
+//            }
+//        }).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<List<String>>() {
+//                    @Override
+//                    public void accept(List<String> strings) throws Exception {
+//                        LLog.d("lm", "CompleteInfoPresenter ------ accept: ---s:" + strings.toArray() + " resultSize = " + mCompressedPaths.size());
+//                        if (mView != null) {
+//                            mView.openUploadService(mCompressedPaths);
+//                        }
+//                    }
+//                });
+//
+//
+//        mPicCompressCmp.add(disposable);
+//
+//        return mCompressedPaths;
+//    }
 
     @Override
     public RespObserver<ApiResponse<String>, String> getUploadPicObserver() {
@@ -191,4 +196,5 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
             }
         };
     }
+
 }

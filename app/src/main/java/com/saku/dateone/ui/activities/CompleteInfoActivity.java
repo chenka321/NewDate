@@ -1,8 +1,11 @@
 package com.saku.dateone.ui.activities;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 import com.saku.dateone.R;
 import com.saku.dateone.bean.Dict;
 import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.services.UploadPicService;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.list.typeholders.StringTypeHolder;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
@@ -139,6 +143,11 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private boolean checkOnSubmit() {
@@ -330,7 +339,9 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 
             final ArrayList<String> newList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             mTotalPics.addAll(newList);
-            mPresenter.setPicList(mTotalPics);
+//            mPresenter.setPicList(mTotalPics);
+
+            openUploadService(mTotalPics);
             picListAdapter.notifyDataSetChanged();
         } else if (requestCode == SEE_BIG_PIC) {
             deletePicture(data);
@@ -367,4 +378,13 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         }
     }
 
+    @Override
+    public void openUploadService(List<String> originPics) {
+        if (originPics == null || originPics.size() == 0) {
+            return;
+        }
+        Intent uploadI = new Intent(this, UploadPicService.class);
+        uploadI.putStringArrayListExtra(UploadPicService.UPLOAD_PICS, (ArrayList<String>) originPics);
+        startService(uploadI);
+    }
 }

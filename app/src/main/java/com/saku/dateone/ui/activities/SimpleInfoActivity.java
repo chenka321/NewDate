@@ -26,6 +26,8 @@ import com.saku.lmlib.utils.DateUtils;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
+import java.util.List;
+
 /**
  * Created by liumin on 2017/8/15.
  */
@@ -92,6 +94,11 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
 
     @Override
     public void startPicActivity(String picPath) {
+
+    }
+
+    @Override
+    public void openUploadService(List<String> compressedPaths) {
 
     }
 
