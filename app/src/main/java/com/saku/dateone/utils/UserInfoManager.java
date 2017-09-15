@@ -9,6 +9,8 @@ import com.saku.dateone.bean.UserInfo;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PreferenceUtil;
 
+import java.util.List;
+
 /**
  * Created by liumin on 2017/9/9.
  */
@@ -19,6 +21,7 @@ public class UserInfoManager {
     private UserInfo mMyPendingInfo;  // 待填入的信息
     private UserInfo mOppoShowingInfo;  // 从服务端获取的用于显示对方信息的userInfo
     private UserInfo mMyShowingInfo;  // 从服务端获取的用于显示自己信息的userInfo, 逻辑判断
+    private List<String> uploadPicPaths;
 
     private UserInfoManager() {
 
@@ -164,5 +167,17 @@ public class UserInfoManager {
         PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_USER_INFO, "");
         mMyShowingInfo = null;
         mMyPendingInfo = null;
+    }
+
+    /**
+     * 设置压缩后的图片路径
+     * @param uploadPicPaths 压缩后的图片路径
+     */
+    public void setUploadPicPaths(List<String> uploadPicPaths) {
+        this.uploadPicPaths = uploadPicPaths;
+    }
+
+    public List<String> getUploadPicPaths() {
+        return this.uploadPicPaths;
     }
 }

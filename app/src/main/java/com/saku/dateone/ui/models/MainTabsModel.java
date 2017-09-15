@@ -13,7 +13,7 @@ public class MainTabsModel extends ABaseModel<MainTabsContract.P> implements Mai
 
     @Override
     public void loadTypeConfig() {
-        subscribeWith(mApi.getTypeConfig(),mPresenter.getTypeConfigObserver());
+        add(subscribeWith(mApi.getTypeConfig(), mPresenter.getTypeConfigObserver()));
     }
 
 

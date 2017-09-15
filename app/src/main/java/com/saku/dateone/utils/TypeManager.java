@@ -7,7 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import com.saku.dateone.DateApplication;
 import com.saku.dateone.bean.Dict;
 import com.saku.dateone.bean.TypeConfig;
-import com.saku.dateone.storage.FileUtils;
+import com.saku.lmlib.utils.FileUtils;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 import java.util.ArrayList;

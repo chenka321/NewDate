@@ -48,7 +48,7 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
             RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), picFile);
             MultipartBody.Part part = MultipartBody.Part.createFormData("image", picFile.getName(), requestBody);
             RequestBody tokenBody = RequestBody.create(MediaType.parse("multipart/form-data"), token);
-            subscribeWith(mApi.uploadImage(tokenBody, part), picObserver);
+            add(subscribeWith(mApi.uploadImage(tokenBody, part), picObserver));
         }
     }
 }

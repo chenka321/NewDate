@@ -12,7 +12,7 @@ public class LoginModel extends ABaseModel<LoginContract.P> implements LoginCont
     @Override
     public void login(String phoneNumber, String veriCode) {
 //        mPresenter.onLogin(0, "success");
-        subscribeWith(mApi.login(phoneNumber), mPresenter.getLoginObserver());
+        add(subscribeWith(mApi.login(phoneNumber), mPresenter.getLoginObserver()));
 
     }
 

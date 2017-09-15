@@ -1,8 +1,8 @@
 package com.saku.dateone.internet;
 
 import com.saku.dateone.DateApplication;
-import com.saku.dateone.storage.FileUtils;
 import com.saku.dateone.utils.GsonUtils;
+import com.saku.lmlib.utils.FileUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +44,7 @@ public class ApiManager {
         if (mOkHttpClient != null) {
             return mOkHttpClient;
         }
-        File file = new File(FileUtils.getCacheFolder(DateApplication.getAppContext()));
+        File file = new File(FileUtils.getExternalCacheFolder(DateApplication.getAppContext()));
         Cache cache = new Cache(file, CACHE_MAX_SIZE);
 //        CacheInterceptor cacheInterceptor = new CacheInterceptor(in);
         final HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

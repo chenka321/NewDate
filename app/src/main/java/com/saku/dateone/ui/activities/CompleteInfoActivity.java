@@ -329,7 +329,6 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         if (requestCode == REQUEST_ALBUM && data != null) {
 
             final ArrayList<String> newList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-            Log.d("lm", "choose picture onActivityResult: " + newList);
             mTotalPics.addAll(newList);
             mPresenter.setPicList(mTotalPics);
             picListAdapter.notifyDataSetChanged();
