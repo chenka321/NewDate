@@ -145,13 +145,13 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         if (mPicCompressCmp == null) {
             mPicCompressCmp = new CompositeDisposable();
         }
-        String name = new DateFormat().format("yyyyMMdd_hhmmss",
-                Calendar.getInstance(Locale.CHINA)) + ".jpg";
-        final String destFilePath = picCacheFolder + File.separator + name;
-        if (mCompressedPaths.contains(destFilePath)) {
-            Log.d("lm", "CompleteInfoPresenter ------ compressPics: 已经压缩过了");
-            return mCompressedPaths;
-        }
+//        String name = new DateFormat().format("yyyyMMdd_hhmmss",
+//                Calendar.getInstance(Locale.CHINA)) + ".jpg";
+//        final String destFilePath = picCacheFolder + File.separator + name;
+//        if (mCompressedPaths.contains(destFilePath)) {
+//            Log.d("lm", "CompleteInfoPresenter ------ compressPics: 已经压缩过了");
+//            return mCompressedPaths;
+//        }
 
 //        for (String picPath : picList) {
 //            final File file = new File(picPath);
@@ -189,9 +189,12 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
                     public String apply(@NonNull String srcPath) throws Exception {
 
 //                        final File destFile = new File(picCacheFolder, name);
-//                        final String destFilePath = picCacheFolder + File.separator + destFile.getName();
+                        final String destFilePath = picCacheFolder + File.separator + srcPath.substring(srcPath.lastIndexOf("/") + 1);
 //                        final String destFilePath = picCacheFolder + File.separator + in.incrementAndGet()+".jpg";
 
+                        if (mCompressedPaths.contains(destFilePath)) {
+                            return " 已经压缩过了";
+                        }
                         final Bitmap bitmap = ImageUtils.compressImage(srcPath, destSize, destSize);
                         ImageUtils.saveBitmapToFile(bitmap, destFilePath);
                         mCompressedPaths.add(destFilePath);
