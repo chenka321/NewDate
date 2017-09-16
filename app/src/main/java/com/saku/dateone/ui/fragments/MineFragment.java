@@ -162,7 +162,6 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     @Override
     public void refreshInfoView() {
         fillViews();
-        mFragmentRoot.requestLayout();
     }
 
     @Override

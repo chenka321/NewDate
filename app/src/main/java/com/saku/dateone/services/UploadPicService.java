@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.saku.dateone.DateApplication;
@@ -20,6 +21,7 @@ import com.saku.lmlib.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,6 +32,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -41,8 +44,8 @@ public class UploadPicService extends Service {
     public static final String UPLOAD_PICS = "upload_pics";
     private CompositeDisposable mComDisposable;
     private ApiService mApi;
-    private List<String> mPicList;
     private List<String> mCompressedPaths;
+    private List<String> mUploadedPaths;  // 已经上传过的
 
     @Override
     public void onCreate() {
@@ -54,14 +57,13 @@ public class UploadPicService extends Service {
     public void onDestroy() {
         super.onDestroy();
         clearDisposable();
-        LLog.d("lm", "UploadPicService ------ onDestroy: ");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mPicList = intent.getStringArrayListExtra(UPLOAD_PICS);
+        List<String> picList = intent.getStringArrayListExtra(UPLOAD_PICS);
         final String picCacheFolder = FileUtils.getExternalCacheFolder(DateApplication.getAppContext()) + File.separator + "morePics";
-        compressPics(picCacheFolder, (ArrayList<String>) mPicList);
+        compressPics(picCacheFolder, (ArrayList<String>) picList);
 
         return START_NOT_STICKY;
     }
@@ -73,41 +75,11 @@ public class UploadPicService extends Service {
         mComDisposable.add(disposable);
     }
 
-    private <T> ObservableTransformer<T, T> defaultSchedulers() {
-        return new ObservableTransformer<T, T>() {
-            @Override
-            public ObservableSource<T> apply(@NonNull Observable<T> upstream) {
-                return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
-    }
-
     private void clearDisposable() {
-        if (mComDisposable != null ) {
-            mComDisposable.clear();
-            mComDisposable = null;
+        if (mComDisposable != null && !mComDisposable.isDisposed()) {
+            mComDisposable.dispose();
         }
-
-    }
-
-    protected <T, D> RespObserver<T, D> subscribeWith(Observable<T> observable, RespObserver<T, D> observer) {
-        return observable.compose(this.<T>defaultSchedulers())
-                .subscribeWith(observer);
-    }
-
-    public RespObserver<ApiResponse<String>, String> getUploadPicObserver(final int index) {
-        return new RespObserver<ApiResponse<String>, String>() {
-            @Override
-            public void onSuccess(String data) {
-                LLog.d("lm", "UploadBinder ------ onSuccess: " + index);
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-                LLog.d("lm", "UploadBinder ------ onFail: " + code + ", index = " + index);
-            }
-        };
+        mComDisposable = null;
     }
 
     @Nullable
@@ -141,7 +113,7 @@ public class UploadPicService extends Service {
             public ObservableSource<List<String>> apply(@NonNull ArrayList<String> strings) throws Exception {
                 for (String srcPath : strings) {
                     final String destFilePath = picCacheFolder + File.separator + srcPath.substring(srcPath.lastIndexOf("/") + 1);
-                    if (mCompressedPaths.contains(destFilePath)) {
+                    if (new File(destFilePath).exists()) {
                         Log.d("lm", "CompleteInfoPresenter ------ apply: 已经压缩过了 ");
                         continue;
                     }
@@ -157,7 +129,7 @@ public class UploadPicService extends Service {
                 .subscribe(new Consumer<List<String>>() {
                     @Override
                     public void accept(List<String> resultList) throws Exception {
-                        LLog.d("lm", "CompleteInfoPresenter ------ accept: ---s:" + resultList.toArray() + " resultSize = " + mCompressedPaths.size());
+                        LLog.d("lm", "CompleteInfoPresenter ------ accept: ---s:" + resultList.toArray() + " resultSize = " + resultList.size());
                         prepareUploadRequest(resultList);
                     }
                 });
@@ -168,69 +140,85 @@ public class UploadPicService extends Service {
         return mCompressedPaths;
     }
 
-
-    private void prepareUploadRequest(List<String> compressedList) {
-        if (compressedList == null) {
+    private void prepareUploadRequest(final List<String> compressedList) {
+        if (compressedList == null || compressedList.size() == 0) {
             return;
         }
+
         final String token = UserInfoManager.getInstance().getMyShowingInfo().token;
-//        final RespObserver<ApiResponse<String>, String> picObserver = getUploadPicObserver(0);
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+
+        removeAlreadyUploaded(compressedList);
 
         final Disposable uploadDsp = Observable.fromIterable(compressedList)
                 .flatMap(new Function<String, ObservableSource<ApiResponse<String>>>() {
                     @Override
                     public ObservableSource<ApiResponse<String>> apply(@NonNull String path) throws Exception {
-                        File picFile = new File(path);
-                        if (!picFile.exists()) {
-                            return null;
-                        }
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), picFile);
-                        MultipartBody.Part part = MultipartBody.Part.createFormData("image", picFile.getName(), requestBody);
-                        RequestBody tokenBody = RequestBody.create(MediaType.parse("multipart/form-data"), token);
-//                        add(subscribeWith(mApi.uploadImage(tokenBody, part), getUploadPicObserver()));
-
-                        return mApi.uploadImage(tokenBody, part);
+                        Log.d("lm", "flatMap ------ apply: " + path);
+                        return doUploadPic(path, token);
                     }
-                }).concatMap(new Function<ApiResponse<String>, ObservableSource<Integer>>() {
+                }).zipWith(Observable.range(0, compressedList.size()), new BiFunction<ApiResponse<String>, Integer, String>() {
                     @Override
-                    public ObservableSource<Integer> apply(@NonNull ApiResponse<String> stringApiResponse) throws Exception {
-                        Log.d("lm", "UploadPicService ------ concatMap : " + stringApiResponse.getMsg());
-                        return Observable.just(stringApiResponse.getCode());
+                    public String apply(@NonNull ApiResponse<String> stringApiResponse, @NonNull Integer integer) throws Exception {
+                        Log.d("lm", "zipWith ------ response: " + stringApiResponse.getCode() + "， int = " + integer);
+                        return stringApiResponse.getMsg();
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Integer>() {
+                .subscribe(new Consumer<String>() {
                     @Override
-                    public void accept(Integer s) throws Exception {
-                        Log.d("lm", "UploadPicService ------ onnext : " + s);
-//                        clear();
+                    public void accept(String s) throws Exception {
+                        Log.d("lm", "UploadPicService ------ onNext: " + s);
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d("lm", "UploadPicService ------ onerr : " + throwable.getMessage());
-//                        clear();
+                        Log.d("lm", "UploadPicService ------ throwable: " + throwable.getMessage());
+                        stopSelf();
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        Log.d("lm", "UploadPicService ------ onComplete : ");
-//                        clear();
+                        Log.d("lm", "UploadPicService ------ complete: ");
+                        mUploadedPaths.addAll(compressedList);
+                        stopSelf();
                     }
                 });
-
 
         mComDisposable.add(uploadDsp);
     }
 
-    private void clear() {
-        stopSelf();
-        if (mComDisposable != null && !mComDisposable.isDisposed()) {
-            mComDisposable.dispose();
-            mComDisposable = null;
+    private void removeAlreadyUploaded(List<String> compressedList) {
+        if (mUploadedPaths == null) {
+            mUploadedPaths = new ArrayList<>();
+            return;
         }
 
+        final Iterator<String> iterator = compressedList.iterator();
+        while (iterator.hasNext()) {
+            final String next = iterator.next();
+            if (mUploadedPaths.contains(next)) {
+                iterator.remove();
+            }
+        }
     }
 
+    @Nullable
+    private ObservableSource<ApiResponse<String>> doUploadPic(@NonNull String path, String token) {
+        if (TextUtils.isEmpty(path) || TextUtils.isEmpty(token)) {
+            return null;
+        }
+        File picFile = new File(path);
+        if (!picFile.exists()) {
+            return null;
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), picFile);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("image", picFile.getName(), requestBody);
+        RequestBody tokenBody = RequestBody.create(MediaType.parse("multipart/form-data"), token);
+        return mApi.uploadImage(tokenBody, part);
+    }
 
 }
