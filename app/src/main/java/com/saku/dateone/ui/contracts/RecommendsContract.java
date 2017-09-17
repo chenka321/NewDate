@@ -25,8 +25,6 @@ public interface RecommendsContract {
         void loadLoginData();
         void onLoadLoginDataResult(int code, String msg);
 
-        void addLoadMoreItem();
-
         void clearDataList();
 
         /**

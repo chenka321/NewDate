@@ -91,7 +91,6 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
                             @Override
                             public void run() {
                                 setIsLoadingMore(true);
-                                mPresenter.addLoadMoreItem();
                                 loadData();
                             }
                         });

@@ -96,16 +96,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
     }
 
     @Override
-    public void addLoadMoreItem() {
-        if (mData == null || mData.size() == 0) {
-            return;
-        }
-        this.mData.add(new EmptyData());
-        Log.d("lm", "RecommendsPresenter ------ addLoadMoreItem: ");
-        mView.refreshRecyclerView();
-    }
-
-    @Override
     public void loadNotLoginData() {
         mModel.loadNotLoginData();
     }
@@ -115,9 +105,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         if (mData.size() == 0) {
             mView.setRecyclerViewData(mData);
         }
-//        if (mData.size()  > 0 && mData.get(mData.size() -1) instanceof EmptyData) {
-//            mData.remove(mData.get(mData.size() -1));
-//        }
 
         new Thread(new Runnable() {
             @Override
@@ -128,10 +115,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
                 mCurrPage.addAndGet(1);
                 Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
                 mView.setIsLoadingMore(false);
-                if (mData.size()  > 0 && mData.get(mData.size() -1) instanceof EmptyData) {
-                    Log.d("lm", "RecommendsPresenter ------ run: remove loadingmore");
-                    mData.remove(mData.get(mData.size() -1));
-                }
 
                 for (int i = 0; i < 5; i++) {
                     RecommendItemData pageData = new RecommendItemData();
@@ -160,9 +143,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
             }
         }).start();
 
-
-//        mView.setRecyclerViewData(mData);
-//        mView.refreshRecyclerView();
     }
 
     @Override
@@ -175,30 +155,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         if (mData.size() == 0) {
             mView.setRecyclerViewData(mData);
         }
-//        if (mData.size()  > 0 && mData.get(mData.size() -1) instanceof EmptyData) {
-//            mData.remove(mData.get(mData.size() -1));
-//        }
-//        for (int i = 0; i < 5; i++) {
-//            RecommendItemData pageData = new RecommendItemData();
-//            pageData.birthday = "30";
-//            pageData.currentLocation = "上海 " + i;
-//            pageData.name = "贝贝 login" + i;
-//            pageData.ocupation = "作家" + i;
-//            pageData.userId = i + 1;
-////            pageData.userImg
-//            pageData.bornLocation = "海南" + i;
-//            pageData.tags = new ArrayList<>();
-//            for (int j = 0; j < 4; j++) {
-//                TagString ts = new TagString();
-//                ts.text = "才华横溢" + j;
-//                ts.rgbValue = "#B266FF";
-//                pageData.tags.add(ts);
-//            }
-//            mData.add(pageData);
-//        }
-//
-////        mView.setRecyclerViewData(mData);
-//        mView.refreshRecyclerView();
 
         new Thread(new Runnable() {
             @Override
@@ -210,10 +166,6 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
                 mCurrPage.addAndGet(1);
                 Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
                 mView.setIsLoadingMore(false);
-                if (mData.size()  > 0 && mData.get(mData.size() -1) instanceof EmptyData) {
-                    Log.d("lm", "RecommendsPresenter ------ run: remove loadingmore");
-                    mData.remove(mData.get(mData.size() -1));
-                }
 
                 for (int i = 0; i < 5; i++) {
                     RecommendItemData pageData = new RecommendItemData();

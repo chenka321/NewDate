@@ -1,17 +1,13 @@
 package com.saku.dateone.ui.activities;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,8 +24,6 @@ import com.saku.dateone.services.UploadPicService;
 import com.saku.dateone.ui.contracts.CompleteInfoContract;
 import com.saku.dateone.ui.list.typeholders.StringTypeHolder;
 import com.saku.dateone.ui.presenters.CompleteInfoPresenter;
-import com.saku.dateone.utils.Consts;
-import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.TypeManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.DialogHelper;
@@ -38,7 +32,6 @@ import com.saku.lmlib.helper.PermissionHelper;
 import com.saku.lmlib.list.adapter.StringAdapter;
 import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
-import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
 import java.io.File;
@@ -48,10 +41,6 @@ import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
-
-/**
- * Created by liumin on 2017/8/15.
- */
 
 /**
  * User: liumin
