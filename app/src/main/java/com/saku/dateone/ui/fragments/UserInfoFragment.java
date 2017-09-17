@@ -123,7 +123,7 @@ public abstract class UserInfoFragment<P extends UserInfoContract.P> extends Bas
         }
     }
 
-    /**
+    /** 需要用到错误界面（登录、填写基本信息信息的弹框）时，实现此方法
      * @return 正常显示的view内容， 子类可以不用实现getContentView（）了
      */
     protected View getNormalContent() {

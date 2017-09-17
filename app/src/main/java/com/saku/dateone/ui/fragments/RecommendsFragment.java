@@ -39,7 +39,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     }
 
     @Override
-    protected View getContentView() {
+    protected View getNormalContent() {
         final View view = LayoutInflater.from(mContext).inflate(R.layout.s_list_fragment, mFragmentRoot, false);
         this.listRv = (RecyclerView) view.findViewById(R.id.list);
 

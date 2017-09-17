@@ -34,6 +34,9 @@ public abstract class ABaseModel<P extends BasePresenter> implements BaseModel {
     }
 
     protected <T, D>  void addToComposition(Observable<T> observable, RespObserver<T,D> observer) {
+        if (mComDisposable == null || mComDisposable.isDisposed()) {
+            mComDisposable = new CompositeDisposable();
+        }
         mComDisposable.add(observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));

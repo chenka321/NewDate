@@ -37,6 +37,8 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
         map.put("school", UserInfoManager.getInstance().getMyShowingInfo().school);
         map.put("hobby", UserInfoManager.getInstance().getMyShowingInfo().hobby);
         map.put("moreIntroduce", UserInfoManager.getInstance().getMyShowingInfo().moreIntroduce);
-        addToComposition(mApi.saveCompleteInfo(map), mPresenter.getSaveInfoObserver());
+
+        add(subscribeWith(mApi.saveCompleteInfo(map), mPresenter.getSaveInfoObserver()));
+//        addToComposition(mApi.saveCompleteInfo(map), mPresenter.getSaveInfoObserver());
     }
 }
