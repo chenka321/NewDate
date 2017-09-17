@@ -39,11 +39,9 @@ public class MinePresenter extends UserInfoPresenter<MineContract.V, MineContrac
     }
 
     @Override
-    public void onLoadUserInfoReult(int code, String msg, UserInfo userInfo) {
-        super.onLoadUserInfoReult(code, msg, userInfo);
-        if (mView != null) {
-            mView.refreshInfoView();
-        }
+    protected void onGetUserInfoSuccess(UserInfo userInfo) {
+        super.onGetUserInfoSuccess(userInfo);
+        mView.refreshInfoView();
     }
 
     @Override

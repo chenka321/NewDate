@@ -50,7 +50,7 @@ public interface ApiService {
     /**  用户详情 */
     @POST("/api/commonuser/getDetail")
     @FormUrlEncoded
-    Observable<ApiResponse<UserInfo>> getUserInfo(@Field("token") String token, @Field("targetUserId") String userId);
+    Observable<ApiResponse<UserInfo>> getUserInfo(@Field("token") String token, @Field("targetUserId") long userId);
 
     /**  保存基本信息*/
     @POST("/api/commonuser/save")

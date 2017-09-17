@@ -1,8 +1,6 @@
 package com.saku.dateone.ui.presenters;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 
@@ -10,10 +8,8 @@ import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.activities.LoginActivity;
-import com.saku.dateone.bean.TagString;
 import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.activities.OppoInfoActivity;
-import com.saku.dateone.ui.list.data.EmptyData;
 import com.saku.dateone.ui.list.data.RecommendItemData;
 import com.saku.dateone.ui.models.RecommendsModel;
 import com.saku.dateone.utils.Consts;
@@ -24,7 +20,6 @@ import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -115,7 +110,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
             @Override
             public void onSuccess(List<UserInfo> data) {
-                onLoadDataSuccess(data);
+                onLoadRecommendDataSuccess(data);
             }
 
             @Override
@@ -130,7 +125,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
             @Override
             public void onSuccess(List<UserInfo> data) {
-                onLoadDataSuccess(data);
+                onLoadRecommendDataSuccess(data);
             }
 
             @Override
@@ -146,7 +141,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         UIUtils.showToast(mView.getViewContext(), msg);
     }
 
-    private void onLoadDataSuccess(List<UserInfo> data) {
+    private void onLoadRecommendDataSuccess(List<UserInfo> data) {
         if (mData.size() == 0) {
             mView.setRecyclerViewData(mData);
         }

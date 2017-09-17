@@ -26,7 +26,7 @@ public class RecommendsModel extends UserInfoModel<RecommendsContract.P> impleme
 
     @Override
     public void loadLoginData(int currPage) {
-        String token = UserInfoManager.getInstance().getMyShowingInfo().token;
+        String token = UserInfoManager.getInstance().getToken();
         add(subscribeWith(mApi.getLoginRecommend(token, String.valueOf(currPage)), mPresenter.getLoginObserver()));
 
     }

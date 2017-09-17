@@ -198,6 +198,9 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         pendingInfo.company = mCurrComDict.id;
         pendingInfo.school = schoolTv.getText().toString();
         pendingInfo.moreIntroduce = moreInfoEt.getText().toString();
+        if (pendingInfo.moreIntroduce  == null) {
+            pendingInfo.moreIntroduce = "";
+        }
 
         return true;
     }
@@ -228,11 +231,10 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
                 selectAlbum();
                 break;
             case R.id.match_btn:
-                // TODO: 2017/9/14 检查所填的内容
-//                if (checkOnSubmit()) {
-//                    mPresenter.onMatchCompleteClicked();
-//                }
-                mPresenter.onMatchCompleteClicked();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);  // 隐藏软键盘
+                if (checkOnSubmit()) {
+                    mPresenter.onMatchCompleteClicked();
+                }
 
                 break;
         }

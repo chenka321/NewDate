@@ -1,7 +1,6 @@
 package com.saku.dateone.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.JsonSyntaxException;
 import com.saku.dateone.DateApplication;
@@ -77,7 +76,6 @@ public class UserInfoManager {
         }
     }
 
-
     public boolean isLogin() {
         if (mMyShowingInfo != null && !TextUtils.isEmpty(mMyShowingInfo.token)) {
             return true;
@@ -95,6 +93,13 @@ public class UserInfoManager {
         if (mMyShowingInfo != null) {
             mMyShowingInfo.token = myToken;
         }
+    }
+
+    public String getToken() {
+        if(mMyShowingInfo != null && !TextUtils.isEmpty(mMyPendingInfo.token)) {
+            return mMyPendingInfo.token;
+        }
+        return PreferenceUtil.getString(DateApplication.getAppContext(), Consts.MY_TOKEN, "");
     }
 
     /**

@@ -2,6 +2,8 @@ package com.saku.dateone.ui.contracts;
 
 
 import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.models.BaseModel;
 import com.saku.dateone.ui.presenters.BasePresenter;
 
@@ -34,8 +36,7 @@ public interface UserInfoContract {
          */
         boolean checkUserInfo();
 
-        void loadUserInfo();
-        void onLoadUserInfoReult(int code, String msg, UserInfo userInfo);
+        RespObserver<ApiResponse<UserInfo>, UserInfo> getCurrUserInfoObserver();
     }
 
     interface M extends BaseModel{

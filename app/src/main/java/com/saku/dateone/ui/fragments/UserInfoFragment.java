@@ -27,9 +27,6 @@ public abstract class UserInfoFragment<P extends UserInfoContract.P> extends Bas
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         LLog.d("lm", "UserInfoFragment onActivityResult: requestCode = " + requestCode);
-//        if (requestCode == Consts.LOGIN_RQST_MINE && resultCode == LoginActivity.LOGIN_OK) {
-//            mPresenter.checkUserInfo();
-//        }
     }
 
     @Override

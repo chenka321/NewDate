@@ -1,6 +1,8 @@
 package com.saku.dateone.ui.presenters;
 
 import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.contracts.UserInfoContract;
 import com.saku.dateone.utils.UserInfoManager;
 
@@ -20,6 +22,7 @@ public abstract class UserInfoPresenter<V1 extends UserInfoContract.V, M1 extend
     public boolean checkUserInfo() {
         final UserInfo userInfo = UserInfoManager.getInstance().getMyShowingInfo();
         if (userInfo == null) {
+            mView.showLoading();
             mModel.loadUserInfo();
             return false;
         } else if (!UserInfoManager.getInstance().hasSimpleLocal()) {
@@ -31,12 +34,22 @@ public abstract class UserInfoPresenter<V1 extends UserInfoContract.V, M1 extend
     }
 
     @Override
-    public void loadUserInfo() {
-        mModel.loadUserInfo();
+    public RespObserver<ApiResponse<UserInfo>, UserInfo> getCurrUserInfoObserver() {
+        return new RespObserver<ApiResponse<UserInfo>, UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo userInfo) {
+                onGetUserInfoSuccess(userInfo);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+            }
+        };
     }
 
-    @Override
-    public void onLoadUserInfoReult(int code, String msg, UserInfo userInfo) {
+    protected void onGetUserInfoSuccess(UserInfo userInfo) {
+        mView.dismissLoading();
         UserInfoManager.getInstance().saveShowingInfo(userInfo);
         if (mView != null && !UserInfoManager.getInstance().hasSimpleLocal() ) {
             mView.showFillBasicInfoDialog();
