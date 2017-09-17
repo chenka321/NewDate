@@ -43,10 +43,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V, CompleteInfoContract.M> implements CompleteInfoContract.P {
 
-    private ArrayList<String> mPicList;
-    private List<String> mCompressedPaths;
-    private CompositeDisposable mPicCompressCmp;
-
     @Override
     protected CompleteInfoContract.M getModel() {
         return new CompleteInfoModel(this);
@@ -86,7 +82,6 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
     public void onMatchCompleteClicked() {
         mView.showLoading();
         mModel.startCompleteMatch();
-        mModel.uploadPics(mPicList);
     }
 
     @Override
@@ -94,89 +89,9 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         if (mView == null) {
             return;
         }
-
+        mView.dismissLoading();
         onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
-//        mView.openUploadService(mCompressedPaths);  // 压缩完成后直接上传
     }
-
-    /**
-     * 照片点击事件
-     */
-    public OnRecyclerClickCallBack getPicItemClickListener() {
-        return new OnRecyclerClickCallBack() {
-            @Override
-            public void onClick(int position, View view) {
-                if (mPicList != null && mPicList.size() > position) {
-                    mView.startPicActivity(mPicList.get(position));
-                }
-            }
-        };
-    }
-//
-//    /**
-//     * 保存选择的图片路径
-//     */
-//    public void setPicList(ArrayList<String> picList) {
-//        this.mPicList = picList;
-//        UserInfoManager.getInstance().getMyPendingInfo().photo = mPicList;
-//        final String picCacheFolder = FileUtils.getExternalCacheFolder(mView.getViewContext()) + File.separator + "morePics";
-//
-//        UserInfoManager.getInstance().setUploadPicPaths(compressPics(picCacheFolder, mPicList));
-//    }
-
-//    /**
-//     * 压缩图片
-//     */
-//    private List<String> compressPics(final String picCacheFolder, ArrayList<String> picList) {
-//        if (picList == null) {
-//            return null;
-//        }
-//        File cacheFolder = new File(picCacheFolder);
-//        if (!cacheFolder.exists()) {
-//            cacheFolder.mkdir();
-//        }
-//        final int destSize = UIUtils.convertDpToPx(240, mView.getViewContext());
-//        if (mCompressedPaths == null) {
-//            mCompressedPaths = new ArrayList<>();
-//        }
-//
-//        if (mPicCompressCmp == null) {
-//            mPicCompressCmp = new CompositeDisposable();
-//        }
-//
-//        final Disposable disposable = Observable.fromArray(picList).flatMap(new Function<ArrayList<String>, ObservableSource<List<String>>>() {
-//            @Override
-//            public ObservableSource<List<String>> apply(@NonNull ArrayList<String> strings) throws Exception {
-//                for (String srcPath : strings) {
-//                    final String destFilePath = picCacheFolder + File.separator + srcPath.substring(srcPath.lastIndexOf("/") + 1);
-//                    if (mCompressedPaths.contains(destFilePath)) {
-//                        Log.d("lm", "CompleteInfoPresenter ------ apply: 已经压缩过了 ");
-//                        continue;
-//                    }
-//                    final Bitmap bitmap = ImageUtils.compressImage(srcPath, destSize, destSize);
-//                    ImageUtils.saveBitmapToFile(bitmap, destFilePath);
-//                    mCompressedPaths.add(destFilePath);
-//                }
-//
-//                return Observable.fromArray(mCompressedPaths);
-//            }
-//        }).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<List<String>>() {
-//                    @Override
-//                    public void accept(List<String> strings) throws Exception {
-//                        LLog.d("lm", "CompleteInfoPresenter ------ accept: ---s:" + strings.toArray() + " resultSize = " + mCompressedPaths.size());
-//                        if (mView != null) {
-//                            mView.openUploadService(mCompressedPaths);
-//                        }
-//                    }
-//                });
-//
-//
-//        mPicCompressCmp.add(disposable);
-//
-//        return mCompressedPaths;
-//    }
 
     @Override
     public RespObserver<ApiResponse<String>, String> getUploadPicObserver() {

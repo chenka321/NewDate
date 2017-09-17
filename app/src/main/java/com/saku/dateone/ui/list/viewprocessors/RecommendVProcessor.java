@@ -31,6 +31,8 @@ import java.util.List;
 
 public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.VHolder, RecommendItemData, ItemData> {
 
+    public static final int TYPE_RECOMMEND = 1;   // 推荐信息
+    public static final int TYPE_COLLECTION = 2;  // 收藏信息
     private OnRecyclerClickCallBack itemListener;
     private Context mContext;
     private int tagMargin;
@@ -80,8 +82,8 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
                 TextUtils.isEmpty(frontPageData.name) ? 0 : frontPageData.name.length(), sb.toString().length());
         viewHolder.nameAgeOccupationTv.setText(ssb);
 
-        viewHolder.locationTv.setText(viewHolder.locationTv.getText().toString().concat(frontPageData.currentLocation));
-        viewHolder.residenceLocTv.setText(viewHolder.residenceLocTv.getText().toString().concat(frontPageData.bornLocation));
+        viewHolder.locationTv.setText(mContext.getString(R.string.currentLocation, frontPageData.currentLocation));
+        viewHolder.residenceLocTv.setText(mContext.getString(R.string.residence,frontPageData.bornLocation));
         tvCacheManager.showTextView(frontPageData.tags, viewHolder.tagsTl);
 
         if (which == 2) {

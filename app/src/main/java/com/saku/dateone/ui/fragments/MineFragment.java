@@ -16,6 +16,8 @@ import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.CompleteInfoActivity;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
+import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
+import com.saku.dateone.ui.list.viewprocessors.RecommendVProcessor;
 import com.saku.dateone.ui.presenters.MinePresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
@@ -172,7 +174,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
                 break;
             case R.id.collection_tv:
                 Bundle b = new Bundle();
-                b.putInt(Consts.RECOMMEND_TYPE, 2);
+                b.putInt(Consts.USERINFO_LIST_TYPE, RecommendVProcessor.TYPE_COLLECTION);
                 Fragment recommendF = RecommendsFragment.newInstance(b);
                 addFragment(recommendF);
                 break;

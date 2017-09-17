@@ -83,4 +83,8 @@ public class TitleLayout extends LinearLayout {
         mTitleRightIv.setImageResource(resId);
     }
 
+    public void setLeftBtn(String titleLeft, OnClickListener onLefClick) {
+        mTitleLeftTv.setText(titleLeft);
+        mTitleLeftTv.setOnClickListener(onLefClick);
+    }
 }

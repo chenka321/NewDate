@@ -96,6 +96,23 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     @Override
+    public void setTitle(CharSequence title) {
+        mTitleLayout.setTitleContent(title.toString());
+    }
+
+    public void setTitle(String title) {
+        mTitleLayout.setTitleContent(title);
+    }
+
+    public void setTitle(int titleResId){
+        mTitleLayout.setTitleContent(getResources().getString(titleResId));
+    }
+
+    public void setLeftBtn(String titleLeft, View.OnClickListener onLefClick) {
+        mTitleLayout.setLeftBtn(titleLeft, onLefClick);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 

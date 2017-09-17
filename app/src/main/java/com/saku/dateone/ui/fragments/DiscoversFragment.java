@@ -12,6 +12,7 @@ import com.saku.dateone.R;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.contracts.DiscoversContract;
 import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
+import com.saku.dateone.ui.list.viewprocessors.RecommendVProcessor;
 import com.saku.dateone.ui.presenters.DiscoversPresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
@@ -64,7 +65,7 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         mTitleLayout.setTitleContent("发现");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), 1, mPresenter.getItemClickListener());
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), RecommendVProcessor.TYPE_RECOMMEND, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));

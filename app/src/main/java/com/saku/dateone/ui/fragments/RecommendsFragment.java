@@ -12,9 +12,9 @@ import android.view.View;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
+import com.saku.dateone.ui.list.viewprocessors.RecommendVProcessor;
 import com.saku.dateone.ui.presenters.RecommendsPresenter;
 import com.saku.dateone.utils.Consts;
-import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.adapter.BaseListAdapter;
 import com.saku.lmlib.list.data.ItemData;
@@ -30,7 +30,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     private int pageType;
     private LinearLayoutManager mLayoutManager;
     private boolean mIsLoadingMore;
-    private boolean refreshData;
+    private boolean refreshData;  // 从其他页面进来是否需要刷新数据
 
     public static RecommendsFragment newInstance(Bundle bundle) {
         RecommendsFragment f = new RecommendsFragment();
@@ -56,8 +56,8 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         super.onViewCreated(view, savedInstanceState);
 
         setPresenter(new RecommendsPresenter(this));
-
         initRecyclerView();
+
         setTitle();
         loadData();
     }
@@ -65,13 +65,14 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(mContext);
         listRv.setLayoutManager(mLayoutManager);
-        pageType = getArguments() != null ? getArguments().getInt(Consts.RECOMMEND_TYPE, 1) : 1;
+        pageType = getArguments() != null ? getArguments().getInt(Consts.USERINFO_LIST_TYPE,
+                RecommendVProcessor.TYPE_RECOMMEND) : RecommendVProcessor.TYPE_RECOMMEND;
         RecommendTypeHolder typeHolder = new RecommendTypeHolder(mContext, pageType, mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, mContext)));
 
-        mIsLoadingMore = false;
+        setIsLoadingMore(false);
         listRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -81,8 +82,23 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
                     final int totalCount = mLayoutManager.getItemCount();
                     final int pastCount = mLayoutManager.findFirstVisibleItemPosition();
 
+                    Log.d("lm", "RecommendsFragment ------ onScrolled: visibleCount = " +  visibleCount
+                    + " , pastCount = " + pastCount + " , totalCount = " + totalCount);
+
                     if (visibleCount + pastCount >= totalCount) {
                         Log.d("lm", "-----onScrolled: 获取新数据.....");
+                        recyclerView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                setIsLoadingMore(true);
+                                mPresenter.addLoadMoreItem();
+                                loadData();
+                            }
+                        });
+                        // 显示加载更多
+                        // 获取数据成功后，设置mIsLoadingMore = false,  不管成功失败，使加载更多小时， 添加数据
+                        // 从其他页面跳过来要刷新数据把currPage重置
+
                     }
                 }
             }
@@ -108,7 +124,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
      * 根据是否登录来拉不同对应接口的推荐数据
      */
     private void loadData() {
-
+        showLoading();
         if (UserInfoManager.getInstance().isLogin()) {
             mPresenter.loadLoginData();
         } else {
@@ -116,10 +132,14 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         }
     }
 
+    @Override
+    public void setRecyclerViewData(List<ItemData> data) {
+        listAdapter.setData(data);
+    }
 
     @Override
-    public void refreshRecyclerView(List<ItemData> data) {
-        listAdapter.setData(data);
+    public void refreshRecyclerView() {
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -130,13 +150,21 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         // TODO: 2017/9/10 填完补充信息跳过来要拉数据, 填写简单信息， 补充信息， 我的-我的消息某一种类型
         if (refreshData) {
             refreshData = false;
+            mPresenter.clearDataList();
+            mPresenter.setCurrentPage(0);
             loadData();
             LLog.d("lm", "RecommendFragment onResume:  loading -------- ");
         }
     }
 
+    @Override
+    public void setIsLoadingMore(boolean loadingState) {
+        this.mIsLoadingMore = loadingState;
+    }
 
-
+    /**
+     * 设置刷新数据
+     */
     public void refresh() {
         refreshData = true;
     }

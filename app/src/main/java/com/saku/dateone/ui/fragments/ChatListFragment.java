@@ -11,6 +11,7 @@ import android.view.View;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.ChatListContract;
 import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
+import com.saku.dateone.ui.list.viewprocessors.RecommendVProcessor;
 import com.saku.dateone.ui.presenters.ChatListPresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
@@ -61,7 +62,7 @@ public class ChatListFragment extends UserInfoFragment<ChatListPresenter> implem
         mTitleLayout.setTitleContent("聊天历史");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), 1,
+        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), RecommendVProcessor.TYPE_RECOMMEND,
                 mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);

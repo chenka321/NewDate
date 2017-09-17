@@ -30,25 +30,4 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
         mPresenter.onMatchCompleteResult(0, "success");
     }
 
-    @Override
-    public void uploadPics(ArrayList<String> picList) {
-        if (picList == null || picList.size() == 0) {
-            return;
-        }
-
-        final String token = UserInfoManager.getInstance().getMyShowingInfo().token;
-        if (mPresenter != null) {
-            final RespObserver<ApiResponse<String>, String> picObserver = mPresenter.getUploadPicObserver();
-
-            final String path1 = picList.get(0);
-            File picFile = new File(path1);
-            if (!picFile.exists()) {
-                return ;
-            }
-            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), picFile);
-            MultipartBody.Part part = MultipartBody.Part.createFormData("image", picFile.getName(), requestBody);
-            RequestBody tokenBody = RequestBody.create(MediaType.parse("multipart/form-data"), token);
-            add(subscribeWith(mApi.uploadImage(tokenBody, part), picObserver));
-        }
-    }
 }

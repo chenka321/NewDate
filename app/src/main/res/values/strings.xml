@@ -82,6 +82,7 @@
     <string name="confirm_logout">确定登出吗？</string>
     <string name="delete_info_if_logout">登出会删除您的缓存数据， 还要继续吗？</string>
     <string name="confirm">确定</string>
+    <string name="is_loading_more">加载更多中...</string>
 
 
 </resources>

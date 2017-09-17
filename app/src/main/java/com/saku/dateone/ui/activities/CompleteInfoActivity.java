@@ -37,6 +37,7 @@ import com.saku.lmlib.dialog.OneColumnPickerDialog;
 import com.saku.lmlib.helper.PermissionHelper;
 import com.saku.lmlib.list.adapter.StringAdapter;
 import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
+import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
@@ -124,7 +125,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         matchBtn = (Button) findViewById(R.id.match_btn);
 
         uploadPicRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        StringTypeHolder typeHolder = new StringTypeHolder(this, mPresenter.getPicItemClickListener());
+        StringTypeHolder typeHolder = new StringTypeHolder(this, getPicItemClickListener());
         mTotalPics = new ArrayList<>();
         picListAdapter = new StringAdapter(mTotalPics, typeHolder);
         uploadPicRv.setAdapter(picListAdapter);
@@ -337,7 +338,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ALBUM && data != null) {
 
-            final ArrayList<String> newList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            ArrayList<String> newList = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             mTotalPics.addAll(newList);
 //            mPresenter.setPicList(mTotalPics);
 
@@ -386,5 +387,16 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
         Intent uploadI = new Intent(this, UploadPicService.class);
         uploadI.putStringArrayListExtra(UploadPicService.UPLOAD_PICS, (ArrayList<String>) originPics);
         startService(uploadI);
+    }
+
+    public OnRecyclerClickCallBack getPicItemClickListener() {
+        return new OnRecyclerClickCallBack() {
+            @Override
+            public void onClick(int position, View view) {
+                if (mTotalPics != null && mTotalPics.size() > position) {
+                    startPicActivity(mTotalPics.get(position));
+                }
+            }
+        };
     }
 }

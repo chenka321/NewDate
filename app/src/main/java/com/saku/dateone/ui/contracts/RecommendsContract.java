@@ -1,9 +1,5 @@
 package com.saku.dateone.ui.contracts;
 
-import android.os.Bundle;
-
-import com.saku.dateone.ui.models.BaseModel;
-import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
@@ -11,7 +7,11 @@ import java.util.List;
 
 public interface RecommendsContract {
     interface V extends UserInfoContract.V {
-        void refreshRecyclerView(List<ItemData> data);
+        void setRecyclerViewData(List<ItemData> data);
+
+        void refreshRecyclerView();
+
+        void setIsLoadingMore(boolean loadingState);
     }
 
     interface P extends UserInfoContract.P {
@@ -24,6 +24,15 @@ public interface RecommendsContract {
 
         void loadLoginData();
         void onLoadLoginDataResult(int code, String msg);
+
+        void addLoadMoreItem();
+
+        void clearDataList();
+
+        /**
+         * 重新刷新页面时，需要重置请求参数为0
+         */
+        void setCurrentPage(int index);
     }
 
     interface M extends UserInfoContract.M {

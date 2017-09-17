@@ -43,6 +43,6 @@ public interface CompleteInfoContract {
         void startSimpleMatch(); // 开始匹配
         void startCompleteMatch(); // 开始完整信息页面匹配
 
-        void uploadPics(ArrayList<String> picList);  // 上传图片
+//        void uploadPics(ArrayList<String> picList);  // 上传图片
     }
 }

@@ -50,6 +50,6 @@ public class Consts {
     public static final int REFRESH_RECOMMEND_LOGIN = 11;
 
     /** 收藏列表破还是推荐列表 1 是推荐， 2是收藏*/
-    public static final String RECOMMEND_TYPE = "recommend_type";
+    public static final String USERINFO_LIST_TYPE = "recommend_type";
     public static final String SHOW_SPLASH = "show_splash"; // 是否展示开屏
 }
