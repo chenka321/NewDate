@@ -59,7 +59,16 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         initRecyclerView();
 
         setTitle();
-        loadData();
+
+        listRv.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!mPresenter.checkUserInfo()) {
+                    loadData();
+                }
+            }
+        });
+
     }
 
     private void initRecyclerView() {
@@ -82,11 +91,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
                     final int totalCount = mLayoutManager.getItemCount();
                     final int pastCount = mLayoutManager.findFirstVisibleItemPosition();
 
-                    Log.d("lm", "RecommendsFragment ------ onScrolled: visibleCount = " +  visibleCount
-                    + " , pastCount = " + pastCount + " , totalCount = " + totalCount);
-
                     if (visibleCount + pastCount >= totalCount) {
-                        Log.d("lm", "-----onScrolled: 获取新数据.....");
                         recyclerView.post(new Runnable() {
                             @Override
                             public void run() {
@@ -94,10 +99,6 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
                                 loadData();
                             }
                         });
-                        // 显示加载更多
-                        // 获取数据成功后，设置mIsLoadingMore = false,  不管成功失败，使加载更多小时， 添加数据
-                        // 从其他页面跳过来要刷新数据把currPage重置
-
                     }
                 }
             }

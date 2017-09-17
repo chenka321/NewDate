@@ -107,7 +107,7 @@ public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implemen
         if (checkedId == R.id.female_rb) {
             Log.d("lm", "onCheckedChanged: female");
 
-            mPresenter.onGenderClicked(69);
+            mPresenter.onGenderClicked(69);  // 和后台约定id = 69是女性
         } else if (checkedId == R.id.male_rb) {
             Log.d("lm", "onCheckedChanged: male");
             mPresenter.onGenderClicked(68);

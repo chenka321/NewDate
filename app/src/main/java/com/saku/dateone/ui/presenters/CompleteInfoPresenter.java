@@ -10,7 +10,6 @@ import com.saku.dateone.ui.models.CompleteInfoModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
-import com.saku.lmlib.utils.LLog;
 
 public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V, CompleteInfoContract.M> implements CompleteInfoContract.P {
 
@@ -25,15 +24,30 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
 
     @Override
     public void onMatchSimpleClicked() {
-        mModel.startSimpleMatch();
+        mView.showLoading();
+        mModel.saveSimpleInfo();
     }
 
     @Override
-    public void onMatchSimpleResult(int code, String msg) {
-        if (mView == null) {
-            return;
-        }
-        onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
+    public void onMatchCompleteClicked() {
+        mView.showLoading();
+        mModel.saveCompleteInfo();
+    }
+
+    @Override
+    public RespObserver<ApiResponse<String>, String> getSaveInfoObserver() {
+        return new RespObserver<ApiResponse<String>, String>() {
+            @Override
+            public void onSuccess(String data) {
+                mView.dismissLoading();
+                onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+            }
+        };
     }
 
     /**
@@ -49,38 +63,5 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         mView.toActivity(MainTabsActivity.class, bundle, true);
     }
 
-    @Override
-    public void onMatchCompleteClicked() {
-        mView.showLoading();
-        mModel.startCompleteMatch();
-    }
-
-    @Override
-    public void onMatchCompleteResult(int code, String msg) {
-        if (mView == null) {
-            return;
-        }
-        mView.dismissLoading();
-        onFillResult(Consts.REFRESH_RECOMMEND_LOGIN);
-    }
-
-    @Override
-    public RespObserver<ApiResponse<String>, String> getUploadPicObserver() {
-        return new RespObserver<ApiResponse<String>, String>() {
-            @Override
-            public void onSuccess(String data) {
-                mView.dismissLoading();
-                LLog.d("lm", "----- upload image ---- onSuccess: ");
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-                mView.dismissLoading();
-
-                LLog.d("lm", "----- upload image ---- onFail: " + msg);
-
-            }
-        };
-    }
 
 }

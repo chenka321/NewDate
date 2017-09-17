@@ -103,4 +103,7 @@ public class UIUtils {
         return false;
     }
 
+    public static void showToast(Context context, String errorText) {
+            Toast.makeText(context, errorText, Toast.LENGTH_SHORT).show();
+    }
 }

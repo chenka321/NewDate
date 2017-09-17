@@ -6,6 +6,9 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 
+import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.bean.TagString;
 import com.saku.dateone.ui.contracts.RecommendsContract;
@@ -18,8 +21,10 @@ import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
+import com.saku.lmlib.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -97,102 +102,65 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
 
     @Override
     public void loadNotLoginData() {
-        mModel.loadNotLoginData();
-    }
-
-    @Override
-    public void onLoadNotLoginDatResult(int code, String msg) {
-        if (mData.size() == 0) {
-            mView.setRecyclerViewData(mData);
-        }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                SystemClock.sleep(3000);
-                mView.dismissLoading();
-                mCurrPage.addAndGet(1);
-                Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
-                mView.setIsLoadingMore(false);
-
-                for (int i = 0; i < 5; i++) {
-                    RecommendItemData pageData = new RecommendItemData();
-                    pageData.birthday = "30";
-                    pageData.currentLocation = "上海" + i;
-                    pageData.name = "贝贝 notLogin-- " + i;
-                    pageData.ocupation = "作家" + i;
-                    pageData.userId = i + 1;
-//            pageData.userImg
-                    pageData.bornLocation = "海南" + i;
-                    pageData.tags = new ArrayList<>();
-                    for (int j = 0; j < 4; j++) {
-                        TagString ts = new TagString();
-                        ts.text = "才华横溢" + j;
-                        ts.rgbValue = "#B266FF";
-                        pageData.tags.add(ts);
-                    }
-                    mData.add(pageData);
-                }
-                ((Activity) mView.getViewContext()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mView.refreshRecyclerView();
-                    }
-                });
-            }
-        }).start();
-
+        mModel.loadNotLoginData(mCurrPage.get());
     }
 
     @Override
     public void loadLoginData() {
-        mModel.loadLoginData();
+        mModel.loadLoginData(mCurrPage.get());
     }
 
     @Override
-    public void onLoadLoginDataResult(int code, String msg) {
+    public RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getUnLoginObserver() {
+        return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
+            @Override
+            public void onSuccess(List<UserInfo> data) {
+                onLoadDataSuccess(data);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                onLoadDataFail(code, msg);
+            }
+        };
+    }
+
+    @Override
+    public RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getLoginObserver() {
+        return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
+            @Override
+            public void onSuccess(List<UserInfo> data) {
+                onLoadDataSuccess(data);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                onLoadDataFail(code, msg);
+            }
+        };
+    }
+
+    private void onLoadDataFail(int code, String msg) {
+        mView.dismissLoading();
+        mView.setIsLoadingMore(false);
+        UIUtils.showToast(mView.getViewContext(), msg);
+    }
+
+    private void onLoadDataSuccess(List<UserInfo> data) {
         if (mData.size() == 0) {
             mView.setRecyclerViewData(mData);
         }
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                SystemClock.sleep(3000);
-                mView.dismissLoading();
-
-                mCurrPage.addAndGet(1);
-                Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
-                mView.setIsLoadingMore(false);
-
-                for (int i = 0; i < 5; i++) {
-                    RecommendItemData pageData = new RecommendItemData();
-                    pageData.birthday = "30";
-                    pageData.currentLocation = "上海" + i;
-                    pageData.name = "贝贝 login-- " + i;
-                    pageData.ocupation = "作家" + i;
-                    pageData.userId = i + 1;
-//            pageData.userImg
-                    pageData.bornLocation = "海南" + i;
-                    pageData.tags = new ArrayList<>();
-                    for (int j = 0; j < 4; j++) {
-                        TagString ts = new TagString();
-                        ts.text = "才华横溢" + j;
-                        ts.rgbValue = "#B266FF";
-                        pageData.tags.add(ts);
-                    }
-                    mData.add(pageData);
-                }
-                ((Activity) mView.getViewContext()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mView.refreshRecyclerView();
-                    }
-                });
-            }
-        }).start();
+        mView.dismissLoading();
+        mCurrPage.addAndGet(1);
+        Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
+        mView.setIsLoadingMore(false);
+        if (data == null || data.size() == 0) {
+            return;
+        }
+        for (UserInfo item: data ) {
+            mData.add((ItemData) item);
+        }
+        mView.refreshRecyclerView();
     }
 
     @Override
@@ -200,13 +168,4 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         mCurrPage.set(index);
     }
 
-    @Override
-    public boolean checkUserInfo() {
-        if (!UserInfoManager.getInstance().hasSimpleLocal()) {
-            mView.showFillBasicInfoDialog();
-            return true;
-        } else {
-            return false;   // 这里没看到拉用户信息的必要。
-        }
-    }
 }

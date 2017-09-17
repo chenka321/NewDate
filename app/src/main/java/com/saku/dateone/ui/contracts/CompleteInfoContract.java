@@ -29,20 +29,16 @@ public interface CompleteInfoContract {
 
          /** 点击简单信息填写页面的开始匹配 */
         void onMatchSimpleClicked();
-        /** 点击简单信息填写页面的匹配请求回调 */
-        void onMatchSimpleResult(int code, String msg);
 
         /** 点击补充信息填写页面的开始匹配 */
         void onMatchCompleteClicked();
-        void onMatchCompleteResult(int code, String msg);
 
-        RespObserver<ApiResponse<String>, String> getUploadPicObserver();
+        /** 点击开始匹配保存基本信息和补充信息的请求回调 */
+        RespObserver<ApiResponse<String>,String> getSaveInfoObserver();
     }
 
     interface M extends BaseModel{
-        void startSimpleMatch(); // 开始匹配
-        void startCompleteMatch(); // 开始完整信息页面匹配
-
-//        void uploadPics(ArrayList<String> picList);  // 上传图片
+        void saveSimpleInfo(); // 保存基本信息
+        void saveCompleteInfo();  // 保存补充信息
     }
 }

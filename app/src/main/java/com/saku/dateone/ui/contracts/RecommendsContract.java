@@ -1,5 +1,8 @@
 package com.saku.dateone.ui.contracts;
 
+import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
@@ -16,14 +19,10 @@ public interface RecommendsContract {
 
     interface P extends UserInfoContract.P {
 
-
         OnRecyclerClickCallBack getItemClickListener();
 
         void loadNotLoginData();
-        void onLoadNotLoginDatResult(int code, String msg);
-
         void loadLoginData();
-        void onLoadLoginDataResult(int code, String msg);
 
         void clearDataList();
 
@@ -31,10 +30,13 @@ public interface RecommendsContract {
          * 重新刷新页面时，需要重置请求参数为0
          */
         void setCurrentPage(int index);
+
+        RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getUnLoginObserver();
+        RespObserver<ApiResponse<List<UserInfo>>,List<UserInfo>> getLoginObserver();
     }
 
     interface M extends UserInfoContract.M {
-        void loadNotLoginData();
-        void loadLoginData();
+        void loadNotLoginData(int currPage);
+        void loadLoginData(int currPage);
     }
 }
