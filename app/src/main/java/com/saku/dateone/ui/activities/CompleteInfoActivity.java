@@ -321,6 +321,7 @@ public class CompleteInfoActivity extends BaseActivity<CompleteInfoPresenter> im
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         Intent i = new Intent(this, BigPicActivity.class);
         i.putExtra(BigPicActivity.PIC_PATH, picPath);
+        i.putExtra(BigPicActivity.FROM_PAGE, BigPicActivity.FROM_COMPLETE_INFO);
         this.startActivityForResult(i, SEE_BIG_PIC);
     }
 

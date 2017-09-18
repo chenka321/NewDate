@@ -21,7 +21,7 @@ public class RecommendsModel extends UserInfoModel<RecommendsContract.P> impleme
         requestMap.put("gender", UserInfoManager.getInstance().getMyPendingInfo().gender);
         requestMap.put("currentLocation", UserInfoManager.getInstance().getMyPendingInfo().currentLocation);
         requestMap.put("page", currPage);
-        add(subscribeWith(mApi.getUnloginRecommend(requestMap), mPresenter.getUnLoginObserver()));
+        add(subscribeWith(mApi.getNotLoginRecommend(requestMap), mPresenter.getUnLoginObserver()));
     }
 
     @Override

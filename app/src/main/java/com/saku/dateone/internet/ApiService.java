@@ -40,7 +40,7 @@ public interface ApiService {
     /**  未登录时的信息推荐*/
     @FormUrlEncoded
     @POST("/api/recommend/show/unlogin")
-    Observable<ApiResponse<List<UserInfo>>> getUnloginRecommend(@FieldMap Map<String, Object> map);
+    Observable<ApiResponse<List<UserInfo>>> getNotLoginRecommend(@FieldMap Map<String, Object> map);
 
     /**  登录时的信息推荐*/
     @FormUrlEncoded
@@ -65,7 +65,7 @@ public interface ApiService {
     /**  删除或添加收藏*/
     @POST("/api/collect/save")
     @FormUrlEncoded
-    Observable<ApiResponse<Boolean>> saveCollection(@Field("token") String token, @Field("targetUserId") String userId);
+    Observable<ApiResponse<Boolean>> saveCollection(@Field("token") String token, @Field("targetUserId") long userId);
 
     /**  发现列表*/
     @POST("/api/collect/save")

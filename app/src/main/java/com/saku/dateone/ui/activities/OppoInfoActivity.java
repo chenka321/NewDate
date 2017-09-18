@@ -1,6 +1,7 @@
 package com.saku.dateone.ui.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,17 +19,24 @@ import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
+import com.saku.dateone.utils.IconUploadHelper;
 import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.dialog.CommonDialog;
+import com.saku.lmlib.helper.PermissionHelper;
 import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
+
+import java.util.ArrayList;
+
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 /**
  * 对方子女信息查看页
  */
 public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements OppoInfoContract.V, View.OnClickListener {
-
+    private static final int REQUEST_ALBUM = 3; // 选择相册照片
     public static final String USER_ID = "user_id";
     private ImageView userIv;
     private TextView nameTv;
@@ -100,6 +108,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         moreInfoVs = (ViewStub) findViewById(R.id.more_info_ll);
         chatTv = (TextView) findViewById(R.id.chat_btn);
 
+        userIv.setOnClickListener(this);
         viewMoreTv.setOnClickListener(this);
         collectionTv.setOnClickListener(this);
         chatTv.setOnClickListener(this);
@@ -122,6 +131,10 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         final String incomeType = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getIncomeMap(), userinfo.income);
 //        fieldworkTv.setText(getString(R.string.industry, TypeManager.getInstance().getCompanyTypeMap().get(userinfo.company)));
         salaryTv.setText(getString(R.string.salary, incomeType));
+
+        collectionTv.setCompoundDrawablesWithIntrinsicBounds(0,
+                userinfo.isCollected ? R.drawable.ic_collection : R.drawable.ic_collection_unselected, 0, 0);
+        collectionTv.setCompoundDrawablePadding(UIUtils.convertDpToPx(5, this));
     }
 
     @Override
@@ -250,6 +263,46 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
             case R.id.collection_tv:
                 mPresenter.onCollectionClicked();
                 break;
+            case R.id.opp_user_iv:
+                selectAlbum();
+                break;
+        }
+    }
+
+    private void selectAlbum() {
+        PermissionHelper permissionH = new PermissionHelper();
+        if (!permissionH.requestStoragePermission(this)) {
+            return;
+        }
+        MultiImageSelector.create()
+                .showCamera(false) // show camera or not. true by default
+                .count(1) // max select image size, 9 by default. used width #.multi()
+                .single() // multi mode, default mode;   .single() // single mode
+                .origin(null) // original select data set, used width #.multi()
+                .start(this, REQUEST_ALBUM);
+    }
+
+    @Override
+    public void startPicActivity(String picPath) {
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Intent i = new Intent(this, BigPicActivity.class);
+        i.putExtra(BigPicActivity.PIC_PATH, picPath);
+        i.putExtra(BigPicActivity.FROM_PAGE, BigPicActivity.FROM_OPPO_USER_INFO);
+        this.startActivity(i);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ALBUM && data != null) {
+
+            ArrayList<String> newIcons = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+
+            if (newIcons != null && newIcons.size() > 0) {
+                ImageUtils.loadImageWithGlide(this, newIcons.get(0), 0, userIv);
+                mPresenter.uploadIcon(newIcons.get(0));
+            }
         }
     }
 }

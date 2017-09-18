@@ -22,6 +22,9 @@ public class BigPicActivity extends BaseActivity {
     public static final String PIC_PATH = "pic_path";
     public static final String PIC_PATH_DELETE = "pic_path_delete";
     private static final int DELETE_RESULT = 10;
+    public static final int FROM_OPPO_USER_INFO = 1;  // 对方子女信息页
+    public static final int FROM_COMPLETE_INFO = 2;  // 补充信息页
+    public static final String FROM_PAGE = "from_page";  // 从哪个页面查看大图
     private TextView deleteTv;
     private ImageView bigPicIv;
     private String mPicPath;
@@ -43,9 +46,21 @@ public class BigPicActivity extends BaseActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         initView();
+        setDeleteBtnState();
 
         mPicPath = getIntent().getStringExtra(PIC_PATH);
         ImageUtils.loadImageWithGlide(this, mPicPath, 0, bigPicIv);
+    }
+
+    private void setDeleteBtnState() {
+        if (getIntent() != null) {
+            final int from = getIntent().getIntExtra(FROM_PAGE, 0);
+            if (from == FROM_OPPO_USER_INFO) {
+                deleteTv.setVisibility(View.GONE);
+            } else {
+                deleteTv.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void initView() {

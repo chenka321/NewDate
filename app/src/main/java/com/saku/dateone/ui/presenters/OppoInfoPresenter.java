@@ -1,8 +1,16 @@
 package com.saku.dateone.ui.presenters;
 
+import android.util.Log;
+import android.view.View;
+
 import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
 import com.saku.dateone.ui.models.OppoModel;
+import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
+import com.saku.lmlib.utils.LLog;
+import com.saku.lmlib.utils.UIUtils;
 
 public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoInfoContract.M> implements OppoInfoContract.P {
 
@@ -14,20 +22,29 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
 
     @Override
     public void loadPage(long userId) {
+        mView.showLoading();
         mModel.loadPageData(userId);
     }
 
     @Override
-    public void onLoadPage(String code, String msg, UserInfo userInfo) {
-        if (mView == null) {
-            return;
-        }
-        mOppoInfo = userInfo;
-        if (mOppoInfo == null) {
-            return;
-        }
-        mView.updateUserNameIv(mOppoInfo.userImage, mOppoInfo.name);
-        mView.updateBasicInfo(mOppoInfo);
+    public RespObserver<ApiResponse<UserInfo>, UserInfo> getCurrUserInfoObserver() {
+        return new RespObserver<ApiResponse<UserInfo>, UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo data) {
+                mView.dismissLoading();
+                mOppoInfo = data;
+                if (mOppoInfo == null) {
+                    return;
+                }
+                mView.updateUserNameIv(mOppoInfo.userImage, mOppoInfo.name);
+                mView.updateBasicInfo(mOppoInfo);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+            }
+        };
     }
 
     @Override
@@ -41,21 +58,29 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
     @Override
     public void onCollectionClicked() {
         if (mOppoInfo == null) {
+            UIUtils.showToast(mView.getViewContext(), "没有用户数据");
             return;
         }
+        mView.showLoading();
         mModel.saveCollection(mOppoInfo.id);
     }
 
+
     @Override
-    public void onSaveCollection(String code, String msg) {
-        boolean isCollected = false;
-        if (mView != null) {
-            if (mOppoInfo != null) {
-                isCollected = mOppoInfo.isCollected;
-                mOppoInfo.isCollected = !isCollected;
+    public RespObserver<ApiResponse<Boolean>, Boolean> getCollectionObserver() {
+        return new RespObserver<ApiResponse<Boolean>, Boolean>() {
+            @Override
+            public void onSuccess(Boolean data) {
+                mView.dismissLoading();
+                mView.markCollection(data);
+//                mOppoInfo.isCollected = !isCollected;
             }
-            mView.markCollection(!isCollected);
-        }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+            }
+        };
     }
 
     @Override
@@ -76,5 +101,21 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
         return new OppoModel(this);
     }
 
+    @Override
+    public OnRecyclerClickCallBack getPicItemClickListener() {
+        return new OnRecyclerClickCallBack() {
+            @Override
+            public void onClick(int position, View view) {
+                if (mOppoInfo != null && mOppoInfo.photo != null && mOppoInfo.photo.size() > position) {
+                    mView.startPicActivity(mOppoInfo.photo.get(position));
+                }
+            }
+        };
+    }
 
+    @Override
+    public void uploadIcon(String iconPath) {
+        LLog.d("lm", "OppoInfoPresenter ------ uploadIcon: " + iconPath);
+        mModel.uploadIcon(iconPath);
+    }
 }
