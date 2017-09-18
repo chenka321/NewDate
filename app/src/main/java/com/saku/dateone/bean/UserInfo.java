@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.saku.lmlib.list.data.ItemData;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * Time: 15:43
  * Description: 用户信息
  */
-public class UserInfo implements ItemData{
+public class UserInfo implements ItemData, Serializable{
     public int childGender; // 1 男， 2 女
 //    public LocationInfo yourLocation = new LocationInfo();
 //    public LocationInfo childLocation = new LocationInfo();

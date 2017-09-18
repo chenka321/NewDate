@@ -17,12 +17,13 @@ import android.widget.TextView;
 import com.saku.dateone.R;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.OppoInfoContract;
-import com.saku.dateone.ui.list.adapters.OppoPicAdapter;
+import com.saku.dateone.ui.list.typeholders.StringTypeHolder;
 import com.saku.dateone.ui.presenters.OppoInfoPresenter;
-import com.saku.dateone.utils.IconUploadHelper;
 import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.helper.PermissionHelper;
+import com.saku.lmlib.list.adapter.StringAdapter;
+import com.saku.lmlib.list.itemdecoration.SpaceDividerDecoration;
 import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
@@ -206,8 +207,11 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         if (userInfo.photo == null || userInfo.photo.size() == 0) {
             return;
         }
+
         picRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        picRv.setAdapter(new OppoPicAdapter(this, userInfo.photo));
+        StringTypeHolder typeHolder = new StringTypeHolder(this, mPresenter.getPicItemClickListener());
+        picRv.setAdapter(new StringAdapter(userInfo.photo, typeHolder));
+        picRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, this)));
 
         moreInfoLl.post(new Runnable() {
             @Override
@@ -220,7 +224,6 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
 
     @Override
     public void markCollection(boolean isCollected) {
-        // TODO: 2017-9-4 删除收藏
         if (isCollected) {
             collectionTv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_collection, 0, 0);
         } else {

@@ -3,11 +3,14 @@ package com.saku.dateone.ui.presenters;
 import android.view.View;
 
 import com.saku.dateone.bean.MyMsg;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.contracts.MyMsgContract;
 import com.saku.dateone.ui.models.MyMsgModel;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
  */
 public class MyMsgPresenter extends ABasePresenter<MyMsgContract.V, MyMsgContract.M> implements MyMsgContract.P {
 
-    private List<ItemData> mData;
+    private List<ItemData> mData = new ArrayList<>();
 
     public MyMsgPresenter(MyMsgContract.V mView) {
         super(mView);
@@ -30,8 +33,9 @@ public class MyMsgPresenter extends ABasePresenter<MyMsgContract.V, MyMsgContrac
     }
 
     @Override
-    public void loadPage(long userId) {
-        mModel.loadPageData(userId);
+    public void loadPage() {
+        mView.showLoading();
+        mModel.loadPageData();
     }
 
     @Override
@@ -50,9 +54,29 @@ public class MyMsgPresenter extends ABasePresenter<MyMsgContract.V, MyMsgContrac
                 if (mData != null && mData.size() > position) {
                     final ItemData itemData = mData.get(position);
                     if (itemData instanceof MyMsg) {
-                        mView.goToNext(((MyMsg) itemData).type);
+                        mView.goToNext(((MyMsg) itemData).type, (MyMsg) itemData);
                     }
                 }
+            }
+        };
+    }
+
+    @Override
+    public RespObserver<ApiResponse<List<MyMsg>>, List<MyMsg>> getMyMsgListObserver() {
+        return new RespObserver<ApiResponse<List<MyMsg>>, List<MyMsg>>() {
+            @Override
+            public void onSuccess(List<MyMsg> data) {
+                mView.dismissLoading();
+                mData.addAll(data);
+                if (mView != null) {
+                    mView.refreshRecyclerView(mData);
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+
             }
         };
     }

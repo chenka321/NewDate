@@ -1,6 +1,7 @@
 package com.saku.dateone.ui.models;
 
 import com.saku.dateone.ui.contracts.DiscoversContract;
+import com.saku.dateone.utils.UserInfoManager;
 
 public class DiscoversModel extends UserInfoModel<DiscoversContract.P> implements DiscoversContract.M {
 
@@ -11,7 +12,7 @@ public class DiscoversModel extends UserInfoModel<DiscoversContract.P> implement
     @Override
     public void loadDiscoverList(String lastArticleId) {
 
-        mPresenter.onLoadResult(0, "succes");
-
+        final long userId = UserInfoManager.getInstance().getMyShowingInfo().id;
+        addToComposition(mApi.discover(userId, lastArticleId), mPresenter.getDiscoverListObserver());
     }
 }

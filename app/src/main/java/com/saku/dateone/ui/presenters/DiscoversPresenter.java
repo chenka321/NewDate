@@ -3,12 +3,16 @@ package com.saku.dateone.ui.presenters;
 import android.util.Log;
 import android.view.View;
 
+import com.saku.dateone.bean.Article;
+import com.saku.dateone.internet.ApiResponse;
+import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.contracts.DiscoversContract;
 import com.saku.dateone.ui.contracts.UserInfoContract;
 import com.saku.dateone.ui.models.DiscoversModel;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +23,8 @@ import java.util.List;
 */
 public class DiscoversPresenter extends UserInfoPresenter<DiscoversContract.V, DiscoversContract.M> implements DiscoversContract.P {
 
-    private List<ItemData> mData;
+    private List<ItemData> mData = new ArrayList<>();
+    private String mLastArticleId = "";
 
     public DiscoversPresenter(DiscoversContract.V mView) {
         super(mView);
@@ -33,20 +38,32 @@ public class DiscoversPresenter extends UserInfoPresenter<DiscoversContract.V, D
 
     @Override
     public void loadData() {
-
+        mView.showLoading();
         mView.setIsLoadingDiscover(true);
-        mModel.loadDiscoverList("0");
+        mModel.loadDiscoverList(mLastArticleId);
     }
 
     @Override
-    public void onLoadResult(int code, String msg) {
-        if (mView == null ) {
-            return;
-        }
-        mView.setIsLoadingDiscover(false);
+    public RespObserver<ApiResponse<List<Article>>, List<Article>> getDiscoverListObserver() {
+        return new RespObserver<ApiResponse<List<Article>>, List<Article>>() {
+            @Override
+            public void onSuccess(List<Article> data) {
+                if (data == null && data.size() == 0) {
+                    return;
+                }
+                mData.addAll(data);
+                mView.dismissLoading();
+                mView.setIsLoadingDiscover(false);
+                mView.refreshRecyclerView(mData);
+                mLastArticleId = data.get(data.size()-1).articleId;
+            }
 
-        mView.refreshRecyclerView(mData);
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
 
+            }
+        };
     }
 
     @Override
@@ -58,27 +75,11 @@ public class DiscoversPresenter extends UserInfoPresenter<DiscoversContract.V, D
                 if (mView == null || mView.getViewContext() == null) {
                     return;
                 }
-//                UserInfo.getInstance().isLogin = false;
-//                Intent intent;
-//                if (!UserInfo.getInstance().isLogin) {
-//                    intent = new Intent(mView.getViewContext(), LoginActivity.class);
-//                } else {
-//                    intent = new Intent(mView.getViewContext(), OppoInfoActivity.class);
-//
-////                    mView.showLoading();
-////                    mView.addFragment(OppoInfoActivity.newInstance(null));
-//                }
-//
-//                final ItemData itemData = mData.get(position);
-//                if (itemData instanceof RecommendItemData) {
-//                    final long userId = ((RecommendItemData) itemData).userId;
-//                    intent.putExtra(USER_ID, userId);
-//                }
-//                mView.toActivity(intent, false);
+
+                Article article = (Article) mData.get(position);
+                mView.gotoDiscoverDetail(article);
 
 
-
-//                mView.addFragment();
             }
         };
     }

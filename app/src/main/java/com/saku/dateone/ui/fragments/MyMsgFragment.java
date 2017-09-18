@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.saku.dateone.R;
+import com.saku.dateone.bean.MyMsg;
 import com.saku.dateone.ui.activities.CompleteInfoActivity;
 import com.saku.dateone.ui.activities.MainTabsActivity;
 import com.saku.dateone.ui.contracts.MyMsgContract;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * 我的 - 我的消息 - 消息列表
  */
-public class MyMsgFragment extends BaseFragment<MyMsgContract.P> implements MyMsgContract.V {
+public class MyMsgFragment extends BaseFragment<MyMsgPresenter> implements MyMsgContract.V {
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
 
@@ -58,10 +58,10 @@ public class MyMsgFragment extends BaseFragment<MyMsgContract.P> implements MyMs
 
         initRecyclerView();
         setTitle();
-        if (getArguments() != null) {
-            final long userId = getArguments().getLong(Consts.MY_USER_ID);
-            mPresenter.loadPage(userId);
-        }
+//        if (getArguments() != null) {
+//            final long userId = getArguments().getLong(Consts.MY_USER_ID);
+//        }
+        mPresenter.loadPage();
     }
 
     private void initRecyclerView() {
@@ -85,7 +85,7 @@ public class MyMsgFragment extends BaseFragment<MyMsgContract.P> implements MyMs
     }
 
     @Override
-    public void goToNext(int msgType) {
+    public void goToNext(int msgType, MyMsg myMsg) {
         switch (msgType) {
             case 1:  // 填写 详细信息
                 toActivity(CompleteInfoActivity.class, null, false);
@@ -117,5 +117,9 @@ public class MyMsgFragment extends BaseFragment<MyMsgContract.P> implements MyMs
 
     }
 
-
+    @Override
+    public boolean onBackPressed() {
+        getFragmentManager().popBackStack();  // 得到管理当前fragment的fragmentmanager，如果要在该fragment中操作下层的fragment，则需要用getChildFragmentManager
+        return true;
+    }
 }

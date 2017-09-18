@@ -2,6 +2,7 @@ package com.saku.dateone.internet;
 
 import com.saku.dateone.bean.Article;
 import com.saku.dateone.bean.LoginData;
+import com.saku.dateone.bean.MyMsg;
 import com.saku.dateone.bean.TypeConfig;
 import com.saku.dateone.bean.UserInfo;
 
@@ -83,9 +84,10 @@ public interface ApiService {
     Observable<ApiResponse<List<UserInfo>>> getCollectionList(@Field("token") String token);
 
     /**  消息提醒 */
+    // TODO: 2017/9/19 我的消息接口名称
     @POST("/api/collect/getAll")
     @FormUrlEncoded
-    Observable<ApiResponse> getMessage(@Field("token") String token);
+    Observable<ApiResponse<List<MyMsg>>> getMessage(@Field("userId") long userId);
 
     /**  字典列表 */
     @GET("/api/dict/query")

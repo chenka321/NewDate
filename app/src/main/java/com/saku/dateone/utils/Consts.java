@@ -14,7 +14,7 @@ public class Consts {
     /**  True表示要填写基本信息， false不要填写 仅做跳转页面的判断 */
     public static final String IS_FIRST_LOGIN = "isFristLogin";
     public static final String MY_TOKEN = "my_token";
-    public static final String MY_USER_ID = "my_user_id";
+//    public static final String MY_USER_ID = "my_user_id";
     public static final String MY_USER_INFO = "myUserInfo";
 
     /** 从哪个页面进入填写详细信息页

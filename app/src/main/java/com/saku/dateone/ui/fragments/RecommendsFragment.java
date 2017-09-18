@@ -173,4 +173,14 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     }
 
 
+    @Override
+    public boolean onBackPressed() {
+        if (pageType == RecommendVProcessor.TYPE_COLLECTION) {
+            getFragmentManager().popBackStack();  // 得到管理当前fragment的fragmentmanager，如果要在该fragment中操作下层的fragment，则需要用getChildFragmentManager
+            return true;
+        } else {
+            return super.onBackPressed();
+        }
+
+    }
 }

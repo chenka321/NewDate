@@ -23,7 +23,7 @@ import com.saku.lmlib.utils.UIUtils;
 
 
 /**
- * 聊天消息
+ * 聊天消息, 这个页面接IM。 需要重新写， 目前随便找了点数据填充
  */
 public class ChatListFragment extends UserInfoFragment<ChatListPresenter> implements ChatListContract.V {
 

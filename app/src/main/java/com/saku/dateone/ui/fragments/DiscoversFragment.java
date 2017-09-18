@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.saku.dateone.R;
+import com.saku.dateone.bean.Article;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.contracts.DiscoversContract;
+import com.saku.dateone.ui.list.typeholders.DiscoverTypeHolder;
 import com.saku.dateone.ui.list.typeholders.RecommendTypeHolder;
 import com.saku.dateone.ui.list.viewprocessors.RecommendVProcessor;
 import com.saku.dateone.ui.presenters.DiscoversPresenter;
@@ -30,6 +33,7 @@ import java.util.List;
  */
 public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> implements DiscoversContract.V {
 
+    public static final String ARTICLE = "article";
     public RecyclerView listRv;
     private BaseListAdapter listAdapter;
     private boolean isLoadingDiscover = false;
@@ -47,12 +51,10 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         return view;
     }
 
-
     @Override
     protected void login() {
         gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -65,33 +67,20 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         mTitleLayout.setTitleContent("发现");
 
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        RecommendTypeHolder typeHolder = new RecommendTypeHolder(getContext(), RecommendVProcessor.TYPE_RECOMMEND, mPresenter.getItemClickListener());
+        DiscoverTypeHolder typeHolder = new DiscoverTypeHolder(getContext(), mPresenter.getItemClickListener());
         listAdapter = new BaseListAdapter(null, typeHolder);
         listRv.setAdapter(listAdapter);
         listRv.addItemDecoration(new SpaceDividerDecoration(UIUtils.convertDpToPx(5, getContext())));
 
-        if (UserInfoManager.getInstance().isLogin()) {
-            mPresenter.loadData();
-        }
+//        if (UserInfoManager.getInstance().isLogin()) {
+//            mPresenter.loadData();
+//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LLog.d("lm", "discoverFragment onResume: ");  // // 造成登录页面 没登录就返回 又进入登录页
-//        if (getCurrentTab() != 2) {
-//            return;
-//        }
-//        if (!isLoadingDiscover && !UserInfoManager.getInstance().isLogin()) {
-//            gotoLogin(PageManager.DISCOVER_LIST, Consts.LOGIN_RQST_DISCOVER);
-//        }
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        LLog.d("lm", "discoverFragment onHiddenChanged: ");
-
+        LLog.d("lm", "discoverFragment onResume: ");
     }
 
     @Override
@@ -108,7 +97,8 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (isVisibleToUser) {
+        LLog.d("lm", "DiscoversFragment setUserVisibleHint: " + isVisibleToUser);
+        if (getCurrentTab() == 2 && isVisibleToUser) {
             if (isLoadingDiscover) {
                 return;
             }
@@ -116,6 +106,7 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
                 showErrorLogin();
             } else {
                 hideErrorView();
+                mPresenter.loadData();
             }
         }
     }
@@ -126,5 +117,12 @@ public class DiscoversFragment extends UserInfoFragment<DiscoversPresenter> impl
         if (requestCode == Consts.LOGIN_RQST_DISCOVER) {
             mPresenter.loadData();
         }
+    }
+
+    @Override
+    public void gotoDiscoverDetail(Article article) {
+        Bundle b = new Bundle();
+        b.putSerializable(DiscoversFragment.ARTICLE, article);
+        addFragment(DiscoverDetailFragment.newInstance(b));
     }
 }
