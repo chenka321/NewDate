@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -60,7 +59,11 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
         setTitle();
 
-        loadData();
+        if (pageType == RecommendVProcessor.TYPE_COLLECTION) {
+            mPresenter.loadCollectionList();
+        } else {
+            loadRecommendData();
+        }
 
     }
 
@@ -89,7 +92,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
                             @Override
                             public void run() {
                                 setIsLoadingMore(true);
-                                loadData();
+                                loadRecommendData();
                             }
                         });
                     }
@@ -100,7 +103,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
     private void setTitle() {
         showTitle(true);
-        if (pageType == 2) {
+        if (pageType == RecommendVProcessor.TYPE_COLLECTION) {
             mTitleLayout.setTitleContent("收藏");
             mTitleLayout.showLeftBtn(true);
             return;
@@ -116,7 +119,7 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
     /**
      * 根据是否登录来拉不同对应接口的推荐数据
      */
-    private void loadData() {
+    private void loadRecommendData() {
         showLoading();
         if (UserInfoManager.getInstance().isLogin()) {
             mPresenter.loadLoginData();
@@ -140,12 +143,12 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
         super.onResume();
         LLog.d("lm", "RecommendFragment onResume: ");
 
-        // TODO: 2017/9/10 填完补充信息跳过来要拉数据, 填写简单信息， 补充信息， 我的-我的消息某一种类型
+        // 填完补充信息跳过来要拉数据, 填写简单信息， 补充信息， 我的-我的消息某一种类型
         if (refreshData) {
             refreshData = false;
             mPresenter.clearDataList();
             mPresenter.setCurrentPage(0);
-            loadData();
+            loadRecommendData();
             LLog.d("lm", "RecommendFragment onResume:  loading -------- ");
         }
     }

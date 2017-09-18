@@ -101,7 +101,7 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
         viewHolder.residenceLocTv.setText(mContext.getString(R.string.residence, frontPageData.bornLocation));
         tvCacheManager.showTextView(frontPageData.label, viewHolder.tagsTl);
 
-        if (which == 2) {
+        if (which == TYPE_COLLECTION) {
             viewHolder.collectionTv.setVisibility(View.VISIBLE);
             viewHolder.nameAgeOccupationTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 

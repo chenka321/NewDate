@@ -92,7 +92,7 @@ public class MainTabsActivity extends BaseActivity<MainTabsPresenter> implements
                 mMainTabsVp.setCurrentItem(0);
                 mTabRg.check(mFrontpageRb.getId());
             }
-
+            intent.removeExtra(Consts.SHOW_MAIN_TAB_PAGE);
         } else {
             mMainTabsVp.setCurrentItem(0);
             mTabRg.check(mFrontpageRb.getId());

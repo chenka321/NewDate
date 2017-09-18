@@ -51,17 +51,12 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         return view;
     }
 
-    //    @Override
-//    public int getContainerId() {
-//        return R.id.mine_root_fl;
-//    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         showTitle(false);
-        Log.d("lm", "MineFragment onViewCreated: ");
+        LLog.d("lm", "MineFragment onViewCreated: ");
         setPresenter(new MinePresenter(this));
 
         if (UserInfoManager.getInstance().hasSimpleLocal()) {
@@ -173,6 +168,10 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
                 toActivity(CompleteInfoActivity.class, null, false);
                 break;
             case R.id.collection_tv:
+                if (!UserInfoManager.getInstance().isLogin()) {
+                    UIUtils.showToast(mContext, "未登录不能查看收藏内容！");
+                    return;
+                }
                 Bundle b = new Bundle();
                 b.putInt(Consts.USERINFO_LIST_TYPE, RecommendVProcessor.TYPE_COLLECTION);
                 Fragment recommendF = RecommendsFragment.newInstance(b);

@@ -33,10 +33,16 @@ public interface RecommendsContract {
 
         RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getUnLoginObserver();
         RespObserver<ApiResponse<List<UserInfo>>,List<UserInfo>> getLoginObserver();
+
+        void loadCollectionList();  // 加载收藏列表
+
+        RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getCollectionObserver();
     }
 
     interface M extends UserInfoContract.M {
         void loadNotLoginData(int currPage);
         void loadLoginData(int currPage);
+
+        void loadCollectionList();
     }
 }

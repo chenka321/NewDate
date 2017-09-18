@@ -79,7 +79,8 @@ public interface ApiService {
 
     /**  收藏列表展示 */
     @POST("/api/collect/getAll")
-    Observable<ApiResponse<UserInfo>> getCollectionList(@Field("token") String token);
+    @FormUrlEncoded
+    Observable<ApiResponse<List<UserInfo>>> getCollectionList(@Field("token") String token);
 
     /**  消息提醒 */
     @POST("/api/collect/getAll")

@@ -28,6 +28,11 @@ public class RecommendsModel extends UserInfoModel<RecommendsContract.P> impleme
     public void loadLoginData(int currPage) {
         String token = UserInfoManager.getInstance().getToken();
         add(subscribeWith(mApi.getLoginRecommend(token, String.valueOf(currPage)), mPresenter.getLoginObserver()));
+    }
 
+    @Override
+    public void loadCollectionList() {
+        String token = UserInfoManager.getInstance().getToken();
+        add(subscribeWith(mApi.getCollectionList(token), mPresenter.getCollectionObserver()));
     }
 }

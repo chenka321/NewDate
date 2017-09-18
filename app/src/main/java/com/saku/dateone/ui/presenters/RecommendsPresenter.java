@@ -20,6 +20,7 @@ import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
             @Override
             public void onSuccess(List<UserInfo> data) {
-                onLoadRecommendDataSuccess(data);
+                onLoadListDataSuccess(data);
             }
 
             @Override
@@ -128,7 +129,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
             @Override
             public void onSuccess(List<UserInfo> data) {
-                onLoadRecommendDataSuccess(data);
+                onLoadListDataSuccess(data);
             }
 
             @Override
@@ -138,21 +139,31 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         };
     }
 
+    /**
+     * 获取推荐信息错误
+     */
     private void onLoadDataFail(int code, String msg) {
         mView.dismissLoading();
         mView.setIsLoadingMore(false);
-        UIUtils.showToast(mView.getViewContext(), msg);
+//        UIUtils.showToast(mView.getViewContext(), msg);
         if (code == ErrConsts.ERR_1221) {
-            UIUtils.showOneBtnDialog(mView.getViewContext(), 0, "填写子女信息", "没有子女的信息我们无法推荐给您合适的信息", "去填写", false, new CommonDialog.OnCloseListener() {
+//            UIUtils.showOneBtnDialog(mView.getViewContext(), 0, "填写子女信息", "没有子女的信息我们无法推荐给您合适的信息", "去填写", false, new CommonDialog.OnCloseListener() {
+//                @Override
+//                public void onClick(Dialog dialog) {
+//                    mView.toActivity(SimpleInfoActivity.class, null, false);
+//                }
+//            });
+
+            UIUtils.showTwoBtnDialog(mView.getViewContext(), 0, "填写子女信息", "没有子女的信息我们无法推荐给您合适的信息", "去填写", "取消", new CommonDialog.OnCloseListener() {
                 @Override
                 public void onClick(Dialog dialog) {
                     mView.toActivity(SimpleInfoActivity.class, null, false);
                 }
-            });
+            }, null);
         }
     }
 
-    private void onLoadRecommendDataSuccess(List<UserInfo> data) {
+    private void onLoadListDataSuccess(List<UserInfo> data) {
         if (mData.size() == 0) {
             mView.setRecyclerViewData(mData);
         }
@@ -174,4 +185,27 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         mCurrPage.set(index);
     }
 
+    @Override
+    public void loadCollectionList() {
+        mView.showLoading();
+        mModel.loadCollectionList();
+    }
+
+    @Override
+    public RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>> getCollectionObserver() {
+        return new RespObserver<ApiResponse<List<UserInfo>>, List<UserInfo>>() {
+            @Override
+            public void onSuccess(List<UserInfo> data) {
+                mView.dismissLoading();
+                onLoadListDataSuccess(data);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                Log.d("lm", "RecommendsPresenter ------ getCollectionObserver onFail: " + msg);
+                mView.dismissLoading();
+                mView.setIsLoadingMore(false);
+            }
+        };
+    }
 }
