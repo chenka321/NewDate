@@ -2,10 +2,7 @@ package com.saku.lmlib.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.saku.lmlib.dialog.CommonDialog;
-import com.saku.lmlib.dialog.CustomDialog;
 
 
 public class UIUtils {
@@ -54,12 +50,14 @@ public class UIUtils {
 
 
     public static void showOneBtnDialog(Context context, int resId, String title, String content,
-                                        String confirmTxt, CommonDialog.OnCloseListener confirmL) {
+                                        String confirmTxt, boolean canTouchOut, CommonDialog.OnCloseListener confirmL) {
         new CommonDialog.Builder(context)
                 .cancelTouchout(true)
                 .setIcon(resId)
                 .setTitle(title)
                 .setContent(content)
+                .setCanCancelOut(canTouchOut)
+                .setShowOneBtn(true)
                 .setPositiveButton(confirmTxt)
                 .setConfirmListener(confirmL)
                 .build()

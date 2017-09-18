@@ -14,18 +14,31 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
 
     @Override
     public void saveSimpleInfo() {
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("token", UserInfoManager.getInstance().getToken());
-        map.put("username", UserInfoManager.getInstance().getMyPendingInfo().name);
-        map.put("location", UserInfoManager.getInstance().getMyPendingInfo().bornLocation);
-        map.put("password", "");
-        addToComposition(mApi.saveSimpleInfo(map), mPresenter.getSaveInfoObserver());
+        putSimpleInfo(map);
+
+        addToComposition(mApi.saveUserChildInfo(map), mPresenter.getSaveInfoObserver());
+    }
+
+    private void putSimpleInfo(Map<String, Object> map) {
+        map.put("name", UserInfoManager.getInstance().getMyPendingInfo().name);
+        map.put("education", UserInfoManager.getInstance().getMyPendingInfo().education);
+        map.put("birthday", UserInfoManager.getInstance().getMyPendingInfo().birthday);
+
+        // 进入应用填写的保存用户所在地和子女所在地，以及性别的信息在此传给后台
+        map.put("gender", UserInfoManager.getInstance().getMyPendingInfo().gender);
+        map.put("bornLocation", UserInfoManager.getInstance().getMyPendingInfo().bornLocation);
+        map.put("currentLocation", UserInfoManager.getInstance().getMyPendingInfo().currentLocation);
     }
 
     @Override
     public void saveCompleteInfo() {
         Map<String, Object> map = new HashMap<>();
         map.put("token", UserInfoManager.getInstance().getToken());
+        // 从用户子女 基本信息填写页跳到 补充信息页，需要把基本信息一并上传
+        putSimpleInfo(map);
+
         map.put("company", UserInfoManager.getInstance().getMyPendingInfo().company);
         map.put("position", UserInfoManager.getInstance().getMyPendingInfo().position);
         map.put("income", UserInfoManager.getInstance().getMyPendingInfo().income);
@@ -38,7 +51,6 @@ public class CompleteInfoModel extends ABaseModel<CompleteInfoContract.P> implem
 //        map.put("hobby", UserInfoManager.getInstance().getMyPendingInfo().hobby == null ? );
         map.put("moreIntroduce", UserInfoManager.getInstance().getMyPendingInfo().moreIntroduce);
 
-        add(subscribeWith(mApi.saveCompleteInfo(map), mPresenter.getSaveInfoObserver()));
-//        addToComposition(mApi.saveCompleteInfo(map), mPresenter.getSaveInfoObserver());
+        add(subscribeWith(mApi.saveUserChildInfo(map), mPresenter.getSaveInfoObserver()));
     }
 }

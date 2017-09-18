@@ -59,7 +59,7 @@ public class CompleteInfoPresenter extends ABasePresenter<CompleteInfoContract.V
         Bundle bundle = new Bundle();
         bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
         bundle.putInt(Consts.REFRESH_RECOMMEND, refreshWhich);
-        UserInfoManager.getInstance().copyPendingToShowing();
+        UserInfoManager.getInstance().copyPendingToShowing();   // 保存用户子女基本信息，用户子女基本信息.
         mView.toActivity(MainTabsActivity.class, bundle, true);
     }
 

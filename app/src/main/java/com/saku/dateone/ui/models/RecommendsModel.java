@@ -17,9 +17,9 @@ public class RecommendsModel extends UserInfoModel<RecommendsContract.P> impleme
     public void loadNotLoginData(int currPage) {
 
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("location", UserInfoManager.getInstance().getMyShowingInfo().bornLocation);
-        requestMap.put("gender", UserInfoManager.getInstance().getMyShowingInfo().gender);
-        requestMap.put("currentLocation", UserInfoManager.getInstance().getMyShowingInfo().currentLocation);
+        requestMap.put("location", UserInfoManager.getInstance().getMyPendingInfo().bornLocation);
+        requestMap.put("gender", UserInfoManager.getInstance().getMyPendingInfo().gender);
+        requestMap.put("currentLocation", UserInfoManager.getInstance().getMyPendingInfo().currentLocation);
         requestMap.put("page", currPage);
         add(subscribeWith(mApi.getUnloginRecommend(requestMap), mPresenter.getUnLoginObserver()));
     }

@@ -2,14 +2,17 @@ package com.saku.dateone.ui.presenters;
 
 import android.util.Log;
 
+import com.saku.dateone.DateApplication;
 import com.saku.dateone.bean.LoginData;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.contracts.LoginContract.P;
 import com.saku.dateone.ui.models.LoginModel;
+import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.utils.LLog;
+import com.saku.lmlib.utils.PreferenceUtil;
 
 public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContract.M> implements P {
 
@@ -45,12 +48,13 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
         return new RespObserver<ApiResponse<LoginData>, LoginData>() {
             @Override
             public void onSuccess(LoginData data) {
-                if (mView != null) {
-                    mView.dismissLoading();
-                }
+                UserInfoManager.getInstance().copyPendingToShowing(); // 保存位置、性别
+                PreferenceUtil.putBoolean(DateApplication.getAppContext(), Consts.HAS_BASIC_INFO, true);
+
+//                mView.dismissLoading();
                 LLog.d("lm", "onSuccess: token" + data.token + " , firstLogin " + data.ifFirstLogin);
                 UserInfoManager.getInstance().setLoginState(data.token, data.ifFirstLogin);
-                mView.goToNext();
+                mModel.saveParentInfo();
             }
 
             @Override
@@ -60,6 +64,23 @@ public class LoginPresenter extends ABasePresenter<LoginContract.V, LoginContrac
                 }
                 LLog.d("lm", "onSuccess: onFail" + msg);
 
+            }
+        };
+    }
+
+    @Override
+    public RespObserver<ApiResponse<String>, String> getUserInfoObserver() {
+        return new RespObserver<ApiResponse<String>, String>() {
+            @Override
+            public void onSuccess(String data) {
+                mView.dismissLoading();
+                mView.goToNext();
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                mView.dismissLoading();
+                mView.goToNext();
             }
         };
     }

@@ -25,6 +25,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
     private Context context;
     private boolean cancelTouchout;
+    private boolean showOneBtn;
 
     private OnCloseListener confirmListener;
     private OnCloseListener cancelListener;
@@ -51,6 +52,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
         this.confirmListener = builder.confirmListener;
         this.cancelListener = builder.cancelListener;
+        this.showOneBtn = builder.showOneBtn;
     }
 
     @Override
@@ -80,6 +82,12 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
         if (!TextUtils.isEmpty(negativeName)) {
             cancelTv.setText(negativeName);
+        }
+
+        if (showOneBtn) {
+            cancelTv.setVisibility(View.GONE);
+        } else {
+            cancelTv.setVisibility(View.VISIBLE);
         }
 
         if (!TextUtils.isEmpty(title)) {
@@ -127,6 +135,7 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
 
         private OnCloseListener confirmListener;
         private OnCloseListener cancelListener;
+        private boolean showOneBtn;
 
         public Builder(Context context) {
             this.context = context;
@@ -157,6 +166,15 @@ public class CommonDialog extends Dialog implements View.OnClickListener{
             return this;
         }
 
+        public Builder setCanCancelOut(boolean canCancelOut) {
+            this.cancelTouchout = canCancelOut;
+            return this;
+        }
+
+        public Builder setShowOneBtn(boolean showOneBtn) {
+            this.showOneBtn = showOneBtn;
+            return this;
+        }
 
         public Builder setPositiveButton(String name) {
             this.positiveName = name;

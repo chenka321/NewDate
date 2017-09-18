@@ -19,13 +19,11 @@ public class PermissionHelper {
     }
 
     /**
-     * 检查是否有位置权限，没有看是否要弹自定义框请求权限，还是直接请求权限
+     * 检查是否有位置权限，没有权限，弹自定义框请求权限
      */
     public boolean checkLocationPermission(final Activity context) {
-        Log.d("lm", "checkLocationPermission: ");
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            Log.d("lm", "checkLocationPermission: not granted");
             // 没有授权位置权限， 是否需要弹框提示用户同意
             if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 new AlertDialog.Builder(context)

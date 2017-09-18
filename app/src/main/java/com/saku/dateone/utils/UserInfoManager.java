@@ -93,6 +93,9 @@ public class UserInfoManager {
         if (mMyShowingInfo != null) {
             mMyShowingInfo.token = myToken;
         }
+        if (mMyPendingInfo != null) {
+            mMyPendingInfo.token = myToken;
+        }
     }
 
     public String getToken() {
@@ -170,6 +173,7 @@ public class UserInfoManager {
         PreferenceUtil.putBoolean(DateApplication.getAppContext(), Consts.IS_FIRST_LOGIN, true);
         PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_TOKEN, "");
         PreferenceUtil.putString(DateApplication.getAppContext(), Consts.MY_USER_INFO, "");
+        PreferenceUtil.putBoolean(DateApplication.getAppContext(), Consts.HAS_BASIC_INFO, false);
         mMyShowingInfo = null;
         mMyPendingInfo = null;
     }

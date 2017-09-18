@@ -41,39 +41,30 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
         };
     }
 
-    @Override
-    public void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district) {
-        if (who == EntryInfoActivity.USER) {
-            final String bornLocation = "";
-            bornLocation.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
-            UserInfoManager.getInstance().getMyPendingInfo().bornLocation = bornLocation;
-        } else {
-            final String curentLoc = "";
-            curentLoc.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
-            UserInfoManager.getInstance().getMyPendingInfo().currentLocation = curentLoc;
-        }
+//    @Override
+//    public void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district) {
+//        if (who == EntryInfoActivity.USER) {
+//            final String bornLocation = "";
+//            bornLocation.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
+//            UserInfoManager.getInstance().getMyPendingInfo().bornLocation = bornLocation;
+//        } else {
+//            final String curentLoc = "";
+//            curentLoc.concat(province.getName()).concat(" - ").concat(city.getName()).concat(" - ").concat(district.getName());
+//            UserInfoManager.getInstance().getMyPendingInfo().currentLocation = curentLoc;
+//        }
+//
+//    }
 
-    }
-
-    @Override
-    public void onGenderClicked(int gender) {
-//        UserInfoManager.getInstance().getMyPendingInfo().childGender = gender;
-        UserInfoManager.getInstance().getMyPendingInfo().gender = gender;
-    }
+//    @Override
+//    public void onGenderClicked(int gender) {
+////        UserInfoManager.getInstance().getMyPendingInfo().childGender = gender;
+//        UserInfoManager.getInstance().getMyPendingInfo().gender = gender;
+//    }
 
     @Override
     public void onMatchBtnClicked() {
-        mModel.startMatch();
-    }
-
-    @Override
-    public void onStartMatchResult(int code, String msg) {
-//        onSuccess(code, msg);
-        if (mView == null) {
-            return;
-        }
-        UserInfoManager.getInstance().copyPendingToShowing();
-        PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);
+//        mModel.startMatch();
+//        PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);  // 登录成功才保存这些信息
 
 
         Bundle bundle = new Bundle();
@@ -82,4 +73,21 @@ public class EntryInfoPresenter extends ABasePresenter<EntryInfoContract.V, Entr
         UserInfoManager.getInstance().copyPendingToShowing();
         mView.toActivity(MainTabsActivity.class, bundle, true);
     }
+
+//    @Override
+//    public void onStartMatchResult(int code, String msg) {
+////        onSuccess(code, msg);
+//        if (mView == null) {
+//            return;
+//        }
+//        UserInfoManager.getInstance().copyPendingToShowing();
+//        PreferenceUtil.putBoolean(mView.getViewContext(), Consts.HAS_BASIC_INFO, true);
+//
+//
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(Consts.SHOW_MAIN_TAB_PAGE, PageManager.RECOMMEND_LIST);
+//        bundle.putInt(Consts.REFRESH_RECOMMEND, Consts.REFRESH_RECOMMEND_NOT_LOGIN);
+//        UserInfoManager.getInstance().copyPendingToShowing();
+//        mView.toActivity(MainTabsActivity.class, bundle, true);
+//    }
 }

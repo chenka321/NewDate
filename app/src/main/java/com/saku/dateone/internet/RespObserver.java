@@ -1,5 +1,9 @@
 package com.saku.dateone.internet;
 
+import com.saku.dateone.DateApplication;
+import com.saku.lmlib.utils.LLog;
+import com.saku.lmlib.utils.UIUtils;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableObserver;
 
@@ -22,6 +26,7 @@ public abstract class RespObserver<T, D> extends DisposableObserver<T> {
             if (response.getCode() == 0) {
                 onSuccess((D) response.getData());
             } else {
+                UIUtils.showToast(DateApplication.getAppContext(), response.getMsg());
                 onFail(response.getCode(), response.getMsg());
             }
         }
@@ -29,6 +34,7 @@ public abstract class RespObserver<T, D> extends DisposableObserver<T> {
 
     @Override
     public void onError(@NonNull Throwable e) {
+        LLog.d("lm", "RespObserver ------ onError: " + e.getMessage());
         onFail(-2, e.getMessage());
     }
 

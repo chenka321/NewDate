@@ -52,15 +52,15 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<ApiResponse<UserInfo>> getUserInfo(@Field("token") String token, @Field("targetUserId") long userId);
 
-    /**  保存基本信息*/
+    /**  保存用户信息*/
     @POST("/api/commonuser/save")
     @FormUrlEncoded
-    Observable<ApiResponse<String>> saveSimpleInfo(@FieldMap Map<String, String> map);
+    Observable<ApiResponse<String>> saveUserInfo(@FieldMap Map<String, Object> map);
 
-    /**  保存补充信息*/
+    /**  保存子女基本信息、补充信息*/
     @POST("api/children/save")
     @FormUrlEncoded
-    Observable<ApiResponse<String>> saveCompleteInfo(@FieldMap Map<String, Object> map);
+    Observable<ApiResponse<String>> saveUserChildInfo(@FieldMap Map<String, Object> map);
 
     /**  删除或添加收藏*/
     @POST("/api/collect/save")

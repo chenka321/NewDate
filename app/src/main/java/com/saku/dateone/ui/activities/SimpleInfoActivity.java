@@ -151,7 +151,6 @@ public class SimpleInfoActivity extends BaseActivity<CompleteInfoPresenter> impl
 
                 if (checkOnSubmit()) {
                     LLog.d("fill all");
-
                     mPresenter.onMatchSimpleClicked();
                 }
 

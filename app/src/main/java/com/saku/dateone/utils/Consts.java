@@ -5,7 +5,7 @@ package com.saku.dateone.utils;
  */
 
 public class Consts {
-    /** 地址，性别 */
+    /** 地址，性别, 登录成功才保存到本地 */
     public static final String HAS_BASIC_INFO = "has_basic_info";
     /**
      * {@link PageManager}，   从哪个页面进入登录页

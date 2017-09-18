@@ -30,10 +30,14 @@ public interface LoginContract {
         void onGetVeriCode(int code, String msg);
 
         RespObserver<ApiResponse<LoginData>, LoginData> getLoginObserver();
+
+        RespObserver<ApiResponse<String>, String> getUserInfoObserver();  // 用户信息保存后的回调
     }
 
     interface M extends BaseModel {
         void login(String phoneNumber, String veriCode);
         void getVeriCode(String phoneNumber);
+
+        void saveParentInfo();
     }
 }

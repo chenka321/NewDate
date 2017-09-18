@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.contracts.EntryInfoContract;
 import com.saku.dateone.ui.presenters.EntryInfoPresenter;
+import com.saku.dateone.utils.UserInfoManager;
+import com.saku.lmlib.utils.UIUtils;
 
 /**
  * Created by liumin on 2017/8/15.
@@ -30,8 +33,7 @@ import com.saku.dateone.ui.presenters.EntryInfoPresenter;
  * Time: 11:16
  * Description: 首次进入匹配姓名年龄和性别
 */
-public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implements View.OnClickListener,
-        RadioGroup.OnCheckedChangeListener, EntryInfoContract.V {
+public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implements View.OnClickListener, EntryInfoContract.V {
 
     public static final int USER = 1;
     public static final int USER_CHILD = 2;
@@ -74,9 +76,9 @@ public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implemen
         maleRb = (RadioButton) findViewById(R.id.male_rb);
         mStartBtn = (Button) findViewById(R.id.start_match_btn);
 
-        mPickYourChildLocTv.setText(getString(R.string.choose_your_child_location));
+        mPickYourChildLocTv.setHint(getString(R.string.choose_your_child_location));
         mStartBtn.setOnClickListener(this);
-        mGenderRg.setOnCheckedChangeListener(this);
+//        mGenderRg.setOnCheckedChangeListener(this);
         mPickYourLocTv.setOnClickListener(mPresenter.getChooseCityListener(USER));
         mPickYourChildLocTv.setOnClickListener(mPresenter.getChooseCityListener(USER_CHILD));
     }
@@ -97,22 +99,47 @@ public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.start_match_btn:
-                mPresenter.onMatchBtnClicked();
+                if (checkSelection()) {
+                    mPresenter.onMatchBtnClicked();
+                }
                 break;
         }
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-        if (checkedId == R.id.female_rb) {
-            Log.d("lm", "onCheckedChanged: female");
-
-            mPresenter.onGenderClicked(69);  // 和后台约定id = 69是女性
-        } else if (checkedId == R.id.male_rb) {
-            Log.d("lm", "onCheckedChanged: male");
-            mPresenter.onGenderClicked(68);
+    private boolean checkSelection() {
+        if (TextUtils.isEmpty(mPickYourLocTv.getText())) {
+            UIUtils.showToast(this, "请选择您的位置！");
+            return false;
         }
+        if (TextUtils.isEmpty(mPickYourChildLocTv.getText())) {
+            UIUtils.showToast(this, "请选择您子女的位置！");
+            return false;
+        }
+
+        if (mGenderRg.getCheckedRadioButtonId() == 0) {
+            UIUtils.showToast(this, "请选择您子女的性别！");
+            return false;
+        }
+
+        if (mGenderRg.getCheckedRadioButtonId() == R.id.female_rb) {
+            UserInfoManager.getInstance().getMyPendingInfo().gender = 69;  // 和后台约定id = 69是女性
+        } else if (mGenderRg.getCheckedRadioButtonId() == R.id.male_rb) {
+            UserInfoManager.getInstance().getMyPendingInfo().gender = 68;
+        }
+        UserInfoManager.getInstance().getMyPendingInfo().bornLocation = mPickYourLocTv.getText().toString();
+        UserInfoManager.getInstance().getMyPendingInfo().currentLocation = mPickYourChildLocTv.getText().toString();
+
+        return true;
     }
+
+//    @Override
+//    public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+////        if (checkedId == R.id.female_rb) {
+////            mPresenter.onGenderClicked(69);  // 和后台约定id = 69是女性
+////        } else if (checkedId == R.id.male_rb) {
+////            mPresenter.onGenderClicked(68);
+////        }
+//    }
 
     @Override
     public void showCityDialog(final int whoseCity) {
@@ -175,10 +202,10 @@ public class EntryInfoActivity extends BaseActivity<EntryInfoPresenter> implemen
 
                 if (who == USER) {
                     mPickYourLocTv.setText(sb.toString());
-                    mPresenter.onCityChosen(USER, province, city, district);
+//                    mPresenter.onCityChosen(USER, province, city, district);
                 } else if (who == USER_CHILD) {
                     mPickYourChildLocTv.setText(sb.toString());
-                    mPresenter.onCityChosen(USER_CHILD, province, city, district);
+//                    mPresenter.onCityChosen(USER_CHILD, province, city, district);
                 }
             }
 

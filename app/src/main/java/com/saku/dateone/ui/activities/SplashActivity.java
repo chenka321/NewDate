@@ -22,7 +22,9 @@ import android.widget.TextView;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.presenters.BasePresenter;
 import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.helper.PermissionHelper;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 /**
@@ -76,7 +78,7 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                 mFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("lm", "run: location 111111 = " + mLocation);
+                        LLog.d("lm", "run: location 111111 = " + mLocation);
                         PreferenceUtil.putBoolean(SplashActivity.this, Consts.SHOW_SPLASH, false);
                         goToNextScene();
                     }
@@ -117,7 +119,7 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                     mFrameLayout.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("lm", "run: location 222222 = " + mLocation);
+                            LLog.d("lm", "run: location 222222 = " + mLocation);
                             goToNextScene();
                         }
                     }, 2000);
@@ -138,29 +140,29 @@ public class SplashActivity extends BaseActivity implements LocationListener {
                     final boolean gps_p = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                     final boolean netowrk_p = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                     if (!gps_p && !netowrk_p) {
-                        Log.d("lm", "catchLocation: no provider");
+                        LLog.d("lm", "catchLocation: no provider");
                         return;
                     }
                     if (gps_p) {
-                        Log.d("lm", "catchLocation: gps");
+                        LLog.d("lm", "catchLocation: gps");
                         mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         if (mLocation != null) {
-                            Log.d("lm", "catchLocation: lat = " + mLocation.getLatitude());
+                            LLog.d("lm", "catchLocation: lat = " + mLocation.getLatitude());
                         } else {
                             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
                         }
                     } else {
-                        Log.d("lm", "catchLocation: network");
+                        LLog.d("lm", "catchLocation: network");
                         mLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                         if (mLocation != null) {
-                            Log.d("lm", "catchLocation: lat = " + mLocation.getLatitude());
+                            LLog.d("lm", "catchLocation: lat = " + mLocation.getLatitude());
                         } else {
                             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
                         }
                     }
 
                 } catch (IllegalArgumentException e) {
-                    Log.d("lm", "catchLocation: exception = " + e.getMessage());
+                    LLog.d("lm", "catchLocation: exception = " + e.getMessage());
                 }
             }
         }
@@ -170,27 +172,27 @@ public class SplashActivity extends BaseActivity implements LocationListener {
     public void onLocationChanged(Location location) {
         if (location != null) {
             mLocation = location;
-            Log.d("lm", "onLocationChanged: location.lat = " + location.getLatitude()
+            LLog.d("lm", "onLocationChanged: location.lat = " + location.getLatitude()
                     + ",  location.long = " + location.getLongitude());
             mLocationManager.removeUpdates(this);
         } else {
-            Log.d("lm", "onLocationChanged: location null");
+            LLog.d("lm", "onLocationChanged: location null");
         }
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("lm", "onStatusChanged: provider = " + provider + " , status = " + status);
+        LLog.d("lm", "onStatusChanged: provider = " + provider + " , status = " + status);
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Log.d("lm", "onProviderEnabled: provider = " + provider);
+        LLog.d("lm", "onProviderEnabled: provider = " + provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Log.d("lm", "onProviderDisabled: ");
+        LLog.d("lm", "onProviderDisabled: ");
     }
 
     @Override

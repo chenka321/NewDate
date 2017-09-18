@@ -31,7 +31,7 @@
             android:drawableEnd="@drawable/arrow_right"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/arrow_right"
-            android:text="@string/choose_your_location"
+            android:hint="@string/choose_your_location"
             android:textSize="15sp" />
 
         <View

@@ -26,19 +26,19 @@ public interface EntryInfoContract {
          * @param who 1 使用者，2 小孩
          */
         View.OnClickListener getChooseCityListener(int who);
-        /**
-         * @param who 1 使用者，2 小孩
-         */
-        void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district);
-
-        void onGenderClicked(int gender);
+//        /**
+//         * @param who 1 使用者，2 小孩
+//         */
+//        void onCityChosen(int who, ProvinceBean province, CityBean city, DistrictBean district);
+//
+//        void onGenderClicked(int gender);
         void onMatchBtnClicked();
 
-        void onStartMatchResult(int code, String msg);
+//        void onStartMatchResult(int code, String msg);
 
     }
 
     interface M extends BaseModel{
-        void startMatch(); // 开始网络请求
+//        void startMatch(); // 开始网络请求
     }
 }

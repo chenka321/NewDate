@@ -1,5 +1,6 @@
 package com.saku.dateone.ui.presenters;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -8,12 +9,15 @@ import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.activities.LoginActivity;
+import com.saku.dateone.ui.activities.SimpleInfoActivity;
 import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.activities.OppoInfoActivity;
 import com.saku.dateone.ui.models.RecommendsModel;
 import com.saku.dateone.utils.Consts;
+import com.saku.dateone.utils.ErrConsts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
+import com.saku.lmlib.dialog.CommonDialog;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.utils.UIUtils;
@@ -138,6 +142,14 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         mView.dismissLoading();
         mView.setIsLoadingMore(false);
         UIUtils.showToast(mView.getViewContext(), msg);
+        if (code == ErrConsts.ERR_1221) {
+            UIUtils.showOneBtnDialog(mView.getViewContext(), 0, "填写子女信息", "没有子女的信息我们无法推荐给您合适的信息", "去填写", false, new CommonDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog) {
+                    mView.toActivity(SimpleInfoActivity.class, null, false);
+                }
+            });
+        }
     }
 
     private void onLoadRecommendDataSuccess(List<UserInfo> data) {
