@@ -108,7 +108,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         moreInfoVs = (ViewStub) findViewById(R.id.more_info_ll);
         chatTv = (TextView) findViewById(R.id.chat_btn);
 
-        userIv.setOnClickListener(this);
+//        userIv.setOnClickListener(this);
         viewMoreTv.setOnClickListener(this);
         collectionTv.setOnClickListener(this);
         chatTv.setOnClickListener(this);
@@ -263,7 +263,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
             case R.id.collection_tv:
                 mPresenter.onCollectionClicked();
                 break;
-            case R.id.opp_user_iv:
+            case R.id.opp_user_iv:  // 对方子女信息。被后端误导了，不应该可以改头像！！
                 selectAlbum();
                 break;
         }
