@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +15,23 @@ import android.widget.TextView;
 
 import com.saku.dateone.R;
 import com.saku.dateone.bean.TagString;
-import com.saku.dateone.ui.list.data.RecommendItemData;
+import com.saku.dateone.bean.UserInfo;
+import com.saku.dateone.utils.TypeManager;
 import com.saku.lmlib.list.data.ItemData;
 import com.saku.lmlib.list.listeners.OnRecyclerClickCallBack;
 import com.saku.lmlib.list.listeners.OnRecyclerViewClickListener;
 import com.saku.lmlib.list.viewprocessor.ListViewPorcessor;
 import com.saku.lmlib.utils.ImageUtils;
+import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.ShowUtils;
 import com.saku.lmlib.utils.TvCacheManager;
 import com.saku.lmlib.utils.UIUtils;
 import com.saku.lmlib.views.TagLayout;
 
+import java.util.Calendar;
 import java.util.List;
 
-public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.VHolder, RecommendItemData, ItemData> {
+public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.VHolder, UserInfo, ItemData> {
 
     public static final int TYPE_RECOMMEND = 1;   // 推荐信息
     public static final int TYPE_COLLECTION = 2;  // 收藏信息
@@ -65,26 +67,39 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
 
     @Override
     public boolean matchesViewType(int position, List<ItemData> data, ItemData item) {
-        return item instanceof RecommendItemData;
+        return item instanceof UserInfo;
     }
 
     @Override
-    public void onBindViewHolder(VHolder viewHolder, List<ItemData> mData, int position, RecommendItemData frontPageData) {
+    public void onBindViewHolder(VHolder viewHolder, List<ItemData> mData, int position, UserInfo frontPageData) {
 //        itemListener.setHolder(viewHolder);
 
-        ImageUtils.loadImageWithGlide(mContext, frontPageData.userImg, 0, viewHolder.userIv);
+        ImageUtils.loadImageWithGlide(mContext, frontPageData.userImage, 0, viewHolder.userIv);
+        int age = 0;
+        if (!TextUtils.isEmpty(frontPageData.birthday) && frontPageData.birthday.length() > 4) {
+            String birthYear = frontPageData.birthday.substring(0, 4);
+            final int thisYearInt = Calendar.getInstance().get(Calendar.YEAR);
+            final int birthYearInt = Integer.parseInt(birthYear);
+            age = thisYearInt - birthYearInt;
+        }
         StringBuilder sb = new StringBuilder();
-        sb.append(frontPageData.name).append("  ")
-                .append(frontPageData.birthday).append(" ")
-                .append(frontPageData.ocupation);
+
+        sb.append(frontPageData.name).append("  ");
+        if (age > 0) {
+            sb.append("" + age).append("  ");
+        }
+        final String education = TypeManager.getInstance().getMapValue(TypeManager.getInstance().getEducationMap(), frontPageData.education);
+        if (!TextUtils.isEmpty(education)) {
+            sb.append(education);
+        }
 
         final SpannableStringBuilder ssb = ShowUtils.setTextSizeSpan(sb.toString(), 14,
                 TextUtils.isEmpty(frontPageData.name) ? 0 : frontPageData.name.length(), sb.toString().length());
         viewHolder.nameAgeOccupationTv.setText(ssb);
 
         viewHolder.locationTv.setText(mContext.getString(R.string.currentLocation, frontPageData.currentLocation));
-        viewHolder.residenceLocTv.setText(mContext.getString(R.string.residence,frontPageData.bornLocation));
-        tvCacheManager.showTextView(frontPageData.tags, viewHolder.tagsTl);
+        viewHolder.residenceLocTv.setText(mContext.getString(R.string.residence, frontPageData.bornLocation));
+        tvCacheManager.showTextView(frontPageData.label, viewHolder.tagsTl);
 
         if (which == 2) {
             viewHolder.collectionTv.setVisibility(View.VISIBLE);
@@ -110,7 +125,7 @@ public class RecommendVProcessor extends ListViewPorcessor<RecommendVProcessor.V
                 try {
                     tagBg.setColor(Color.parseColor(s.rgbValue));
                 } catch (Exception e) {
-                    Log.e("lm", e.getMessage());
+                    LLog.e("lm", e.getMessage());
                 }
                 if (Build.VERSION.SDK_INT < 16) {
                     textView.setBackgroundDrawable(tagBg);

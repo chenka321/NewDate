@@ -209,10 +209,6 @@ public class TypeManager {
 
     public String getMapValue(SparseArray<String> sourceMap, int key) {
         if (sourceMap != null) {
-//            final int index = sourceMap.indexOfKey(key);
-//            if (index < sourceMap.size()) {
-//                return sourceMap.get()
-//            }
             return TextUtils.isEmpty(sourceMap.get(key)) ? "" : sourceMap.get(key);
         }
         return "";

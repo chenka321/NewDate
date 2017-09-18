@@ -10,7 +10,6 @@ import com.saku.dateone.internet.RespObserver;
 import com.saku.dateone.ui.activities.LoginActivity;
 import com.saku.dateone.ui.contracts.RecommendsContract;
 import com.saku.dateone.ui.activities.OppoInfoActivity;
-import com.saku.dateone.ui.list.data.RecommendItemData;
 import com.saku.dateone.ui.models.RecommendsModel;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
@@ -77,8 +76,8 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
             return;
         }
         final ItemData itemData = mData.get(position);
-        if (itemData instanceof RecommendItemData) {
-            final long userId = ((RecommendItemData) itemData).userId;
+        if (itemData instanceof UserInfo) {
+            final long userId = ((UserInfo) itemData).id;
             intent.putExtra(USER_ID, userId);
         }
     }
@@ -153,7 +152,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
             return;
         }
         for (UserInfo item: data ) {
-            mData.add((ItemData) item);
+            mData.add(item);
         }
         mView.refreshRecyclerView();
     }

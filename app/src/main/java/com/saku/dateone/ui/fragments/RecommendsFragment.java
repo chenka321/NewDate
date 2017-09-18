@@ -60,14 +60,18 @@ public class RecommendsFragment extends UserInfoFragment<RecommendsContract.P> i
 
         setTitle();
 
-        listRv.post(new Runnable() {
-            @Override
-            public void run() {
-                if (!mPresenter.checkUserInfo()) {
-                    loadData();
+        if(UserInfoManager.getInstance().isLogin()) {
+            listRv.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (!mPresenter.checkUserInfo()) {
+                        loadData();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            loadData();
+        }
 
     }
 

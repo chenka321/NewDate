@@ -6,7 +6,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        android:background="#00ff00"
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
