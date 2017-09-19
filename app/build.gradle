@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        releaseSign {
+            keyAlias 'newdateAlias'
+            keyPassword 'newdate0101'
+            storeFile file('/Users/liumin/AndroidStudioProjects/NewDate/newDate.jks')
+            storePassword 'newdate0101'
+        }
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
@@ -15,6 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseSign
         }
     }
 }
@@ -43,9 +52,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
-    compile 'com.github.lovetuzitong:MultiImageSelector:1.2'  // 照片选择器
-
-    compile name:'SMSSDK-3.0.0',ext:'aar'
-
-
+    compile 'com.github.lovetuzitong:MultiImageSelector:1.2' // 照片选择器
+    compile name: 'SMSSDK-3.0.0', ext: 'aar'
 }
