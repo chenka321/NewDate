@@ -37,7 +37,6 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
  * 对方子女信息查看页
  */
 public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements OppoInfoContract.V, View.OnClickListener {
-    private static final int REQUEST_ALBUM = 3; // 选择相册照片
     public static final String USER_ID = "user_id";
     private ImageView userIv;
     private TextView nameTv;
@@ -109,7 +108,6 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         moreInfoVs = (ViewStub) findViewById(R.id.more_info_ll);
         chatTv = (TextView) findViewById(R.id.chat_btn);
 
-//        userIv.setOnClickListener(this);
         viewMoreTv.setOnClickListener(this);
         collectionTv.setOnClickListener(this);
         chatTv.setOnClickListener(this);
@@ -266,23 +264,7 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
             case R.id.collection_tv:
                 mPresenter.onCollectionClicked();
                 break;
-            case R.id.opp_user_iv:  // 对方子女信息。被后端误导了，不应该可以改头像！！
-                selectAlbum();
-                break;
         }
-    }
-
-    private void selectAlbum() {
-        PermissionHelper permissionH = new PermissionHelper();
-        if (!permissionH.requestStoragePermission(this)) {
-            return;
-        }
-        MultiImageSelector.create()
-                .showCamera(false) // show camera or not. true by default
-                .count(1) // max select image size, 9 by default. used width #.multi()
-                .single() // multi mode, default mode;   .single() // single mode
-                .origin(null) // original select data set, used width #.multi()
-                .start(this, REQUEST_ALBUM);
     }
 
     @Override
@@ -294,18 +276,4 @@ public class OppoInfoActivity extends BaseActivity<OppoInfoPresenter> implements
         this.startActivity(i);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_ALBUM && data != null) {
-
-            ArrayList<String> newIcons = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-
-            if (newIcons != null && newIcons.size() > 0) {
-                ImageUtils.loadImageWithGlide(this, newIcons.get(0), 0, userIv);
-                mPresenter.uploadIcon(newIcons.get(0));
-            }
-        }
-    }
 }

@@ -19,7 +19,7 @@ public class UserInfoModel<P extends UserInfoContract.P> extends ABaseModel<P> i
         if (myShowingInfo == null) {
             userId = 0;
         } else {
-            userId = myShowingInfo.id;
+            userId = myShowingInfo.userId;
         }
         addToComposition(mApi.getUserInfo(token, userId), mPresenter.getCurrUserInfoObserver());
     }

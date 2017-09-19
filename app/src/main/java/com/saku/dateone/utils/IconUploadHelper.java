@@ -148,7 +148,7 @@ public class IconUploadHelper {
             return null;
         }
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), picFile);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("image", picFile.getName(), requestBody);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("icon", picFile.getName(), requestBody);
         RequestBody tokenBody = RequestBody.create(MediaType.parse("multipart/form-data"), token);
         return mApi.uploadIcon(tokenBody, part);
     }

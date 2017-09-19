@@ -12,7 +12,7 @@ public class DiscoversModel extends UserInfoModel<DiscoversContract.P> implement
     @Override
     public void loadDiscoverList(String lastArticleId) {
 
-        final long userId = UserInfoManager.getInstance().getMyShowingInfo().id;
+        final long userId = UserInfoManager.getInstance().getMyShowingInfo().userId;
         addToComposition(mApi.discover(userId, lastArticleId), mPresenter.getDiscoverListObserver());
     }
 }

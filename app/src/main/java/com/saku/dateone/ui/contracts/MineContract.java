@@ -13,9 +13,12 @@ public interface MineContract {
     interface P extends UserInfoContract.P {
         /** 登出 */
         void onLogoutClicked();
+
+        void uploadIcon(String iconPath);
     }
 
     interface M extends UserInfoContract.M {
 
+        void uploadIcon(String iconPath);
     }
 }

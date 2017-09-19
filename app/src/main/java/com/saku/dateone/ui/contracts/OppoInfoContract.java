@@ -1,6 +1,7 @@
 package com.saku.dateone.ui.contracts;
 
 
+import com.saku.dateone.bean.Collect;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
@@ -30,22 +31,18 @@ public interface OppoInfoContract {
 
         void onCollectionClicked();  // 收藏被点击时
 
-        public OnRecyclerClickCallBack getPicItemClickListener(); // 更多- 图片被点击
+        OnRecyclerClickCallBack getPicItemClickListener(); // 更多- 图片被点击
 
         void onChatClicked();  // 聊一聊
 
         RespObserver<ApiResponse<UserInfo>, UserInfo> getCurrUserInfoObserver();
 
-        RespObserver<ApiResponse<Boolean>, Boolean> getCollectionObserver();
-
-        void uploadIcon(String iconPath);  // 上传用户头像
+        RespObserver<ApiResponse<Collect>, Collect> getCollectionObserver();
     }
 
     interface M extends BaseModel{
         void loadPageData(long userId);
 
         void saveCollection(long targetUserId);
-
-        void uploadIcon(String iconPath);
     }
 }

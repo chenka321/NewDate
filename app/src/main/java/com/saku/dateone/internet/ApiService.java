@@ -1,6 +1,7 @@
 package com.saku.dateone.internet;
 
 import com.saku.dateone.bean.Article;
+import com.saku.dateone.bean.Collect;
 import com.saku.dateone.bean.LoginData;
 import com.saku.dateone.bean.MyMsg;
 import com.saku.dateone.bean.TypeConfig;
@@ -66,7 +67,7 @@ public interface ApiService {
     /**  删除或添加收藏*/
     @POST("/api/collect/save")
     @FormUrlEncoded
-    Observable<ApiResponse<Boolean>> saveCollection(@Field("token") String token, @Field("targetUserId") long userId);
+    Observable<ApiResponse<Collect>> saveCollection(@Field("token") String token, @Field("targetUserId") long userId);
 
     /**  发现列表*/
     @POST("/api/collect/save")

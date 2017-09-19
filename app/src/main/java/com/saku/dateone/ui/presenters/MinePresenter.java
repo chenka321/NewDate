@@ -5,6 +5,7 @@ import com.saku.dateone.ui.contracts.MineContract;
 import com.saku.dateone.ui.models.MineModel;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.list.data.ItemData;
+import com.saku.lmlib.utils.LLog;
 
 import java.util.List;
 
@@ -47,6 +48,13 @@ public class MinePresenter extends UserInfoPresenter<MineContract.V, MineContrac
     @Override
     public void onLogoutClicked() {
         UserInfoManager.getInstance().onLogout();
+    }
+
+
+    @Override
+    public void uploadIcon(String iconPath) {
+        LLog.d("lm", "MinePresenter ------ uploadIcon: " + iconPath);
+        mModel.uploadIcon(iconPath);
     }
 }
 

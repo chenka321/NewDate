@@ -3,6 +3,7 @@ package com.saku.dateone.ui.presenters;
 import android.util.Log;
 import android.view.View;
 
+import com.saku.dateone.bean.Collect;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.internet.ApiResponse;
 import com.saku.dateone.internet.RespObserver;
@@ -62,17 +63,17 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
             return;
         }
         mView.showLoading();
-        mModel.saveCollection(mOppoInfo.id);
+        mModel.saveCollection(mOppoInfo.userId);
     }
 
 
     @Override
-    public RespObserver<ApiResponse<Boolean>, Boolean> getCollectionObserver() {
-        return new RespObserver<ApiResponse<Boolean>, Boolean>() {
+    public RespObserver<ApiResponse<Collect>, Collect> getCollectionObserver() {
+        return new RespObserver<ApiResponse<Collect>, Collect>() {
             @Override
-            public void onSuccess(Boolean data) {
+            public void onSuccess(Collect data) {
                 mView.dismissLoading();
-                mView.markCollection(data);
+                mView.markCollection(data.ifAdd);
 //                mOppoInfo.isCollected = !isCollected;
             }
 
@@ -111,11 +112,5 @@ public class OppoInfoPresenter extends ABasePresenter<OppoInfoContract.V, OppoIn
                 }
             }
         };
-    }
-
-    @Override
-    public void uploadIcon(String iconPath) {
-        LLog.d("lm", "OppoInfoPresenter ------ uploadIcon: " + iconPath);
-        mModel.uploadIcon(iconPath);
     }
 }

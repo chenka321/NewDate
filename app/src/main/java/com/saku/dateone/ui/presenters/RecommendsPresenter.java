@@ -82,7 +82,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         }
         final ItemData itemData = mData.get(position);
         if (itemData instanceof UserInfo) {
-            final long userId = ((UserInfo) itemData).id;
+            final long userId = ((UserInfo) itemData).userId;
             intent.putExtra(USER_ID, userId);
         }
     }

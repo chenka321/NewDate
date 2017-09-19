@@ -29,9 +29,9 @@ public class UserInfo implements ItemData, Serializable{
     @Expose
     public boolean hasMoreInfo = true;
 
-    @SerializedName("id")
+    @SerializedName("userId")
     @Expose
-    public long id;
+    public long userId;
     @SerializedName("name")
     @Expose
     public String name;

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.saku.dateone.R;
+import com.saku.dateone.ui.activities.BaseActivity;
 import com.saku.dateone.ui.activities.CompleteInfoActivity;
 import com.saku.dateone.bean.UserInfo;
 import com.saku.dateone.ui.contracts.MineContract;
@@ -23,11 +24,19 @@ import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.PageManager;
 import com.saku.dateone.utils.UserInfoManager;
 import com.saku.lmlib.dialog.CommonDialog;
+import com.saku.lmlib.helper.PermissionHelper;
 import com.saku.lmlib.utils.ImageUtils;
 import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.UIUtils;
 
+import java.util.ArrayList;
+
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+
 public class MineFragment extends UserInfoFragment<MinePresenter> implements MineContract.V, View.OnClickListener {
+    private static final int REQUEST_ALBUM = 3; // 选择相册照片
+
     public TextView mineUserIdTv;
     public ImageView userIv;
     public TextView mineUserNameTv;
@@ -75,6 +84,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         this.feedBackTv = (TextView) rootView.findViewById(R.id.feedBack_tv);
         this.logoutTv = (TextView) rootView.findViewById(R.id.logout_tv);
 
+        userIv.setOnClickListener(this);
         mineEditTv.setOnClickListener(this);
         collectionTv.setOnClickListener(this);
         myMsgTv.setOnClickListener(this);
@@ -93,7 +103,7 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
         if (!TextUtils.isEmpty(userInfo.userImage)) {
             ImageUtils.loadImageWithGlide(mContext, userInfo.userImage, 0, userIv);
         }
-        mineUserIdTv.setText(getString(R.string.user_id, "" + userInfo.id));
+        mineUserIdTv.setText(getString(R.string.user_id, "" + userInfo.userId));
 
     }
 
@@ -138,14 +148,6 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LLog.d("lm", "MineFragment onActivityResult: ");
-        if (requestCode == Consts.LOGIN_RQST_MINE) {
-            checkUserInfo();
-        }
-    }
-
-    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         LLog.d("lm", "MineFragment setUserVisibleHint: " + isVisibleToUser);
@@ -164,6 +166,9 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.user_iv:
+                selectAlbum();
+                break;
             case R.id.mine_edit_tv:
                 toActivity(CompleteInfoActivity.class, null, false);
                 break;
@@ -204,4 +209,34 @@ public class MineFragment extends UserInfoFragment<MinePresenter> implements Min
 
         }
     }
+
+    private void selectAlbum() {
+        PermissionHelper permissionH = new PermissionHelper();
+        if (!permissionH.requestStoragePermission(((BaseActivity) mContext))) {
+            return;
+        }
+        MultiImageSelector.create()
+                .showCamera(false) // show camera or not. true by default
+                .count(1) // max select image size, 9 by default. used width #.multi()
+                .single() // multi mode, default mode;   .single() // single mode
+                .origin(null) // original select data set, used width #.multi()
+                .start(this, REQUEST_ALBUM);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LLog.d("lm", "MineFragment onActivityResult: ");
+        if (requestCode == Consts.LOGIN_RQST_MINE) {
+            checkUserInfo();
+        } else if (requestCode == REQUEST_ALBUM && data != null) {
+
+            ArrayList<String> newIcons = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+
+            if (newIcons != null && newIcons.size() > 0) {
+                ImageUtils.loadImageWithGlide(mContext, newIcons.get(0), 0, userIv);
+                mPresenter.uploadIcon(newIcons.get(0));
+            }
+        }
+    }
+
 }
