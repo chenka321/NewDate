@@ -12,19 +12,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.lljjcoder.citylist.Toast.ToastUtils;
+import com.mob.MobSDK;
 import com.saku.dateone.R;
 import com.saku.dateone.ui.adapters.TextWatcherAdapter;
 import com.saku.dateone.ui.contracts.LoginContract;
 import com.saku.dateone.ui.presenters.LoginPresenter;
 import com.saku.dateone.utils.Consts;
 import com.saku.dateone.utils.UserInfoManager;
-import com.saku.lmlib.utils.PreferenceUtil;
 import com.saku.lmlib.utils.UIUtils;
 
 import org.reactivestreams.Subscription;
 
 import java.util.concurrent.TimeUnit;
 
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -35,8 +38,9 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.V, View.OnClickListener {
-
-    private static final long TOTAL_TIME = 10;
+    // 默认使用中国区号
+    private static final String DEFAULT_COUNTRY_ID = "42";
+    private static final long TOTAL_TIME = 60;
     public static final int LOGIN_OK = 11;
     private AppCompatEditText phoneEt;
     private ImageView phoneCloseIv;
@@ -44,6 +48,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private AppCompatEditText verifyCodeEt;
     private Button loginBtn;
     private Disposable mTimerDisposable;
+    private EventHandler eventHandler;
+    private String currCountryCode;
 
     @Override
     protected View getContentView() {
@@ -58,11 +64,52 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         showTitle(true);
         mTitleLayout.setTitleContent("登录");
         initView();
+
+        MobSDK.init(this, "211ebf1dea086", "a1bc1f4422b293ed980c35a06aa2bd98");   // 相亲啦 app的mob 短信sdk appkey和secret
+
+        createMobSdkHandler();
     }
 
-    @Override
-    public void onInternetFail(String msg) {
+    private void createMobSdkHandler() {
+        // 如果希望在读取通信录的时候提示用户，可以添加下面的代码，并且必须在其他代码调用之前，否则不起作用；如果没这个需求，可以不加这行代码
+//        SMSSDK.setAskPermisionOnReadContact(true);
 
+        // 创建EventHandler对象
+        eventHandler = new EventHandler() {
+            public void afterEvent(int event, int result, Object data) {
+                if (data instanceof Throwable) {
+                    Throwable throwable = (Throwable) data;
+                    String msg = throwable.getMessage();
+                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                } else {
+                    if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {  //获取验证码
+                        if (result == SMSSDK.RESULT_COMPLETE) {  // 成功
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    countDown();
+//                                }
+//                            });
+                        }
+                    } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {  // 验证码校验成功
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (mTimerDisposable != null && !mTimerDisposable.isDisposed()) {
+                                        mTimerDisposable.dispose();
+                                    }
+                                    mPresenter.onLoginBtnClicked(phoneEt.getText().toString(), verifyCodeEt.getText().toString());
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        };
+
+        // 注册监听器
+        SMSSDK.registerEventHandler(eventHandler);
     }
 
     @Override
@@ -114,8 +161,18 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.input_verify_btn:
-                mPresenter.onGetVeriCodeClicked(phoneEt.getText().toString());
-                countDown();
+//                mPresenter.onGetVeriCodeClicked(phoneEt.getText().toString());
+                final String phoneText = phoneEt.getText().toString().trim();
+                if (phoneText != null && phoneText.length() < 11) {
+                    ToastUtils.showShortToast(this, "手机号码不正确");
+                    return;
+                }
+                final String[] country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
+                if (country != null) {
+                    currCountryCode = "+" + country[1];
+                    SMSSDK.getVerificationCode(currCountryCode, phoneText);
+                    countDown();
+                }
                 break;
             case R.id.login_btn:
                 if (TextUtils.isEmpty(phoneEt.getText().toString())) {
@@ -126,7 +183,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     Toast.makeText(this, "请填入验证码！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mPresenter.onLoginBtnClicked(phoneEt.getText().toString(), verifyCodeEt.getText().toString());
+                // 提交验证码
+                if (currCountryCode != null && currCountryCode.startsWith("+")) {
+                    currCountryCode = currCountryCode.substring(1);
+                }
+                SMSSDK.submitVerificationCode(currCountryCode, phoneEt.getText().toString().trim(),
+                        verifyCodeEt.getText().toString().trim());
+
+//                mPresenter.onLoginBtnClicked(phoneEt.getText().toString(), verifyCodeEt.getText().toString());
                 break;
         }
     }
@@ -157,20 +221,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     @Override
                     public void onNext(Long aLong) {
                         verifyBtn.setText(aLong + " s");
-                        Log.d("lm", "onNext --- accept: " + aLong);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        Log.d("lm", "onErr --- accept: " + t.getMessage());
-
                         verifyBtn.setEnabled(true);
                         verifyBtn.setText(LoginActivity.this.getString(R.string.aquire_again));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d("lm", "onComplete: ");
                         verifyBtn.setEnabled(true);
                         verifyBtn.setText(LoginActivity.this.getString(R.string.aquire_again));
                     }
@@ -182,14 +242,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         super.onDestroy();
         if (mTimerDisposable != null && !mTimerDisposable.isDisposed()) {
             mTimerDisposable.dispose();
+            mTimerDisposable = null;
         }
+
+        SMSSDK.unregisterEventHandler(eventHandler);
     }
 
     @Override
     public void goToNext() {
         final int fromPage = getIntent().getIntExtra(Consts.LOGIN_FROM_PAGE_NAME, 0);
 
-        // TODO: 2017/9/8 是否是第一次登录
         final boolean firstLogin = UserInfoManager.getInstance().isFirstLogin();
         if (firstLogin) {
             toActivity(SimpleInfoActivity.class, null, true);

@@ -12,9 +12,6 @@ import java.util.List;
 
 public interface LoginContract {
     interface V extends BaseView<P> {
-        void finish();
-        void onInternetFail(String msg);
-
         void goToNext(); // 登录成功到下一个页面
     }
 

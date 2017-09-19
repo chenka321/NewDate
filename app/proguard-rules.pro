@@ -18,8 +18,18 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
+-renamesourcefileattribute SourceFile
+
+-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+   public *;
+}
+# SMSSDK
+-dontwarn com.mob.**
+-keep class com.mob.**{*;}
+
+-dontwarn cn.smssdk.**
+-keep class cn.smssdk.**{*;}
