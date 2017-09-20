@@ -172,6 +172,7 @@ public class RecommendsPresenter extends UserInfoPresenter<RecommendsContract.V,
         Log.d("lm", "RecommendsPresenter ------ run: currPage = " + mCurrPage);
         mView.setIsLoadingMore(false);
         if (data == null || data.size() == 0) {
+            UIUtils.showToast(mView.getViewContext(), "没有推荐数据，请稍后再试");
             return;
         }
         for (UserInfo item: data ) {
