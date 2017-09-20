@@ -147,7 +147,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     loginBtn.setEnabled(true);
                 }
 
-                if (!TextUtils.isEmpty(s.toString())) {
+                if (!TextUtils.isEmpty(s.toString()) && (mTimerDisposable == null || mTimerDisposable.isDisposed())) {
                     verifyBtn.setEnabled(true);
                 }
             }

@@ -34,6 +34,7 @@ public abstract class RespObserver<T, D> extends DisposableObserver<T> {
 
     @Override
     public void onError(@NonNull Throwable e) {
+        UIUtils.showToast(DateApplication.getAppContext(), e.getMessage());
         LLog.d("lm", "RespObserver ------ onError: " + e.getMessage());
         onFail(-2, e.getMessage());
     }
