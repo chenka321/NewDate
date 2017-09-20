@@ -24,6 +24,7 @@ import com.saku.lmlib.utils.UIUtils;
 
 import org.reactivestreams.Subscription;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import cn.smssdk.EventHandler;
@@ -78,18 +79,27 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         eventHandler = new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
                 if (data instanceof Throwable) {
-                    Throwable throwable = (Throwable) data;
-                    String msg = throwable.getMessage();
-                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    try {
+                        Throwable throwable = (Throwable) data;
+                        final String msg = throwable.getMessage();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (final Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
                 } else {
                     if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {  //获取验证码
                         if (result == SMSSDK.RESULT_COMPLETE) {  // 成功
-//                            runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    countDown();
-//                                }
-//                            });
                         }
                     } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {  // 验证码校验成功
                         if (result == SMSSDK.RESULT_COMPLETE) {
@@ -133,7 +143,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         phoneEt.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("lm", "phoneEt afterTextChanged: s " + s.toString());
                 if (!UIUtils.isEditTextEmpty(verifyCodeEt) && !TextUtils.isEmpty(s)) {
                     loginBtn.setEnabled(true);
                 }
@@ -147,7 +156,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         verifyCodeEt.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("lm", "verifyCodeEt afterTextChanged: s " + s.toString());
 
                 if (!UIUtils.isEditTextEmpty(verifyCodeEt) && !TextUtils.isEmpty(s)) {
                     loginBtn.setEnabled(true);
@@ -161,7 +169,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.input_verify_btn:
-//                mPresenter.onGetVeriCodeClicked(phoneEt.getText().toString());
                 final String phoneText = phoneEt.getText().toString().trim();
                 if (phoneText != null && phoneText.length() < 11) {
                     ToastUtils.showShortToast(this, "手机号码不正确");
@@ -183,14 +190,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     Toast.makeText(this, "请填入验证码！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // 提交验证码
+                final String phoneText1 = phoneEt.getText().toString().trim();
+                if (phoneText1 != null && phoneText1.length() < 11) {
+                    ToastUtils.showShortToast(this, "手机号码不正确");
+                    return;
+                }
+                if (currCountryCode == null) {
+                    final String[] country1 = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
+                    if (country1 != null) {
+                        currCountryCode = country1[1];
+                    }
+
+                }
                 if (currCountryCode != null && currCountryCode.startsWith("+")) {
                     currCountryCode = currCountryCode.substring(1);
                 }
                 SMSSDK.submitVerificationCode(currCountryCode, phoneEt.getText().toString().trim(),
                         verifyCodeEt.getText().toString().trim());
-
-//                mPresenter.onLoginBtnClicked(phoneEt.getText().toString(), verifyCodeEt.getText().toString());
                 break;
         }
     }
