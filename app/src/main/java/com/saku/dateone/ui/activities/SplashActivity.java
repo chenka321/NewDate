@@ -38,11 +38,6 @@ public class SplashActivity extends BaseActivity implements LocationListener {
     private Location mLocation;
     private FrameLayout mFrameLayout;
 
-
-
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
