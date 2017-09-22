@@ -28,7 +28,7 @@ import com.saku.lmlib.utils.LLog;
 import com.saku.lmlib.utils.PreferenceUtil;
 
 /**
- * Created by liumin on 2017/8/15.
+ * Created by liumin on 2017/8/15.启动页
  */
 
 public class SplashActivity extends BaseActivity implements LocationListener {
